@@ -10,9 +10,9 @@ public class EnemyController : MonoBehaviour {
 	public float moveForce = 10f;
 	public float speed = 2;
 
-	public float attackRadius = 0.4f;
+	public float attackRadius = 0.3f;
 	public float attackForce = 10;
-	public float attackInterval = 1f;
+	public float attackInterval = 2f;
 	private float attackTimer = 0f;
 
 	void Start () {
@@ -23,7 +23,10 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void Update() {
-		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(GetComponent<Renderer>().bounds.center, attackRadius);
+		Vector3 attkCircleCenter = GetComponent<Renderer>().bounds.center;
+		attkCircleCenter.y -= 0.1f;
+
+		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attkCircleCenter, attackRadius);
 		foreach (var collider in hitColliders) {
 			if (collider.gameObject.tag == "Player") {
 				//Debug.Log(collider.gameObject.name);

@@ -34,14 +34,17 @@ public class ObjectSpawner : MonoBehaviour {
 	}
 
 	Vector3 randomCoordsOutsideCameraView() {
-		float xCoord = Random.Range(-2, 12)/10f;
+		float xCoord = Random.Range(-40, 140)/100f;
 		float yCoord = 0;
-		if (xCoord < 0 || xCoord > 1) {
+		if (xCoord < -0.1f || xCoord > 1.1f) {
 			yCoord = Random.value;
 		} else {
-			yCoord = (Random.Range(-2, 2)/10f);
-			if (yCoord > 0)
-				yCoord += 1;
+			yCoord = (Random.Range(-40, 40)/100f);
+			if (yCoord > 0) {
+				yCoord += 1.1f;
+			} else {
+				yCoord -= 0.1f;
+			}
 		}
 		return Camera.main.ViewportToWorldPoint(new Vector3(xCoord, yCoord, 10.0f));
 	}

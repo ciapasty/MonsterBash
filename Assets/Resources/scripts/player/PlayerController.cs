@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour {
 	public float attackForce = 10;
 	private bool isAttacking = false;
 	private float attackTimer = 0;
-	private float attackDuration = 0.2f;
+	private float attackDuration = 0.16f;
 
 	void Start () {
 		animator = GetComponent<Animator>();

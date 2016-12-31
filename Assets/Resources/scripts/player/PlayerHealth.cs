@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PlayerHealth : MonoBehaviour {
@@ -19,14 +20,29 @@ public class PlayerHealth : MonoBehaviour {
 		}
 	}
 	public float repeatDamagePeriod = 0.5f;
-
 	private float lastHitTime;
 
-	void Start () {
+	private float restartTimer = 6f;
+
+	void Start() {
 		animator = GetComponent<Animator>();
 		playerController = GetComponent<PlayerController>();
 
 		hitpoints = maxHitpoints;
+	}
+
+	void Update() {
+		if (hitpoints <= 0) {
+			restartTimer -= Time.deltaTime;
+		}
+
+		if (restartTimer < 4) {
+			GameObject.FindGameObjectWithTag("UI_YouDied").GetComponent<UnityEngine.UI.Text>().enabled = true;
+		}
+
+		if (restartTimer < 0) {
+			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+		}
 	}
 	
 	void OnCollisionEnter2D (Collision2D col) {
@@ -90,7 +106,5 @@ public class PlayerHealth : MonoBehaviour {
 		playerController.enabled = false;
 		GetComponent<BoxCollider2D>().enabled = false;
 		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
-		
-		this.enabled = false;
 	}
 }
