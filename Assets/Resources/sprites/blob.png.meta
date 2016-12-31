@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: d0d3443b6bbef47ed91bbc3504b00d66
-timeCreated: 1483100521
+timeCreated: 1483210148
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -13,6 +13,8 @@ TextureImporter:
     21300012: blob_6
     21300014: blob_7
     21300016: blob_8
+    21300018: blob_9
+    21300020: blob_10
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -176,6 +178,32 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 16
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: blob_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: blob_10
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
         width: 16
         height: 16
       alignment: 7

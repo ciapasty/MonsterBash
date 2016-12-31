@@ -3,7 +3,7 @@ using System.Collections;
 
 public class DrawGizmos : MonoBehaviour {
 	
-	/*void OnDrawGizmos() {
+	void OnDrawGizmos() {
 		// Attack range gizmo
 		UnityEditor.Handles.color = Color.red;
 		if (GetComponent<PlayerController>()) {
@@ -17,5 +17,5 @@ public class DrawGizmos : MonoBehaviour {
 		// Collider bod gizmo
 		UnityEditor.Handles.color = Color.yellow;
 		UnityEditor.Handles.DrawWireCube(GetComponent<BoxCollider2D>().bounds.center, GetComponent<BoxCollider2D>().bounds.size);
-	}*/
+	}
 }

@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour {
 	public float attackForce = 10;
 	private bool isAttacking = false;
 	private float attackTimer = 0;
-	private float attackDuration = 0.16f;
+	private float attackDuration = 0.2f;
 
 	void Start () {
 		animator = GetComponent<Animator>();
@@ -77,27 +77,6 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void Update () {
-		// Dodge roll timer
-		if (isRolling) {
-			rollTimer += Time.deltaTime;
-			if (rollTimer > rollDuration) {
-				rollTimer = 0;
-				isRolling = false;
-
-				moveForce = walkingForce;
-				maxMoveSpeed = maxWalkingSpeed;
-			}
-		}
-
-		// Attack timer
-		if (isAttacking) {
-			attackTimer += Time.deltaTime;
-			if (attackTimer > attackDuration) {
-				attackTimer = 0;
-				isAttacking = false;
-			}
-		}
-
 		// Stamina regeneration
 		if (stamina < maxStamina) {
 			if (!isRolling) {
@@ -132,17 +111,28 @@ public class PlayerController : MonoBehaviour {
 					isBlocking = false;
 				}
 			} else {
+				attackTimer += Time.deltaTime;
+				if (attackTimer > attackDuration) {
+					attackTimer = 0;
+					isAttacking = false;
+				}
 				doAttack();
 			}
-		}
+		} else {
+			rollTimer += Time.deltaTime;
+			if (rollTimer > rollDuration) {
+				rollTimer = 0;
+				isRolling = false;
 
-		//Debug.Log("Stamina: "+(int)stamina);
+				moveForce = walkingForce;
+				maxMoveSpeed = maxWalkingSpeed;
+			}
+		}
 	}
 
 	void FixedUpdate () {
 		if (!isRolling) {
 			if (!isAttacking) {
-				// Blocking -> cannot move
 				if (!isBlocking) {
 					doMovement();
 				}
