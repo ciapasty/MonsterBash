@@ -44,6 +44,7 @@ public class EnemyHealth : MonoBehaviour {
 		GetComponent<BoxCollider2D>().enabled = false;
 		GetComponent<EnemyController>().enabled = false;
 		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
+		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
 
 		Destroy (gameObject, 5);
 	}

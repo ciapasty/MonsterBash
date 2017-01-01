@@ -78,6 +78,7 @@ public class PlayerHealth : MonoBehaviour {
 					if ((playerController.isFacingRight && (enemy.gameObject.transform.position-transform.position).x > 0) ||
 					    (!playerController.isFacingRight && (enemy.gameObject.transform.position-transform.position).x < 0)) {
 						playerController.stamina -= playerController.blockStaminaCost;
+						GetComponent<SoundController>().playBlockSound();
 					} else {
 						onHit();
 					}
@@ -96,12 +97,14 @@ public class PlayerHealth : MonoBehaviour {
 		hitpoints -= 1;
 		if (hitpoints <= 0) {
 			onDeath();
+		} else {
+			lastHitTime = Time.time;
+			GetComponent<SoundController>().playHurtSound();
 		}
-
-		lastHitTime = Time.time;
 	}
 
 	void onDeath() {
+		GetComponent<SoundController>().playDeathSound();
 		animator.SetTrigger("deathTrigger");
 		playerController.enabled = false;
 		GetComponent<BoxCollider2D>().enabled = false;
