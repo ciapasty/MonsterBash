@@ -74,11 +74,13 @@ public class PlayerHealth : MonoBehaviour {
 	}
 
 	public void restoreHitpointsBy(int amount) {
-		if (hitpoints+amount <= maxHitpoints) {
-			hitpoints += amount;
-		} else {
-			hitpoints = maxHitpoints;
-		} 
+		if (hitpoints > 0) {
+			if (hitpoints+amount <= maxHitpoints) {
+				hitpoints += amount;
+			} else {
+				hitpoints = maxHitpoints;
+			}
+		}
 	}
 	
 	void takeDamage(EnemyController enemy) {
