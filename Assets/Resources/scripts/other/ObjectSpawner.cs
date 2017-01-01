@@ -46,10 +46,10 @@ public class ObjectSpawner : MonoBehaviour {
 				yCoord -= 0.1f;
 			}
 		}
-		return Camera.main.ViewportToWorldPoint(new Vector3(xCoord, yCoord, 10.0f));
+		return Camera.main.ViewportToWorldPoint(new Vector3(xCoord, yCoord, Mathf.Abs(Camera.main.transform.position.z)));
 	}
 
 	Vector3 randomCoordsInsideCameraView() {
-		return Camera.main.ViewportToWorldPoint(new Vector3(Random.value, Random.value, 10.0f));
+		return Camera.main.ViewportToWorldPoint(new Vector3(Random.value, Random.value, Mathf.Abs(Camera.main.transform.position.z)));
 	}
 }

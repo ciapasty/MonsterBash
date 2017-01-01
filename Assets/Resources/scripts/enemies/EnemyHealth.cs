@@ -46,6 +46,5 @@ public class EnemyHealth : MonoBehaviour {
 		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
 
 		Destroy (gameObject, 5);
-		this.enabled = false;
 	}
 }
