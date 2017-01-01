@@ -15,6 +15,7 @@ public class ObjectSpawner : MonoBehaviour {
 		if (delay <= 0) {
 			GameObject go = (GameObject)Instantiate(prefab, getSpawnPosition(), Quaternion.identity);
 			go.transform.SetParent(gameObject.transform);
+			go.GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
 			delay = (10*Random.value)/spawnRate;
 		}
 	}

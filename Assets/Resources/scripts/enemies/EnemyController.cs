@@ -4,11 +4,8 @@ using System.Collections;
 public class EnemyController : MonoBehaviour {
 
 	private Animator animator;
-	private Rigidbody2D rigidbod;
+	//private Rigidbody2D rigidbod;
 	private GameObject player;
-
-	public float moveForce = 10f;
-	public float speed = 2;
 
 	public float attackRadius = 0.3f;
 	public float attackForce = 10;
@@ -20,9 +17,7 @@ public class EnemyController : MonoBehaviour {
 
 	void Start () {
 		animator = GetComponent<Animator>();
-		rigidbod = GetComponent<Rigidbody2D>();
-
-		player = GameObject.FindGameObjectWithTag("Player");
+		//rigidbod = GetComponent<Rigidbody2D>();
 	}
 
 	void Update() {
@@ -44,12 +39,6 @@ public class EnemyController : MonoBehaviour {
 			attackIntervalTimer -= Time.deltaTime;
 		}
 	}
-	
-	void FixedUpdate () {
-		// Dumb movement
-		Vector3 direction = (player.transform.position - transform.position);
-		rigidbod.AddForce(direction/direction.magnitude*speed*moveForce);
-	}
 
 	void doAttack() {
 		Vector3 attkCircleCenter = GetComponent<Renderer>().bounds.center;
@@ -63,5 +52,10 @@ public class EnemyController : MonoBehaviour {
 				attackIntervalTimer = attackInterval;
 			}
 		}
+	}
+
+	public void switchAttackStateTo(bool state) {
+		GetComponent<MoveTowardsPlayer>().enabled = state;
+		GetComponent<MoveIdle>().enabled = !state;
 	}
 }

@@ -51,10 +51,12 @@ public class PlayerHealth : MonoBehaviour {
 			if (hitpoints < maxHitpoints) {
 				hitpoints += 1;
 				Destroy(col.gameObject);
+				AudioSource.PlayClipAtPoint((AudioClip)Resources.Load("sounds/heart_pickup"), transform.position, 0.6f);
 			} else if (hitpoints == maxHitpoints && maxHitpoints < totalMaxUltimateHitPoints) {
 				maxHitpoints += 1;
 				hitpoints = hitpoints;
 				Destroy(col.gameObject);
+				AudioSource.PlayClipAtPoint((AudioClip)Resources.Load("sounds/heart_pickup"), transform.position, 0.6f);
 			}
 			break;
 		default:
@@ -69,6 +71,14 @@ public class PlayerHealth : MonoBehaviour {
 				}
 			}
 		}*/
+	}
+
+	public void restoreHitpointsBy(int amount) {
+		if (hitpoints+amount <= maxHitpoints) {
+			hitpoints += amount;
+		} else {
+			hitpoints = maxHitpoints;
+		} 
 	}
 	
 	void takeDamage(EnemyController enemy) {
