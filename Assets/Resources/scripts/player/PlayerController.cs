@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour {
 		animator = GetComponent<Animator>();
 		rigidbod = GetComponent<Rigidbody2D>();
 
+		GameObject.FindGameObjectWithTag("UI_StaminaBar").GetComponent<StaminaBarControl>().player = gameObject;
 		stamina = maxStamina;
 
 		moveForce = walkingForce;

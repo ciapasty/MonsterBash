@@ -63,11 +63,7 @@ public class GrassSpawner : MonoBehaviour {
 		} else {
 			spawnPos = randomCoordsOutsideCameraView();
 		}
-		if (Vector3.Distance(spawnPos, GameObject.FindGameObjectWithTag("Player").transform.position) < 0) {
-			return getSpawnPosition(insideScreen);
-		} else {
-			return spawnPos;
-		}
+		return spawnPos;
 	}
 
 	Vector3 randomCoordsOutsideCameraView() {

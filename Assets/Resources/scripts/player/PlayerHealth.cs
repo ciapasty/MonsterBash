@@ -22,8 +22,6 @@ public class PlayerHealth : MonoBehaviour {
 	public float repeatDamagePeriod = 0.5f;
 	private float lastHitTime;
 
-	private float restartTimer = 6f;
-
 	void Start() {
 		animator = GetComponent<Animator>();
 		playerController = GetComponent<PlayerController>();
@@ -31,19 +29,7 @@ public class PlayerHealth : MonoBehaviour {
 		hitpoints = maxHitpoints;
 	}
 
-	void Update() {
-		if (hitpoints <= 0) {
-			restartTimer -= Time.deltaTime;
-		}
-
-		if (restartTimer < 4) {
-			GameObject.FindGameObjectWithTag("UI_YouDied").GetComponent<UnityEngine.UI.Text>().enabled = true;
-		}
-
-		if (restartTimer < 0) {
-			SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-		}
-	}
+	void Update() {}
 	
 	void OnCollisionEnter2D (Collision2D col) {
 		switch(col.gameObject.tag) {
@@ -105,8 +91,8 @@ public class PlayerHealth : MonoBehaviour {
 	}
 
 	void onHit() {
-		animator.SetTrigger("damageTrigger");
 		hitpoints -= 1;
+		animator.SetTrigger("damageTrigger");
 		if (hitpoints <= 0) {
 			onDeath();
 		} else {
@@ -118,8 +104,20 @@ public class PlayerHealth : MonoBehaviour {
 	void onDeath() {
 		GetComponent<SoundController>().playDeathSound();
 		animator.SetTrigger("deathTrigger");
-		playerController.enabled = false;
+
+		GetComponent<PlayerController>().enabled = false;
 		GetComponent<BoxCollider2D>().enabled = false;
 		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
+		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
+	}
+
+	void onRespawn() {
+		GetComponent<PlayerController>().enabled = true;
+		GetComponent<BoxCollider2D>().enabled = true;
+		GetComponent<SpriteRenderer>().sortingLayerName = "Player";
+		GetComponent<SpriteRenderer>().sortingOrder = 0;
+
+		hitpoints = maxHitpoints/2;
+		animator.Play("idle");
 	}
 }
