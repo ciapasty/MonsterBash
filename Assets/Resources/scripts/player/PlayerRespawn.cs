@@ -37,6 +37,7 @@ public class PlayerRespawn : MonoBehaviour {
 			timer = restartTime;
 
 			playerHealth.SendMessage("onRespawn");
+			GameObject.FindObjectOfType<GrassSpawner>().SendMessage("initialSpawn");
 		}
 	}
 }

@@ -17,10 +17,7 @@ public class GrassSpawner : MonoBehaviour {
 		prevCameraPos = currCameraPos;
 		timer = 1/spawnRate;
 
-		for (int i = 0; i < initialCount; i++) {
-			GameObject go = createGrassGO();
-			go.transform.position = getSpawnPosition(true);
-		}
+		initialSpawn();
 	}
 
 	void Update() {
@@ -36,6 +33,13 @@ public class GrassSpawner : MonoBehaviour {
 		}
 		prevCameraPos = currCameraPos;
 		timer -= Time.deltaTime;
+	}
+
+	void initialSpawn() {
+		for (int i = 0; i < initialCount; i++) {
+			GameObject go = createGrassGO();
+			go.transform.position = getSpawnPosition(true);
+		}
 	}
 
 	GameObject createGrassGO() {
