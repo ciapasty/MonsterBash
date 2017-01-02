@@ -28,7 +28,7 @@ public class BonfireSafeZone : MonoBehaviour {
 				atSafeZone = true;
 			}
 			if (restoreHitpointsTimer < 0) {
-				player.GetComponent<PlayerHealth>().restoreHitpointsBy(1);
+				player.GetComponent<PlayerHealth>().changeHitpointsBy(1);
 				restoreHitpointsTimer = restoreHitpointsInterval;
 			}
 		} else {
