@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour {
 
 	private Animator animator;
 	private Rigidbody2D rigidbod;
+	private PlayerHealth playerHealth;
 
 	// Block parameters
 	private bool _isBlocking = false;
@@ -66,9 +67,13 @@ public class PlayerController : MonoBehaviour {
 	private float attackTimer = 0;
 	private float attackDuration = 0.2f;
 
+	public float repeatDamagePeriod = 0.5f;
+	private float lastHitTime;
+
 	void Start () {
 		animator = GetComponent<Animator>();
 		rigidbod = GetComponent<Rigidbody2D>();
+		playerHealth = GetComponent<PlayerHealth>();
 
 		GameObject.FindGameObjectWithTag("UI_StaminaBar").GetComponent<StaminaBarControl>().player = gameObject;
 		stamina = maxStamina;
@@ -131,6 +136,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	// Movement is done by physics, FixedUpdate is recommended
 	void FixedUpdate () {
 		if (!isRolling) {
 			if (!isAttacking) {
@@ -143,6 +149,36 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		maxSpeedTrim();
+	}
+
+	void OnCollisionEnter2D (Collision2D col) {
+		switch(col.gameObject.tag) {
+		case "Pickup_heart":
+			if (playerHealth.hitpoints < playerHealth.maxHitpoints) {
+				playerHealth.changeHitpointsBy(1);
+				Destroy(col.gameObject);
+				AudioSource.PlayClipAtPoint((AudioClip)Resources.Load("sounds/heart_pickup"), transform.position, 0.6f);
+			} else if (playerHealth.hitpoints == playerHealth.maxHitpoints && playerHealth.maxHitpoints < playerHealth.hitpointsLimit) {
+				playerHealth.increaseMaxHitpointsBy(1);
+				Destroy(col.gameObject);
+				AudioSource.PlayClipAtPoint((AudioClip)Resources.Load("sounds/heart_pickup"), transform.position, 0.6f);
+			}
+			break;
+		case "Soul":
+			col.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
+			break;
+		default:
+			break;
+		}
+
+		/*if (col.gameObject.tag == "Enemy") {
+			if (Time.time > lastHitTime + repeatDamagePeriod) {
+				if (hitPoints > 0) {
+					takeDamage(col.transform);
+					lastHitTime = Time.time;
+				}
+			}
+		}*/
 	}
 
 	void doAttack() {
@@ -191,6 +227,58 @@ public class PlayerController : MonoBehaviour {
 		} else {
 			animator.SetBool("isWalking", false);
 		}
+	}
+
+	void takeDamage(EnemyController enemy) {
+		if (Time.time > lastHitTime+repeatDamagePeriod) {
+			if (!isRolling) {
+				if (isBlocking) {
+					if ((isFacingRight && (enemy.gameObject.transform.position-transform.position).x > 0) ||
+						(!isFacingRight && (enemy.gameObject.transform.position-transform.position).x < 0)) {
+						stamina -= blockStaminaCost;
+						GetComponent<SoundController>().playBlockSound();
+					} else {
+						onHit();
+					}
+				} else {
+					onHit();
+				}
+
+				Vector3 hitVector = transform.position-enemy.transform.position;
+				GetComponent<Rigidbody2D>().AddForce(hitVector*enemy.attackForce*100);
+			}
+		}
+	}
+
+	void onHit() {
+		playerHealth.changeHitpointsBy(-1);
+		animator.SetTrigger("damageTrigger");
+		if (playerHealth.hitpoints <= 0) {
+			onDeath();
+		} else {
+			lastHitTime = Time.time;
+			GetComponent<SoundController>().playHurtSound();
+		}
+	}
+
+	void onDeath() {
+		GetComponent<SoundController>().playDeathSound();
+		animator.SetTrigger("deathTrigger");
+
+		GetComponent<PlayerController>().enabled = false;
+		GetComponent<BoxCollider2D>().enabled = false;
+		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
+		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
+	}
+
+	void onRespawn() {
+		GetComponent<PlayerController>().enabled = true;
+		GetComponent<BoxCollider2D>().enabled = true;
+		GetComponent<SpriteRenderer>().sortingLayerName = "Player";
+		GetComponent<SpriteRenderer>().sortingOrder = 0;
+
+		playerHealth.changeHitpointsBy(playerHealth.maxHitpoints/2);
+		animator.Play("idle");
 	}
 
 	void maxSpeedTrim() {
