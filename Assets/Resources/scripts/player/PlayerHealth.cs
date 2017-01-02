@@ -45,6 +45,9 @@ public class PlayerHealth : MonoBehaviour {
 				AudioSource.PlayClipAtPoint((AudioClip)Resources.Load("sounds/heart_pickup"), transform.position, 0.6f);
 			}
 			break;
+		case "Soul":
+			col.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
+			break;
 		default:
 			break;
 		}
