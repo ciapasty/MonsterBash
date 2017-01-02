@@ -70,6 +70,19 @@ public class PlayerController : MonoBehaviour {
 	public float repeatDamagePeriod = 0.5f;
 	private float lastHitTime;
 
+	// SOULS
+	private int _souls;
+	public int souls {
+		get {
+			return _souls;
+		}
+		set {
+			_souls = value;
+			// TODO: update UI
+			Debug.Log("Souls: " + souls);
+		}
+	}
+
 	void Start () {
 		animator = GetComponent<Animator>();
 		rigidbod = GetComponent<Rigidbody2D>();
@@ -165,6 +178,7 @@ public class PlayerController : MonoBehaviour {
 			}
 			break;
 		case "Soul":
+			souls += 10;
 			col.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
 			break;
 		default:
@@ -229,6 +243,16 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void maxSpeedTrim() {
+		if (Mathf.Abs(rigidbod.velocity.x) > maxMoveSpeed) {
+			rigidbod.velocity = new Vector2(Mathf.Sign(rigidbod.velocity.x)*maxMoveSpeed, rigidbod.velocity.y);
+		}
+
+		if (Mathf.Abs(rigidbod.velocity.y) > maxMoveSpeed) {
+			rigidbod.velocity = new Vector2(rigidbod.velocity.x, Mathf.Sign(rigidbod.velocity.y)*maxMoveSpeed);
+		}
+	}
+
 	void takeDamage(EnemyController enemy) {
 		if (Time.time > lastHitTime+repeatDamagePeriod) {
 			if (!isRolling) {
@@ -265,10 +289,10 @@ public class PlayerController : MonoBehaviour {
 		GetComponent<SoundController>().playDeathSound();
 		animator.SetTrigger("deathTrigger");
 
-		GetComponent<PlayerController>().enabled = false;
 		GetComponent<BoxCollider2D>().enabled = false;
 		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
 		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
+		this.enabled = false;
 	}
 
 	void onRespawn() {
@@ -279,15 +303,5 @@ public class PlayerController : MonoBehaviour {
 
 		playerHealth.changeHitpointsBy(playerHealth.maxHitpoints/2);
 		animator.Play("idle");
-	}
-
-	void maxSpeedTrim() {
-		if (Mathf.Abs(rigidbod.velocity.x) > maxMoveSpeed) {
-			rigidbod.velocity = new Vector2(Mathf.Sign(rigidbod.velocity.x)*maxMoveSpeed, rigidbod.velocity.y);
-		}
-
-		if (Mathf.Abs(rigidbod.velocity.y) > maxMoveSpeed) {
-			rigidbod.velocity = new Vector2(rigidbod.velocity.x, Mathf.Sign(rigidbod.velocity.y)*maxMoveSpeed);
-		}
 	}
 }
