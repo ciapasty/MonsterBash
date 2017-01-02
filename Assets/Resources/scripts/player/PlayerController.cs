@@ -176,8 +176,9 @@ public class PlayerController : MonoBehaviour {
 				AudioSource.PlayClipAtPoint((AudioClip)Resources.Load("sounds/heart_pickup"), transform.position, 0.6f);
 			}
 			break;
+		case "Player_Soul":
 		case "Soul":
-			souls += 10;
+			souls += col.gameObject.GetComponent<Soul>().souls;
 			col.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
 			break;
 		default:
@@ -287,6 +288,16 @@ public class PlayerController : MonoBehaviour {
 	void onDeath() {
 		GetComponent<SoundController>().playDeathSound();
 		animator.SetTrigger("deathTrigger");
+
+		// Check if there is any other player_soul -> spawn player soul
+		GameObject pSoul = GameObject.FindGameObjectWithTag("Player_Soul");
+		if (pSoul != null) {
+			pSoul.GetComponent<Animator>().SetTrigger("deathTrigger");
+		}
+
+		GameObject soul = (GameObject)Instantiate(Resources.Load("prefabs/player_soul"), transform.position, Quaternion.identity);
+		soul.GetComponent<Soul>().souls = souls;
+		souls = 0;
 
 		GetComponent<BoxCollider2D>().enabled = false;
 		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";

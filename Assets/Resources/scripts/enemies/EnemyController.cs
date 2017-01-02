@@ -16,6 +16,8 @@ public class EnemyController : MonoBehaviour {
 	private float attackDuration = 0.2f;
 	private float attackDurationTimer = 0f;
 
+	public int soulsCarried = 10;
+
 	void Start () {
 		animator = GetComponent<Animator>();
 		rigidbod = GetComponent<Rigidbody2D>();
@@ -95,7 +97,8 @@ public class EnemyController : MonoBehaviour {
 		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
 		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
 
-		Instantiate(Resources.Load("prefabs/soul"), transform.position, Quaternion.identity);
+		GameObject soul = (GameObject)Instantiate(Resources.Load("prefabs/soul"), transform.position, Quaternion.identity);
+		soul.GetComponent<Soul>().souls = soulsCarried;
 
 		Destroy (gameObject, 5);
 		this.enabled = false;
