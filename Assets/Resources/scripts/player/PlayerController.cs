@@ -78,8 +78,7 @@ public class PlayerController : MonoBehaviour {
 		}
 		set {
 			_souls = value;
-			// TODO: update UI
-			Debug.Log("Souls: " + souls);
+			GameObject.FindGameObjectWithTag("UI_SoulsCount").GetComponent<UnityEngine.UI.Text>().text = value.ToString();
 		}
 	}
 
