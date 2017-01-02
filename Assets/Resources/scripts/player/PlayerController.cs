@@ -61,11 +61,11 @@ public class PlayerController : MonoBehaviour {
 
 	// Attack parameters
 	public int attackDamage = 1;
-	public float attackRadius = 0.65f;
+	public float attackRadius = 0.5f;
 	public float attackForce = 10;
 	private bool isAttacking = false;
 	private float attackTimer = 0;
-	private float attackDuration = 0.2f;
+	private float attackDuration = 0.16f;
 
 	public float repeatDamagePeriod = 0.5f;
 	private float lastHitTime;
