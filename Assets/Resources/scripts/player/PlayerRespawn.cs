@@ -5,19 +5,18 @@ public class PlayerRespawn : MonoBehaviour {
 
 	public GameObject playerBodyPrefab;
 
-	private PlayerHealth playerHealth;
 	private float restartTime = 6f;
 	private float timer = 0;
 
 	private Vector3 startPosition = new Vector3(-1f, 0.5f, 0);
 
 	void Start() {
-		playerHealth = GetComponent<PlayerHealth>();
 		timer = restartTime;
 	}
 
 	void Update() {
-		if (playerHealth.isDead) {
+		
+		if (GetComponent<PlayerHealth>().isDead) {
 			timer -= Time.deltaTime;
 		}
 
@@ -36,7 +35,7 @@ public class PlayerRespawn : MonoBehaviour {
 			GameObject.FindGameObjectWithTag("UI_YouDied").GetComponent<UnityEngine.UI.Text>().enabled = false;
 			timer = restartTime;
 
-			playerHealth.SendMessage("onRespawn");
+			SendMessage("onRespawn");
 			GameObject.FindObjectOfType<GrassSpawner>().SendMessage("initialSpawn");
 		}
 	}

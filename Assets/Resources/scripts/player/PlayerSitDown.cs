@@ -17,7 +17,7 @@ public class PlayerSitDown : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (!playerController.enabled){
+		if (!playerController.enabled && !GetComponent<PlayerHealth>().isDead){
 			if (Input.anyKeyDown && standupTimer < 0) {
 				standupTimer = 0f;
 				animator.SetTrigger("sitTrigger");

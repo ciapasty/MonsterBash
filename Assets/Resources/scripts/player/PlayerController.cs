@@ -288,7 +288,7 @@ public class PlayerController : MonoBehaviour {
 		playerHealth.changeHitpointsBy(-damage);
 		animator.SetTrigger("damageTrigger");
 		GetComponent<ParticleSystem>().Play();
-		if (playerHealth.hitpoints <= 0) {
+		if (playerHealth.isDead) {
 			onDeath();
 		} else {
 			lastHitTime = Time.time;
@@ -313,7 +313,7 @@ public class PlayerController : MonoBehaviour {
 		GetComponent<BoxCollider2D>().enabled = false;
 		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
 		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
-		this.enabled = false;
+		enabled = false;
 	}
 
 	void onRespawn() {
