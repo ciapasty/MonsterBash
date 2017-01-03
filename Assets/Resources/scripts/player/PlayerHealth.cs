@@ -24,14 +24,17 @@ public class PlayerHealth : MonoBehaviour {
 			return _hitpoints;
 		}
 		protected set {
-			if (hitpoints+value < 0) {
+			if (value <= 0) {
 				_hitpoints = 0;
+				isDead = true;
 			} else {
 				_hitpoints = value;
+				isDead = false;
 			}
 			GameObject.FindGameObjectWithTag("UI_HealthBar").GetComponent<HealthBarControl>().SendMessage("updateHealth");
 		}
 	}
+	public bool isDead { get; protected set; }
 
 	void Start() {
 		maxHitpoints = startingHitpoints;

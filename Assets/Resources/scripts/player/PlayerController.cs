@@ -311,7 +311,7 @@ public class PlayerController : MonoBehaviour {
 		GetComponent<SpriteRenderer>().sortingLayerName = "Player";
 		GetComponent<SpriteRenderer>().sortingOrder = 0;
 
-		playerHealth.changeHitpointsBy(playerHealth.maxHitpoints/2);
+		playerHealth.changeHitpointsBy((playerHealth.maxHitpoints+1)/2);
 		animator.Play("idle");
 	}
 }
