@@ -10,7 +10,7 @@ public class MoveIdle : MonoBehaviour {
 	private GameObject bonfire;
 
 	private Vector3 destination;
-	private float newDestinationTimer = 2f;
+	private float newDestinationTimer = -1f;
 
 
 	void Start () {

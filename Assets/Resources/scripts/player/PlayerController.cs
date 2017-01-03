@@ -265,30 +265,29 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void takeDamage(EnemyController enemy) {
+	void onHit(EnemyController enemy) {
 		if (Time.time > lastHitTime+repeatDamagePeriod) {
 			if (!isRolling) {
+				Vector3 hitVector = transform.position-enemy.transform.position;
 				if (isBlocking) {
 					if ((isFacingRight && (enemy.gameObject.transform.position-transform.position).x > 0) ||
-						(!isFacingRight && (enemy.gameObject.transform.position-transform.position).x < 0)) {
+					    (!isFacingRight && (enemy.gameObject.transform.position-transform.position).x < 0)) {
 						stamina -= blockStaminaCost;
+						rigidbod.AddForce(hitVector*enemy.attackForce*50);
 						GetComponent<SoundController>().playBlockSound();
-					} else {
-						onHit();
+						return;
 					}
-				} else {
-					onHit();
 				}
-
-				Vector3 hitVector = transform.position-enemy.transform.position;
-				GetComponent<Rigidbody2D>().AddForce(hitVector*enemy.attackForce*100);
+				rigidbod.AddForce(hitVector*enemy.attackForce*100);
+				takeDamage(enemy.attackDamage);
 			}
 		}
 	}
 
-	void onHit() {
-		playerHealth.changeHitpointsBy(-1);
+	void takeDamage(int damage) {
+		playerHealth.changeHitpointsBy(-damage);
 		animator.SetTrigger("damageTrigger");
+		GetComponent<ParticleSystem>().Play();
 		if (playerHealth.hitpoints <= 0) {
 			onDeath();
 		} else {
