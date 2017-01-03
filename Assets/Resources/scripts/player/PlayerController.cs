@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour {
 			if (collider.gameObject.tag == "Enemy") {
 				if ((isFacingRight && (collider.gameObject.transform.position-transform.position).x > 0) || 
 					(!isFacingRight && (collider.gameObject.transform.position-transform.position).x < 0)) {
-					collider.gameObject.GetComponent<EnemyHealth>().SendMessage("takeDamage", this);
+					collider.gameObject.GetComponent<EnemyHealth>().SendMessage("onHit", this);
 				} 
 			}
 		}

@@ -8,32 +8,37 @@ public class BonfireSafeZone : MonoBehaviour {
 	private GameObject player;
 	private bool atSafeZone = true;
 
-	public float restoreHitpointsInterval = 5f;
-	private float restoreHitpointsTimer;
+	public float sitDownTime = 5f;
+	private float timer;
 
 	// Use this for initialization
 	void Start () {
 		player = GameObject.FindGameObjectWithTag("Player");
 		spawners = GameObject.FindGameObjectsWithTag("Spawner");
 
-		restoreHitpointsTimer = restoreHitpointsInterval;
+		timer = sitDownTime;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Vector3.Distance(player.transform.position, transform.position) <= 2) {
-			restoreHitpointsTimer -= Time.deltaTime;
+			timer -= Time.deltaTime;
 			if (!atSafeZone) {
 				setEnemiesAndSpawnersAttackTo(false);
 				atSafeZone = true;
 			}
-			if (restoreHitpointsTimer < 0) {
-				player.GetComponent<PlayerHealth>().changeHitpointsBy(1);
-				restoreHitpointsTimer = restoreHitpointsInterval;
+			if (timer < 0) {
+				if(!player.GetComponent<PlayerSitDown>().isSitting) {
+					player.GetComponent<PlayerSitDown>().SendMessage("sitDown");
+				}
 			}
+			if (Input.anyKeyDown) {
+				timer = sitDownTime;
+			}
+
 		} else {
 			if (atSafeZone) {
-				restoreHitpointsTimer = restoreHitpointsInterval;
+				timer = sitDownTime;
 				setEnemiesAndSpawnersAttackTo(true);
 				atSafeZone = false;
 			}
