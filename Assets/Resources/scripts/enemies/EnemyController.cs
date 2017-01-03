@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour {
 	public float attackRadius = 0.3f;
 	public float attackForce = 10;
 	public float attackInterval = 2f;
+	public int attackDamage = 1;
 	private float attackIntervalTimer = 0f;
 	private bool isAttacking = false;
 	private float attackDuration = 0.2f;
@@ -52,7 +53,7 @@ public class EnemyController : MonoBehaviour {
 			if (collider.gameObject.tag == "Player") {
 				//Debug.Log(collider.gameObject.name);
 				animator.SetTrigger("attackTrigger");
-				collider.gameObject.GetComponent<PlayerHealth>().SendMessage("takeDamage", this);
+				collider.gameObject.GetComponent<PlayerHealth>().SendMessage("onHit", this);
 				attackIntervalTimer = attackInterval;
 			}
 		}
