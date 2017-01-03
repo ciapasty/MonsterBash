@@ -163,20 +163,32 @@ public class PlayerController : MonoBehaviour {
 		maxSpeedTrim();
 	}
 
+	// Pickups
 	void OnCollisionEnter2D (Collision2D col) {
 		switch(col.gameObject.tag) {
 		case "Pickup_heart":
-			if (playerHealth.hitpoints < playerHealth.maxHitpoints) {
-				playerHealth.changeHitpointsBy(1);
-				Destroy(col.gameObject);
-				AudioSource.PlayClipAtPoint((AudioClip)Resources.Load("sounds/heart_pickup"), transform.position, 0.6f);
-			} else if (playerHealth.hitpoints == playerHealth.maxHitpoints && playerHealth.maxHitpoints < playerHealth.hitpointsLimit) {
-				playerHealth.increaseMaxHitpointsBy(1);
-				Destroy(col.gameObject);
-				AudioSource.PlayClipAtPoint((AudioClip)Resources.Load("sounds/heart_pickup"), transform.position, 0.6f);
+			if (playerHealth.lockedHitpoints) {
+				if (playerHealth.hitpoints < (playerHealth.maxHitpoints+1)/2) {
+					playerHealth.changeHitpointsBy(1);
+				} else {
+					break;
+				}
+			} else {
+				if (playerHealth.hitpoints < playerHealth.maxHitpoints) {
+					playerHealth.changeHitpointsBy(1);
+				} else if (playerHealth.hitpoints == playerHealth.maxHitpoints && playerHealth.maxHitpoints < playerHealth.hitpointsLimit && !playerHealth.lockedHitpoints) {
+					playerHealth.increaseMaxHitpointsBy(1);
+				} else {
+					break;
+				}
 			}
+			AudioSource.PlayClipAtPoint((AudioClip)Resources.Load("sounds/heart_pickup"), transform.position, 0.6f);
+			Destroy(col.gameObject);
 			break;
 		case "Player_Soul":
+			playerHealth.lockedHitpoints = false;
+			playerHealth.changeHitpointsBy(0);
+			goto case "Soul";
 		case "Soul":
 			souls += col.gameObject.GetComponent<Soul>().souls;
 			col.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");

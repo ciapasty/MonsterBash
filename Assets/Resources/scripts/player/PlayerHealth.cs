@@ -8,6 +8,7 @@ public class PlayerHealth : MonoBehaviour {
 
 	public int startingHitpoints = 3;
 	public int hitpointsLimit = 12;
+	public bool lockedHitpoints = false;
 	private int _maxHitpoints;
 	public int maxHitpoints {
 		get {
@@ -27,6 +28,7 @@ public class PlayerHealth : MonoBehaviour {
 			if (value <= 0) {
 				_hitpoints = 0;
 				isDead = true;
+				lockedHitpoints = true;
 			} else {
 				_hitpoints = value;
 				isDead = false;
@@ -34,6 +36,7 @@ public class PlayerHealth : MonoBehaviour {
 			GameObject.FindGameObjectWithTag("UI_HealthBar").GetComponent<HealthBarControl>().SendMessage("updateHealth");
 		}
 	}
+
 	public bool isDead { get; protected set; }
 
 	void Start() {
@@ -44,10 +47,18 @@ public class PlayerHealth : MonoBehaviour {
 	void Update() {}
 
 	public void changeHitpointsBy(int amount) {
-		if (hitpoints+amount <= maxHitpoints) {
-			hitpoints += amount;
+		if (lockedHitpoints) {
+			if (hitpoints+amount <= (maxHitpoints+1)/2) {
+				hitpoints += amount;
+			} else {
+				hitpoints = (maxHitpoints+1)/2;
+			}
 		} else {
-			hitpoints = maxHitpoints;
+			if (hitpoints+amount <= maxHitpoints) {
+				hitpoints += amount;
+			} else {
+				hitpoints = maxHitpoints;
+			}
 		}
 	}
 

@@ -6,37 +6,38 @@ public class HealthBarControl : MonoBehaviour {
 	public GameObject player;
 	public GameObject heartPanel;
 
-	public Sprite emptyHeart;
 	public Sprite fullHeart;
+	public Sprite emptyHeart;
+	public Sprite lockedHeart;
 
+	private PlayerHealth playerHealth;
 	private List<GameObject> panels;
 
 	void Awake() {
+		playerHealth = player.GetComponent<PlayerHealth>();
 		panels = new List<GameObject>();
 
-		int maxHitpoints = player.GetComponent<PlayerHealth>().maxHitpoints;
-		for (int i = 0; i < maxHitpoints; i++) {
+		for (int i = 0; i < playerHealth.maxHitpoints; i++) {
 			addHeartPanel(i);
 		}
 	}
 
 	void updateHealth() {
-		int maxHitpoints = player.GetComponent<PlayerHealth>().maxHitpoints;
-		int currentHitPoints = player.GetComponent<PlayerHealth>().hitpoints;
-
-		//Debug.Log("Max: "+maxHitpoints+" Current: "+currentHitPoints);
-
-		if (maxHitpoints > panels.Count) {
-			for (int i = 0; i < maxHitpoints-panels.Count; i++) {
+		if (playerHealth.maxHitpoints > panels.Count) {
+			for (int i = 0; i < playerHealth.maxHitpoints-panels.Count; i++) {
 				addHeartPanel(panels.Count+1);
 			}
 		}
 
 		for (int i = 0; i < panels.Count; i++) {
-			if (i < currentHitPoints) {
+			if (i < playerHealth.hitpoints) {
 				panels[i].GetComponent<UnityEngine.UI.Image>().sprite = fullHeart;
 			} else {
-				panels[i].GetComponent<UnityEngine.UI.Image>().sprite = emptyHeart;
+				if (playerHealth.lockedHitpoints && i > (playerHealth.maxHitpoints-1)/2) {
+					panels[i].GetComponent<UnityEngine.UI.Image>().sprite = lockedHeart;
+				} else {
+					panels[i].GetComponent<UnityEngine.UI.Image>().sprite = emptyHeart;
+				}
 			}
 		}
 

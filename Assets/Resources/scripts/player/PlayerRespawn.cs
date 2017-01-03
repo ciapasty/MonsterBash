@@ -17,9 +17,6 @@ public class PlayerRespawn : MonoBehaviour {
 	}
 
 	void Update() {
-
-		Debug.Log(timer);
-
 		if (playerHealth.isDead) {
 			timer -= Time.deltaTime;
 		}
