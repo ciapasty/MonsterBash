@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody2D rigidbod;
 	private PlayerHealth playerHealth;
 
+	private MeleeAttack meleeAttack;
+	private ProjectileAttack rangedAttack;
+
 	// Block parameters
 	private bool _isBlocking = false;
 	public bool isBlocking {
@@ -87,6 +90,9 @@ public class PlayerController : MonoBehaviour {
 		rigidbod = GetComponent<Rigidbody2D>();
 		playerHealth = GetComponent<PlayerHealth>();
 
+		meleeAttack = GetComponent<MeleeAttack>();
+		rangedAttack = GetComponent<ProjectileAttack>();
+
 		GameObject.FindGameObjectWithTag("UI_StaminaBar").GetComponent<StaminaBarControl>().player = gameObject;
 		stamina = maxStamina;
 
@@ -108,13 +114,24 @@ public class PlayerController : MonoBehaviour {
 
 		if (!isRolling) {
 			// Attack
-			if (!isAttacking) {
+			if (!meleeAttack.isAttacking && !rangedAttack.isAttacking) {
+				// Melee attack
 				if (Input.GetKeyDown(KeyCode.X)) {
-					if (stamina-attackStaminaCost > 0) {
-						isAttacking = true;
-						animator.SetTrigger("attackTrigger");
-						stamina -= attackStaminaCost;
-						doMeleeAttack();
+					if (meleeAttack.cooldown <= 0) {
+						if (stamina-attackStaminaCost > 0) {
+							animator.SetTrigger("attackTrigger");
+							stamina -= attackStaminaCost;
+							meleeAttack.execute();
+						}
+					}
+				}
+				if (Input.GetKeyDown(KeyCode.Z)) {
+					if (rangedAttack.cooldown <= 0) {
+						if (stamina-attackStaminaCost > 0) {
+							animator.SetTrigger("attackTrigger");
+							stamina -= attackStaminaCost;
+							rangedAttack.execute();
+						}
 					}
 				}
 				// Blocking -> cannot move
@@ -128,13 +145,6 @@ public class PlayerController : MonoBehaviour {
 				} else {
 					isBlocking = false;
 				}
-			} else {
-				attackTimer += Time.deltaTime;
-				if (attackTimer > attackDuration) {
-					attackTimer = 0;
-					isAttacking = false;
-				}
-				doMeleeAttack();
 			}
 		} else {
 			rollTimer += Time.deltaTime;
@@ -151,7 +161,7 @@ public class PlayerController : MonoBehaviour {
 	// Movement is done by physics, FixedUpdate is recommended
 	void FixedUpdate () {
 		if (!isRolling) {
-			if (!isAttacking) {
+			if (!meleeAttack.isAttacking && !rangedAttack.isAttacking) {
 				if (!isBlocking) {
 					doMovement();
 				}
@@ -203,25 +213,14 @@ public class PlayerController : MonoBehaviour {
 			coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
 			break;
 		case "Projectile":
-			onHit(coll.gameObject.GetComponent<Projectile>().attack);
-			coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
+			Attack attk = coll.gameObject.GetComponent<Projectile>().attack;
+			if (attk.gameObject != gameObject) {
+				onHit(attk);
+				coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
+			}
 			break;
 		default:
 			break;
-		}
-	}
-
-	void doMeleeAttack() {
-		//attk.execute(target);
-
-		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(GetComponent<Renderer>().bounds.center, attackRadius);
-		foreach (var collider in hitColliders) {
-			if (collider.gameObject.tag == "Enemy") {
-				if ((isFacingRight && (collider.gameObject.transform.position-transform.position).x > 0) || 
-					(!isFacingRight && (collider.gameObject.transform.position-transform.position).x < 0)) {
-					collider.gameObject.GetComponent<EnemyController>().SendMessage("onHit", this);
-				} 
-			}
 		}
 	}
 

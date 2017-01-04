@@ -20,20 +20,20 @@ public class Attack : MonoBehaviour {
 	public float cooldown { get; protected set; }
 
 	// Time of damage being dealt in radius
-	protected float duration = 0.1f;
+	public float duration = 0.1f;
 	protected float durationTimer = 0f;
 
 	public bool isAttacking { get; protected set; }
 
 	protected Animator animator;
 
-	void Start() {
+	virtual public void Start() {
 		animator = GetComponent<Animator>();
 		isAttacking = false;
 		cooldown = 0f;
 	}
 
-	void Update() {
+	virtual public void Update() {
 		if (cooldown > 0) {
 			cooldown -= Time.deltaTime;
 		}
