@@ -74,7 +74,7 @@ public class EnemyController : MonoBehaviour {
 		animator.SetTrigger("deathTrigger");
 		GetComponent<Collider2D>().enabled = false;
 		GetComponent<MoveIdle>().enabled = false;
-		//GetComponent<MoveTowardsPlayer>().enabled = false;
+		GetComponent<MoveTowardsTarget>().enabled = false;
 
 		// TODO: Spawn dead body GO with timed death -> prefab
 		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
