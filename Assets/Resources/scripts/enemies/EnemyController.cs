@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour {
 	void doAttack() {}
 
 	public void switchAttackStateTo(bool state) {
-		GetComponent<MoveTowardsPlayer>().enabled = state;
+		GetComponent<MoveTowardsTarget>().enabled = state;
 		GetComponent<MoveIdle>().enabled = !state;
 	}
 

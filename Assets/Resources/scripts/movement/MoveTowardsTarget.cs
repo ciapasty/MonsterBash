@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MoveTowardsPlayer : MonoBehaviour {
+public class MoveTowardsTarget : MonoBehaviour {
 
 	public float moveForce = 10f;
 	public float speed = 2;
