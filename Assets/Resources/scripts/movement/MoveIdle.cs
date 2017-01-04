@@ -33,6 +33,7 @@ public class MoveIdle : MonoBehaviour {
 		}
 	}
 
+	// TODO: Change this, to be more universal. May ignore bonfire totally.
 	Vector3 getNewDestination() {
 		destination = new Vector3(transform.position.x+Random.Range(-3f, 3f), transform.position.y+Random.Range(-3f,3f), 0);
 		return (Vector3.Distance(destination, bonfire.transform.position) < 2f) ? getNewDestination() : destination;

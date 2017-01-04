@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ObjectSpawner : MonoBehaviour {
 
-	public GameObject prefab;
+	public GameObject[] prefabs;
 	public float spawnRate = 2f;
 	public float delay = 4f;
 	public bool spawnInsideView = false;
@@ -13,7 +13,7 @@ public class ObjectSpawner : MonoBehaviour {
 		delay -= Time.deltaTime;
 
 		if (delay <= 0) {
-			GameObject go = (GameObject)Instantiate(prefab, getSpawnPosition(), Quaternion.identity);
+			GameObject go = (GameObject)Instantiate(prefabs[Random.Range(0,prefabs.Length)], getSpawnPosition(), Quaternion.identity);
 			go.transform.SetParent(gameObject.transform);
 			go.GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
 			delay = (10*Random.value)/spawnRate;

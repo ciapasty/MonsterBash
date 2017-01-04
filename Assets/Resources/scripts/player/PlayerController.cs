@@ -164,8 +164,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	// Pickups
-	void OnCollisionEnter2D (Collision2D col) {
-		switch(col.gameObject.tag) {
+	void OnCollisionEnter2D (Collision2D coll) {
+		switch(coll.gameObject.tag) {
 		case "Pickup_heart":
 			if (playerHealth.lockedHitpoints) {
 				if (playerHealth.hitpoints < (playerHealth.maxHitpoints+1)/2) {
@@ -183,28 +183,32 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 			AudioSource.PlayClipAtPoint((AudioClip)Resources.Load("sounds/heart_pickup"), transform.position, 0.6f);
-			Destroy(col.gameObject);
+			Destroy(coll.gameObject);
 			break;
+		default:
+			break;
+		}
+	}
+
+
+	// Souls and non-colliding projectiles
+	void OnTriggerEnter2D(Collider2D coll) {
+		switch(coll.gameObject.tag) {
 		case "Player_Soul":
 			playerHealth.lockedHitpoints = false;
 			playerHealth.changeHitpointsBy(0);
 			goto case "Soul";
 		case "Soul":
-			souls += col.gameObject.GetComponent<Soul>().souls;
-			col.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
+			souls += coll.gameObject.GetComponent<Soul>().souls;
+			coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
+			break;
+		case "Projectile":
+			onHit(coll.gameObject.GetComponent<Projectile>().attack);
+			coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
 			break;
 		default:
 			break;
 		}
-
-		/*if (col.gameObject.tag == "Enemy") {
-			if (Time.time > lastHitTime + repeatDamagePeriod) {
-				if (hitPoints > 0) {
-					takeDamage(col.transform);
-					lastHitTime = Time.time;
-				}
-			}
-		}*/
 	}
 
 	void doAttack() {
