@@ -7,7 +7,7 @@ public class EnemyController : MonoBehaviour {
 	private Rigidbody2D rigidbod;
 	private EnemyHealth enemyHealth;
 
-	private Attack attack;
+	private Attack[] attacks;
 
 	public GameObject target;
 
@@ -20,10 +20,18 @@ public class EnemyController : MonoBehaviour {
 
 		target = GameObject.FindGameObjectWithTag("Player");
 
-		attack = GetComponent<Attack>();
+		attacks = GetComponents<Attack>();
 	}
 
-	void Update() {}
+	void Update() {
+		foreach (var attk in attacks) {
+			if (attk.cooldown <= 0) {
+				if (Vector3.Distance(target.transform.position, transform.position) < attk.range ) {
+					attk.execute();
+				}
+			}
+		}
+	}
 
 	void doAttack() {}
 

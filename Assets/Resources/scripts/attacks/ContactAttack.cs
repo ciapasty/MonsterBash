@@ -3,12 +3,6 @@ using System.Collections;
 
 public class ContactAttack : Attack {
 
-	void Update() {
-		if (cooldownTimer > 0) {
-			cooldownTimer -= Time.deltaTime;
-		}
-	}
-
 	void OnCollisionStay2D(Collision2D coll) {
 		if (coll.gameObject.tag == "Player") {
 			if (cooldownTimer <= 0) {

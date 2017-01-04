@@ -30,6 +30,12 @@ public class Attack : MonoBehaviour {
 		isAttacking = false;
 	}
 
+	void Update() {
+		if (cooldownTimer > 0) {
+			cooldownTimer -= Time.deltaTime;
+		}
+	}
+
 	virtual public void execute() {}
 
 }
