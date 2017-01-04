@@ -54,7 +54,7 @@ public class GrassSpawner : MonoBehaviour {
 		go_sr.sortingOrder = Random.Range(0, 255);
 
 		TimedDestroy go_td = go.AddComponent<TimedDestroy>();
-		go_td.timer = 1f;
+		go_td.time = 1f;
 		go_td.onlyOutsideOfView = true;
 
 		return go;

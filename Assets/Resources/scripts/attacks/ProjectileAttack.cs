@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ProjectileAttack : Attack {
 
+	public float projectileSpeed;
 	public GameObject projectilePrefab;
 
 	public override void execute() {
@@ -11,9 +12,16 @@ public class ProjectileAttack : Attack {
 			projectile.transform.SetParent(transform);
 			projectile.GetComponent<Projectile>().attack = this;
 
-			// TODO: Pass direction differently!
+			MoveInDirection move = projectile.GetComponent<MoveInDirection>();
+			move.force = force;
+			move.speed = projectileSpeed;
+
+			// !! TODO: Pass direction differently!
 			Vector3 direction = (GameObject.FindGameObjectWithTag(tag).transform.position-transform.position);
-			projectile.GetComponent<MoveInDirection>().direction = direction/direction.magnitude;
+			move.direction = direction/direction.magnitude;
+
+			// range/0.9*speed*force
+			projectile.GetComponent<TimedDestroy>().time = range/(projectileSpeed*force);
 
 			cooldown = cooldownTime;
 		}

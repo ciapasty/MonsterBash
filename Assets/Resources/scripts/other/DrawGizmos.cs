@@ -12,19 +12,15 @@ public class DrawGizmos : MonoBehaviour {
 
 		// Attack radius gizmo
 		UnityEditor.Handles.color = Color.red;
-		if (GetComponent<PlayerController>()) {
-			UnityEditor.Handles.DrawWireDisc(GetComponent<Renderer>().bounds.center, Vector3.back, GetComponent<PlayerController>().attackRadius);
-		} else if (GetComponent<EnemyController>()) {
-			Attack[] attks = GetComponents<Attack>();
-			foreach (var attk in attks) {
-				Vector3 radiusCircleCenter = GetComponent<Renderer>().bounds.center;
-				radiusCircleCenter.x += attk.horizontalRadiusShift;
-				radiusCircleCenter.y += attk.verticalRadiusShift;
-				UnityEditor.Handles.DrawWireDisc(radiusCircleCenter, Vector3.back, attk.radius);
-				// Attack range for enemies
-				UnityEditor.Handles.color = orange;
-				UnityEditor.Handles.DrawWireDisc(GetComponent<Renderer>().bounds.center, Vector3.back, attk.range);
-			}
+		Attack[] attks = GetComponents<Attack>();
+		foreach (var attk in attks) {
+			Vector3 radiusCircleCenter = GetComponent<Renderer>().bounds.center;
+			radiusCircleCenter.x += attk.horizontalRadiusShift;
+			radiusCircleCenter.y += attk.verticalRadiusShift;
+			UnityEditor.Handles.DrawWireDisc(radiusCircleCenter, Vector3.back, attk.radius);
+			// Attack range
+			UnityEditor.Handles.color = orange;
+			UnityEditor.Handles.DrawWireDisc(GetComponent<Renderer>().bounds.center, Vector3.back, attk.range);
 		}
 
 		// Collider body gizmo
