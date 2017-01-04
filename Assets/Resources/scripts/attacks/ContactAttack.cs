@@ -4,25 +4,18 @@ using System.Collections;
 public class ContactAttack : Attack {
 
 	void Update() {
-		// Attack timer
-		if (isAttacking) {
-			if (durationTimer > duration) {
-				durationTimer = 0;
-				isAttacking = false;
-			} else {
-				execute();
-			}
-			durationTimer += Time.deltaTime;
+		if (cooldownTimer > 0) {
+			cooldownTimer -= Time.deltaTime;
 		}
 	}
 
-	override public void execute() {
-		isAttacking = true;
-		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(GetComponent<Renderer>().bounds.center, radius);
-		foreach (var collider in hitColliders) {
-			if (collider.gameObject.tag == "Player") {
+	void OnCollisionStay2D(Collision2D coll) {
+		if (coll.gameObject.tag == "Player") {
+			if (cooldownTimer <= 0) {
 				animator.SetTrigger("attackTrigger");
-				collider.gameObject.GetComponent<PlayerHealth>().SendMessage("onHit", this);
+				coll.gameObject.GetComponent<PlayerHealth>().SendMessage("onHit", this);
+
+				cooldownTimer = cooldown;
 			}
 		}
 	}

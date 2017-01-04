@@ -11,9 +11,6 @@ public class EnemyController : MonoBehaviour {
 
 	public GameObject target;
 
-	public float attackInterval = 2f;
-	private float attackIntervalTimer;
-
 	public int soulsCarried = 10;
 
 	void Start () {
@@ -24,27 +21,11 @@ public class EnemyController : MonoBehaviour {
 		target = GameObject.FindGameObjectWithTag("Player");
 
 		attack = GetComponent<Attack>();
-
-		attackIntervalTimer = attackInterval;
 	}
 
-	void Update() {
-		// Attack timer
-		if (!attack.isAttacking) {
-			if (attackIntervalTimer > attackInterval) {
-				if (Vector3.Distance(transform.position, target.transform.position) < attack.range) {
-					doAttack();
-					attackIntervalTimer = 0;
-				}
-			}
-		}
+	void Update() {}
 
-		attackIntervalTimer += Time.deltaTime;
-	}
-
-	void doAttack() {
-		attack.execute();
-	}
+	void doAttack() {}
 
 	public void switchAttackStateTo(bool state) {
 		GetComponent<MoveTowardsPlayer>().enabled = state;
@@ -82,7 +63,7 @@ public class EnemyController : MonoBehaviour {
 
 	void onDeath() {
 		animator.SetTrigger("deathTrigger");
-		GetComponent<BoxCollider2D>().enabled = false;
+		GetComponent<Collider2D>().enabled = false;
 		GetComponent<MoveIdle>().enabled = false;
 		GetComponent<MoveTowardsPlayer>().enabled = false;
 
