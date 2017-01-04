@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour {
 						isAttacking = true;
 						animator.SetTrigger("attackTrigger");
 						stamina -= attackStaminaCost;
-						doAttack();
+						doMeleeAttack();
 					}
 				}
 				// Blocking -> cannot move
@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour {
 					attackTimer = 0;
 					isAttacking = false;
 				}
-				doAttack();
+				doMeleeAttack();
 			}
 		} else {
 			rollTimer += Time.deltaTime;
@@ -211,7 +211,9 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void doAttack() {
+	void doMeleeAttack() {
+		//attk.execute(target);
+
 		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(GetComponent<Renderer>().bounds.center, attackRadius);
 		foreach (var collider in hitColliders) {
 			if (collider.gameObject.tag == "Enemy") {

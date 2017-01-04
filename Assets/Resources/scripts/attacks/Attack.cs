@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class Attack : MonoBehaviour {
+	// TEMP?
+	public string[] go_tags;
 
 	public int damage = 1;
 	// The radius of damage dealt (red gizmo)
@@ -37,6 +39,6 @@ public class Attack : MonoBehaviour {
 		}
 	}
 
-	virtual public void execute(GameObject target) {}
+	virtual public void execute() {}
 
 }
