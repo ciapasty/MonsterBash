@@ -27,7 +27,8 @@ public class EnemyController : MonoBehaviour {
 		foreach (var attk in attacks) {
 			if (attk.cooldown <= 0) {
 				if (Vector3.Distance(target.transform.position, transform.position) < attk.range ) {
-					attk.execute();
+					attk.execute(target);
+					animator.SetTrigger("attackTrigger");
 				}
 			}
 		}
@@ -73,7 +74,7 @@ public class EnemyController : MonoBehaviour {
 		animator.SetTrigger("deathTrigger");
 		GetComponent<Collider2D>().enabled = false;
 		GetComponent<MoveIdle>().enabled = false;
-		GetComponent<MoveTowardsPlayer>().enabled = false;
+		//GetComponent<MoveTowardsPlayer>().enabled = false;
 
 		// TODO: Spawn dead body GO with timed death -> prefab
 		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";

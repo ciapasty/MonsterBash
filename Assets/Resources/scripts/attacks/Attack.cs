@@ -14,8 +14,8 @@ public class Attack : MonoBehaviour {
 	public float range = 3;
 
 	// Time between attacks
-	public float cooldown = 2f;
-	protected float cooldownTimer = 0f;
+	public float cooldownTime = 2f;
+	public float cooldown { get; protected set; }
 
 	// Time of damage being dealt in radius
 	protected float duration = 0.1f;
@@ -28,14 +28,15 @@ public class Attack : MonoBehaviour {
 	void Start() {
 		animator = GetComponent<Animator>();
 		isAttacking = false;
+		cooldown = 0f;
 	}
 
 	void Update() {
-		if (cooldownTimer > 0) {
-			cooldownTimer -= Time.deltaTime;
+		if (cooldown > 0) {
+			cooldown -= Time.deltaTime;
 		}
 	}
 
-	virtual public void execute() {}
+	virtual public void execute(GameObject target) {}
 
 }

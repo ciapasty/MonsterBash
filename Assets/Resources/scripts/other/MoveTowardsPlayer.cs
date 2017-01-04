@@ -10,16 +10,12 @@ public class MoveTowardsPlayer : MonoBehaviour {
 	private GameObject player;
 
 	void Start () {
-		rigidbod = GetComponent<Rigidbody2D>();
-
 		player = GameObject.FindGameObjectWithTag("Player");
 	}
-
-	void Update () {}
 
 	void FixedUpdate () {
 		// Dumb movement
 		Vector3 direction = (player.transform.position - transform.position);
-		rigidbod.AddForce(direction/direction.magnitude*speed*moveForce);
+		GetComponent<Rigidbody2D>().AddForce(direction/direction.magnitude*speed*moveForce);
 	}
 }
