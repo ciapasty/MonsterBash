@@ -12,9 +12,17 @@ public class EnemyHealth : MonoBehaviour {
 			return _hitpoints;
 		}
 		protected set {
-			_hitpoints = value;
+			if (value <= 0) {
+				_hitpoints = 0;
+				isDead = true;
+			} else {
+				_hitpoints = value;
+				isDead = false;
+			}
 		}
 	}
+
+	public bool isDead { get; protected set; }
 
 	void Start () {
 		hitpoints = maxHitpoints;

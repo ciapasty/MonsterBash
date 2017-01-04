@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour {
 			if (collider.gameObject.tag == "Enemy") {
 				if ((isFacingRight && (collider.gameObject.transform.position-transform.position).x > 0) || 
 					(!isFacingRight && (collider.gameObject.transform.position-transform.position).x < 0)) {
-					collider.gameObject.GetComponent<EnemyHealth>().SendMessage("onHit", this);
+					collider.gameObject.GetComponent<EnemyController>().SendMessage("onHit", this);
 				} 
 			}
 		}
@@ -265,21 +265,21 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void onHit(EnemyController enemy) {
+	void onHit(Attack attack) {
 		if (Time.time > lastHitTime+repeatDamagePeriod) {
 			if (!isRolling) {
-				Vector3 hitVector = transform.position-enemy.transform.position;
+				Vector3 hitVector = transform.position-attack.transform.position;
 				if (isBlocking) {
-					if ((isFacingRight && (enemy.gameObject.transform.position-transform.position).x > 0) ||
-					    (!isFacingRight && (enemy.gameObject.transform.position-transform.position).x < 0)) {
+					if ((isFacingRight && (attack.gameObject.transform.position-transform.position).x > 0) ||
+					    (!isFacingRight && (attack.gameObject.transform.position-transform.position).x < 0)) {
 						stamina -= blockStaminaCost;
-						rigidbod.AddForce(hitVector*enemy.attackForce*50);
+						rigidbod.AddForce(hitVector*attack.force*50);
 						GetComponent<SoundController>().playBlockSound();
 						return;
 					}
 				}
-				rigidbod.AddForce(hitVector*enemy.attackForce*100);
-				takeDamage(enemy.attackDamage);
+				rigidbod.AddForce(hitVector*attack.force*100);
+				takeDamage(attack.damage);
 			}
 		}
 	}
