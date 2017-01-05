@@ -37,7 +37,7 @@ public class MoveTowardsTarget : MonoBehaviour {
 			direction = -(target.transform.position - transform.position);
 		}
 
-		GetComponent<Rigidbody2D>().AddForce(direction/direction.magnitude*speed*moveForce);
+		GetComponent<Rigidbody2D>().velocity = direction.normalized*speed;
 	}
 
 	Vector3 getWaypointBetweenMinMax() {
