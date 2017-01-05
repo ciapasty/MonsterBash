@@ -54,7 +54,7 @@ public class GrassSpawner : MonoBehaviour {
 
 		go.AddComponent<DrawingDepth>();
 
-		TimedDestroy go_td = go.AddComponent<TimedDestroy>();
+		DestroyMe go_td = go.AddComponent<DestroyMe>();
 		go_td.time = 1f;
 		go_td.onlyOutsideOfView = true;
 
