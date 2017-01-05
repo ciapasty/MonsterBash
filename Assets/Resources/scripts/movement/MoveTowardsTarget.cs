@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class MoveTowardsTarget : MonoBehaviour {
-
-	public float moveForce = 10f;
 	public float speed = 2;
 
 	public float keepMaxDistance = 0f;
