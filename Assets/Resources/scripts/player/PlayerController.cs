@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody2D rigidbod;
 	private PlayerHealth playerHealth;
 
+	private MeleeAttack meleeAttack;
+	private ProjectileAttack rangedAttack;
+
 	// Block parameters
 	private bool _isBlocking = false;
 	public bool isBlocking {
@@ -59,14 +62,6 @@ public class PlayerController : MonoBehaviour {
 	private float rollDuration = 0.5f;
 	private Vector2 rollDirection;
 
-	// Attack parameters
-	public int attackDamage = 1;
-	public float attackRadius = 0.5f;
-	public float attackForce = 10;
-	private bool isAttacking = false;
-	private float attackTimer = 0;
-	private float attackDuration = 0.16f;
-
 	public float repeatDamagePeriod = 0.5f;
 	private float lastHitTime;
 
@@ -86,6 +81,9 @@ public class PlayerController : MonoBehaviour {
 		animator = GetComponent<Animator>();
 		rigidbod = GetComponent<Rigidbody2D>();
 		playerHealth = GetComponent<PlayerHealth>();
+
+		meleeAttack = GetComponent<MeleeAttack>();
+		rangedAttack = GetComponent<ProjectileAttack>();
 
 		GameObject.FindGameObjectWithTag("UI_StaminaBar").GetComponent<StaminaBarControl>().player = gameObject;
 		stamina = maxStamina;
@@ -108,13 +106,24 @@ public class PlayerController : MonoBehaviour {
 
 		if (!isRolling) {
 			// Attack
-			if (!isAttacking) {
+			if (!meleeAttack.isAttacking && !rangedAttack.isAttacking) {
+				// Melee attack
 				if (Input.GetKeyDown(KeyCode.X)) {
-					if (stamina-attackStaminaCost > 0) {
-						isAttacking = true;
-						animator.SetTrigger("attackTrigger");
-						stamina -= attackStaminaCost;
-						doAttack();
+					if (meleeAttack.cooldown <= 0) {
+						if (stamina-attackStaminaCost > 0) {
+							animator.SetTrigger("attackTrigger");
+							stamina -= attackStaminaCost;
+							meleeAttack.execute();
+						}
+					}
+				}
+				if (Input.GetKeyDown(KeyCode.Z)) {
+					if (rangedAttack.cooldown <= 0) {
+						if (stamina-attackStaminaCost > 0) {
+							animator.SetTrigger("attackTrigger");
+							stamina -= attackStaminaCost;
+							rangedAttack.execute();
+						}
 					}
 				}
 				// Blocking -> cannot move
@@ -128,13 +137,6 @@ public class PlayerController : MonoBehaviour {
 				} else {
 					isBlocking = false;
 				}
-			} else {
-				attackTimer += Time.deltaTime;
-				if (attackTimer > attackDuration) {
-					attackTimer = 0;
-					isAttacking = false;
-				}
-				doAttack();
 			}
 		} else {
 			rollTimer += Time.deltaTime;
@@ -151,7 +153,7 @@ public class PlayerController : MonoBehaviour {
 	// Movement is done by physics, FixedUpdate is recommended
 	void FixedUpdate () {
 		if (!isRolling) {
-			if (!isAttacking) {
+			if (!meleeAttack.isAttacking && !rangedAttack.isAttacking) {
 				if (!isBlocking) {
 					doMovement();
 				}
@@ -203,24 +205,64 @@ public class PlayerController : MonoBehaviour {
 			coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
 			break;
 		case "Projectile":
-			onHit(coll.gameObject.GetComponent<Projectile>().attack);
-			coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
+			Attack attk = coll.gameObject.GetComponent<Projectile>().attack;
+			if (attk.gameObject != gameObject) {
+				onHit(attk);
+				coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
+			}
 			break;
 		default:
 			break;
 		}
 	}
 
-	void doAttack() {
-		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(GetComponent<Renderer>().bounds.center, attackRadius);
-		foreach (var collider in hitColliders) {
-			if (collider.gameObject.tag == "Enemy") {
-				if ((isFacingRight && (collider.gameObject.transform.position-transform.position).x > 0) || 
-					(!isFacingRight && (collider.gameObject.transform.position-transform.position).x < 0)) {
-					collider.gameObject.GetComponent<EnemyController>().SendMessage("onHit", this);
-				} 
+	void onHit(Attack attack) {
+		if (Time.time > lastHitTime+repeatDamagePeriod) {
+			if (!isRolling) {
+				Vector3 hitVector = transform.position-attack.transform.position;
+				if (isBlocking) {
+					if ((isFacingRight && (attack.gameObject.transform.position-transform.position).x > 0) ||
+						(!isFacingRight && (attack.gameObject.transform.position-transform.position).x < 0)) {
+						stamina -= blockStaminaCost;
+						rigidbod.AddForce(hitVector*attack.force*50);
+						GetComponent<SoundController>().playBlockSound();
+						return;
+					}
+				}
+				rigidbod.AddForce(hitVector*attack.force*100);
+				takeDamage(attack.damage);
 			}
 		}
+	}
+
+	void onDeath() {
+		GetComponent<SoundController>().playDeathSound();
+		animator.SetTrigger("deathTrigger");
+
+		// Check if there is any other player_soul -> spawn player soul
+		GameObject pSoul = GameObject.FindGameObjectWithTag("Player_Soul");
+		if (pSoul != null) {
+			pSoul.GetComponent<Animator>().SetTrigger("deathTrigger");
+		}
+
+		GameObject soul = (GameObject)Instantiate(Resources.Load("prefabs/player_soul"), transform.position, Quaternion.identity);
+		soul.GetComponent<Soul>().souls = souls;
+		souls = 0;
+
+		GetComponent<BoxCollider2D>().enabled = false;
+		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
+		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
+		enabled = false;
+	}
+
+	void onRespawn() {
+		GetComponent<PlayerController>().enabled = true;
+		GetComponent<BoxCollider2D>().enabled = true;
+		GetComponent<SpriteRenderer>().sortingLayerName = "Player";
+		GetComponent<SpriteRenderer>().sortingOrder = 0;
+
+		playerHealth.changeHitpointsBy((playerHealth.maxHitpoints+1)/2);
+		animator.Play("idle");
 	}
 
 	void doMovement() {
@@ -269,25 +311,6 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void onHit(Attack attack) {
-		if (Time.time > lastHitTime+repeatDamagePeriod) {
-			if (!isRolling) {
-				Vector3 hitVector = transform.position-attack.transform.position;
-				if (isBlocking) {
-					if ((isFacingRight && (attack.gameObject.transform.position-transform.position).x > 0) ||
-					    (!isFacingRight && (attack.gameObject.transform.position-transform.position).x < 0)) {
-						stamina -= blockStaminaCost;
-						rigidbod.AddForce(hitVector*attack.force*50);
-						GetComponent<SoundController>().playBlockSound();
-						return;
-					}
-				}
-				rigidbod.AddForce(hitVector*attack.force*100);
-				takeDamage(attack.damage);
-			}
-		}
-	}
-
 	void takeDamage(int damage) {
 		playerHealth.changeHitpointsBy(-damage);
 		animator.SetTrigger("damageTrigger");
@@ -298,35 +321,5 @@ public class PlayerController : MonoBehaviour {
 			lastHitTime = Time.time;
 			GetComponent<SoundController>().playHurtSound();
 		}
-	}
-
-	void onDeath() {
-		GetComponent<SoundController>().playDeathSound();
-		animator.SetTrigger("deathTrigger");
-
-		// Check if there is any other player_soul -> spawn player soul
-		GameObject pSoul = GameObject.FindGameObjectWithTag("Player_Soul");
-		if (pSoul != null) {
-			pSoul.GetComponent<Animator>().SetTrigger("deathTrigger");
-		}
-
-		GameObject soul = (GameObject)Instantiate(Resources.Load("prefabs/player_soul"), transform.position, Quaternion.identity);
-		soul.GetComponent<Soul>().souls = souls;
-		souls = 0;
-
-		GetComponent<BoxCollider2D>().enabled = false;
-		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
-		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
-		enabled = false;
-	}
-
-	void onRespawn() {
-		GetComponent<PlayerController>().enabled = true;
-		GetComponent<BoxCollider2D>().enabled = true;
-		GetComponent<SpriteRenderer>().sortingLayerName = "Player";
-		GetComponent<SpriteRenderer>().sortingOrder = 0;
-
-		playerHealth.changeHitpointsBy((playerHealth.maxHitpoints+1)/2);
-		animator.Play("idle");
 	}
 }

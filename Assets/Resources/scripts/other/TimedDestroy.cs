@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TimedDestroy : MonoBehaviour {
 
-	public float timer = 15f;
+	public float time = 15f;
 	public bool onlyOutsideOfView = false;
 
 	private bool isInView = false;
@@ -13,15 +13,15 @@ public class TimedDestroy : MonoBehaviour {
 		Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
 		isInView = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
 
-		if (timer < 0) {
+		if (time < 0) {
 			Destroy(gameObject);
 		}
 
 		if (!onlyOutsideOfView) {
-			timer -= Time.deltaTime;
+			time -= Time.deltaTime;
 		} else {
 			if (!isInView) {
-				timer -= Time.deltaTime;
+				time -= Time.deltaTime;
 			}
 		}
 	}

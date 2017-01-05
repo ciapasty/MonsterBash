@@ -27,40 +27,38 @@ public class EnemyController : MonoBehaviour {
 		foreach (var attk in attacks) {
 			if (attk.cooldown <= 0) {
 				if (Vector3.Distance(target.transform.position, transform.position) < attk.range ) {
-					attk.execute(target);
+					attk.execute();
 					animator.SetTrigger("attackTrigger");
 				}
 			}
 		}
 	}
 
-	void doAttack() {}
-
 	public void switchAttackStateTo(bool state) {
 		GetComponent<MoveTowardsTarget>().enabled = state;
 		GetComponent<MoveIdle>().enabled = !state;
 	}
 
-	/*void OnCollisionEnter2D (Collision2D col) {
-		if (col.gameObject.tag == "Player") {
-			if (Time.time > lastHitTime + repeatDamagePeriod) {
-				if (hitPoints > 0) {
-					takeDamage(col.transform);
-					lastHitTime = Time.time;
-				} else {
-					Debug.Log("Enemy "+gameObject.name+" is DEAD!");
-
-					onDeath();
-				}
+	// Souls and non-colliding projectiles
+	void OnTriggerEnter2D(Collider2D coll) {
+		switch(coll.gameObject.tag) {
+		case "Projectile":
+			Attack attk = coll.gameObject.GetComponent<Projectile>().attack;
+			if (attk.gameObject != gameObject) {
+				onHit(attk);
+				coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
 			}
+			break;
+		default:
+			break;
 		}
-	}*/
+	}
 
-	void onHit(PlayerController player) {
+	void onHit(Attack attack) {
 		// No advanced hit detection now :(
-		takeDamage(player.attackDamage);
-		Vector3 hitVector = transform.position - player.gameObject.transform.position;
-		rigidbod.AddForce(hitVector * player.attackForce * 100);
+		takeDamage(attack.damage);
+		Vector3 hitVector = transform.position - attack.gameObject.transform.position;
+		rigidbod.AddForce(hitVector * attack.force * 100);
 	}
 
 	void takeDamage(int damage) {
