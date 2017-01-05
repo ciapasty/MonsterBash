@@ -250,16 +250,12 @@ public class PlayerController : MonoBehaviour {
 		souls = 0;
 
 		GetComponent<BoxCollider2D>().enabled = false;
-		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
-		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
 		enabled = false;
 	}
 
 	void onRespawn() {
 		GetComponent<PlayerController>().enabled = true;
 		GetComponent<BoxCollider2D>().enabled = true;
-		GetComponent<SpriteRenderer>().sortingLayerName = "Player";
-		GetComponent<SpriteRenderer>().sortingOrder = 0;
 
 		playerHealth.changeHitpointsBy((playerHealth.maxHitpoints+1)/2);
 		animator.Play("idle");

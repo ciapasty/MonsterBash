@@ -27,7 +27,6 @@ public class PlayerRespawn : MonoBehaviour {
 		if (timer < 0) {
 			// Create permanent body in game after death
 			GameObject body_go = (GameObject)Instantiate(playerBodyPrefab, transform.position, Quaternion.identity);
-			body_go.GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
 			body_go.GetComponent<SpriteRenderer>().flipX = gameObject.GetComponent<SpriteRenderer>().flipX;
 			// Move player to starting location
 			transform.position = startPosition;
