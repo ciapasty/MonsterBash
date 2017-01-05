@@ -75,8 +75,6 @@ public class EnemyController : MonoBehaviour {
 		GetComponent<MoveTowardsTarget>().enabled = false;
 
 		// TODO: Spawn dead body GO with timed death -> prefab
-		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
-		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
 
 		GameObject soul = (GameObject)Instantiate(Resources.Load("prefabs/soul"), transform.position, Quaternion.identity);
 		soul.GetComponent<Soul>().souls = soulsCarried;
