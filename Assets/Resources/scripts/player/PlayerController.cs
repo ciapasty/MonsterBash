@@ -216,6 +216,55 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void onHit(Attack attack) {
+		if (Time.time > lastHitTime+repeatDamagePeriod) {
+			if (!isRolling) {
+				Vector3 hitVector = transform.position-attack.transform.position;
+				if (isBlocking) {
+					if ((isFacingRight && (attack.gameObject.transform.position-transform.position).x > 0) ||
+						(!isFacingRight && (attack.gameObject.transform.position-transform.position).x < 0)) {
+						stamina -= blockStaminaCost;
+						rigidbod.AddForce(hitVector*attack.force*50);
+						GetComponent<SoundController>().playBlockSound();
+						return;
+					}
+				}
+				rigidbod.AddForce(hitVector*attack.force*100);
+				takeDamage(attack.damage);
+			}
+		}
+	}
+
+	void onDeath() {
+		GetComponent<SoundController>().playDeathSound();
+		animator.SetTrigger("deathTrigger");
+
+		// Check if there is any other player_soul -> spawn player soul
+		GameObject pSoul = GameObject.FindGameObjectWithTag("Player_Soul");
+		if (pSoul != null) {
+			pSoul.GetComponent<Animator>().SetTrigger("deathTrigger");
+		}
+
+		GameObject soul = (GameObject)Instantiate(Resources.Load("prefabs/player_soul"), transform.position, Quaternion.identity);
+		soul.GetComponent<Soul>().souls = souls;
+		souls = 0;
+
+		GetComponent<BoxCollider2D>().enabled = false;
+		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
+		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
+		enabled = false;
+	}
+
+	void onRespawn() {
+		GetComponent<PlayerController>().enabled = true;
+		GetComponent<BoxCollider2D>().enabled = true;
+		GetComponent<SpriteRenderer>().sortingLayerName = "Player";
+		GetComponent<SpriteRenderer>().sortingOrder = 0;
+
+		playerHealth.changeHitpointsBy((playerHealth.maxHitpoints+1)/2);
+		animator.Play("idle");
+	}
+
 	void doMovement() {
 		float horizontalInput = Input.GetAxisRaw("Horizontal");
 		float verticalInput = Input.GetAxisRaw("Vertical");
@@ -262,25 +311,6 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void onHit(Attack attack) {
-		if (Time.time > lastHitTime+repeatDamagePeriod) {
-			if (!isRolling) {
-				Vector3 hitVector = transform.position-attack.transform.position;
-				if (isBlocking) {
-					if ((isFacingRight && (attack.gameObject.transform.position-transform.position).x > 0) ||
-					    (!isFacingRight && (attack.gameObject.transform.position-transform.position).x < 0)) {
-						stamina -= blockStaminaCost;
-						rigidbod.AddForce(hitVector*attack.force*50);
-						GetComponent<SoundController>().playBlockSound();
-						return;
-					}
-				}
-				rigidbod.AddForce(hitVector*attack.force*100);
-				takeDamage(attack.damage);
-			}
-		}
-	}
-
 	void takeDamage(int damage) {
 		playerHealth.changeHitpointsBy(-damage);
 		animator.SetTrigger("damageTrigger");
@@ -291,35 +321,5 @@ public class PlayerController : MonoBehaviour {
 			lastHitTime = Time.time;
 			GetComponent<SoundController>().playHurtSound();
 		}
-	}
-
-	void onDeath() {
-		GetComponent<SoundController>().playDeathSound();
-		animator.SetTrigger("deathTrigger");
-
-		// Check if there is any other player_soul -> spawn player soul
-		GameObject pSoul = GameObject.FindGameObjectWithTag("Player_Soul");
-		if (pSoul != null) {
-			pSoul.GetComponent<Animator>().SetTrigger("deathTrigger");
-		}
-
-		GameObject soul = (GameObject)Instantiate(Resources.Load("prefabs/player_soul"), transform.position, Quaternion.identity);
-		soul.GetComponent<Soul>().souls = souls;
-		souls = 0;
-
-		GetComponent<BoxCollider2D>().enabled = false;
-		GetComponent<SpriteRenderer>().sortingLayerName = "Foliage";
-		GetComponent<SpriteRenderer>().sortingOrder = Random.Range(0, 255);
-		enabled = false;
-	}
-
-	void onRespawn() {
-		GetComponent<PlayerController>().enabled = true;
-		GetComponent<BoxCollider2D>().enabled = true;
-		GetComponent<SpriteRenderer>().sortingLayerName = "Player";
-		GetComponent<SpriteRenderer>().sortingOrder = 0;
-
-		playerHealth.changeHitpointsBy((playerHealth.maxHitpoints+1)/2);
-		animator.Play("idle");
 	}
 }
