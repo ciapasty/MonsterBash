@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour {
 						if (stamina-attackStaminaCost > 0) {
 							animator.SetTrigger("attackTrigger");
 							stamina -= attackStaminaCost;
+							rangedAttack.direction = isFacingRight ? Vector3.right : Vector3.left;
 							rangedAttack.execute();
 						}
 					}
