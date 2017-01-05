@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TimedDestroy : MonoBehaviour {
+public class DestroyMe : MonoBehaviour {
 
-	public float time = 15f;
+	public float time = -1f;
+	public bool destroy = true;
 	public bool onlyOutsideOfView = false;
 
 	private bool isInView = false;
@@ -13,8 +14,13 @@ public class TimedDestroy : MonoBehaviour {
 		Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
 		isInView = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
 
-		if (time < 0) {
-			Destroy(gameObject);
+		if (time < 0 && time > -1) {
+			if (destroy) {
+				destroyMe();
+			} else {
+				killMe();
+			}
+
 		}
 
 		if (!onlyOutsideOfView) {
@@ -24,5 +30,13 @@ public class TimedDestroy : MonoBehaviour {
 				time -= Time.deltaTime;
 			}
 		}
+	}
+
+	void killMe() {
+		GetComponent<Animator>().SetTrigger("deathTrigger");
+	}
+
+	void destroyMe() {
+		Destroy(gameObject);
 	}
 }

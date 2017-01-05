@@ -27,6 +27,10 @@ public class EnemyController : MonoBehaviour {
 		foreach (var attk in attacks) {
 			if (attk.cooldown <= 0) {
 				if (Vector3.Distance(target.transform.position, transform.position) < attk.range ) {
+					if (attk as ProjectileAttack) {
+						Vector3 direction = (target.transform.position-transform.position);
+						(attk as ProjectileAttack).direction = direction/direction.magnitude;
+					}
 					attk.execute();
 					animator.SetTrigger("attackTrigger");
 				}
