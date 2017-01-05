@@ -3,11 +3,10 @@ using System.Collections;
 
 public class MoveInDirection : MonoBehaviour {
 
-	public float force = 10f;
 	public float speed = 2;
 	public Vector3 direction;
 
 	void FixedUpdate () {
-		GetComponent<Rigidbody2D>().AddForce(direction/direction.magnitude*speed*force);
+		GetComponent<Rigidbody2D>().velocity = direction.normalized*speed;
 	}
 }

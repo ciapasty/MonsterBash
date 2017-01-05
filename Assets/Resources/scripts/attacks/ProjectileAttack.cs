@@ -13,13 +13,11 @@ public class ProjectileAttack : Attack {
 		projectile.GetComponent<Projectile>().attack = this;
 
 		MoveInDirection move = projectile.GetComponent<MoveInDirection>();
-		move.force = force;
 		move.speed = projectileSpeed;
-
 		move.direction = direction;
 
-		// range/0.9*speed*force
-		projectile.GetComponent<DestroyMe>().time = range/(projectileSpeed*force);
+		// v = s/t -> velocity = range/time -> time = range/velocity
+		projectile.GetComponent<DestroyMe>().time = 1.2f*range/(direction.normalized.magnitude*projectileSpeed);
 
 		cooldown = cooldownTime;
 	}
