@@ -310,7 +310,7 @@ public class PlayerController : MonoBehaviour {
 	void takeDamage(int damage) {
 		playerHealth.changeHitpointsBy(-damage);
 		animator.SetTrigger("damageTrigger");
-		GetComponent<ParticleSystem>().Play();
+		GetComponentInChildren<ParticleSystem>().Play();
 		if (playerHealth.isDead) {
 			onDeath();
 		} else {
