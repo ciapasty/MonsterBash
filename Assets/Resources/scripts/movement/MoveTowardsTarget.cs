@@ -2,8 +2,6 @@
 using System.Collections;
 
 public class MoveTowardsTarget : MonoBehaviour {
-
-	public float moveForce = 10f;
 	public float speed = 2;
 
 	public float keepMaxDistance = 0f;
@@ -37,7 +35,7 @@ public class MoveTowardsTarget : MonoBehaviour {
 			direction = -(target.transform.position - transform.position);
 		}
 
-		GetComponent<Rigidbody2D>().AddForce(direction/direction.magnitude*speed*moveForce);
+		GetComponent<Rigidbody2D>().velocity = direction.normalized*speed;
 	}
 
 	Vector3 getWaypointBetweenMinMax() {

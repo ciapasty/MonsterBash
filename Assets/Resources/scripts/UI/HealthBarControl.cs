@@ -24,7 +24,8 @@ public class HealthBarControl : MonoBehaviour {
 
 	void updateHealth() {
 		if (playerHealth.maxHitpoints > panels.Count) {
-			for (int i = 0; i < playerHealth.maxHitpoints-panels.Count; i++) {
+			int addPanels = playerHealth.maxHitpoints-panels.Count;
+			for (int i = 0; i < addPanels; i++) {
 				addHeartPanel(panels.Count+1);
 			}
 		}

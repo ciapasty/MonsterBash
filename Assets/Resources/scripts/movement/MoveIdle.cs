@@ -3,7 +3,6 @@ using System.Collections;
 
 public class MoveIdle : MonoBehaviour {
 
-	public float moveForce = 10f;
 	public float speed = 1;
 
 	private Rigidbody2D rigidbod;
@@ -29,7 +28,7 @@ public class MoveIdle : MonoBehaviour {
 	void FixedUpdate () {
 		if (Vector3.Distance(destination, transform.position) > 0.2) {
 			Vector3 direction = (destination-transform.position);
-			rigidbod.AddForce(direction/direction.magnitude*speed*moveForce);
+			rigidbod.velocity = direction.normalized*speed;
 		}
 	}
 

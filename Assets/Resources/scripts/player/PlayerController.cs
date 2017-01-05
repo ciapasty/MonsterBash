@@ -48,13 +48,8 @@ public class PlayerController : MonoBehaviour {
 	public float blockStaminaCost = 5f;
 
 	// Movement forces, speed
-	public float walkingForce = 100f;
-	public float rollForce = 200f;
-	public float maxWalkingSpeed = 3f;
-	public float maxRollingSpeed = 6f;
-
-	private float moveForce = 0;
-	private float maxMoveSpeed = 0;
+	public float walkingSpeed = 3f;
+	public float rollingSpeed = 6f;
 
 	// Dodge roll parameters
 	public bool isRolling { get; protected set; }
@@ -87,9 +82,6 @@ public class PlayerController : MonoBehaviour {
 
 		GameObject.FindGameObjectWithTag("UI_StaminaBar").GetComponent<StaminaBarControl>().player = gameObject;
 		stamina = maxStamina;
-
-		moveForce = walkingForce;
-		maxMoveSpeed = maxWalkingSpeed;
 	}
 	
 	void Update () {
@@ -149,9 +141,6 @@ public class PlayerController : MonoBehaviour {
 			if (rollTimer > rollDuration) {
 				rollTimer = 0;
 				isRolling = false;
-
-				moveForce = walkingForce;
-				maxMoveSpeed = maxWalkingSpeed;
 			}
 		}
 	}
@@ -165,10 +154,8 @@ public class PlayerController : MonoBehaviour {
 				}
 			}
 		} else {
-			rigidbod.AddForce(rollDirection);
+			rigidbod.velocity = rollDirection.normalized*rollingSpeed;
 		}
-
-		maxSpeedTrim();
 	}
 
 	// Pickups
@@ -271,45 +258,24 @@ public class PlayerController : MonoBehaviour {
 		float horizontalInput = Input.GetAxisRaw("Horizontal");
 		float verticalInput = Input.GetAxisRaw("Vertical");
 
-		if (horizontalInput != 0 || verticalInput != 0) {
-			if (horizontalInput != 0)
-				isFacingRight = (horizontalInput > 0);
-			animator.SetBool("isWalking", true);
+		animator.SetBool("isWalking", (horizontalInput != 0 || verticalInput != 0) );
 
-			if (horizontalInput*rigidbod.velocity.x < maxMoveSpeed) {
-				rigidbod.AddForce(Vector2.right*horizontalInput*moveForce);
-			}
+		if (horizontalInput != 0)
+			isFacingRight = (horizontalInput > 0);
 
-			if (verticalInput*rigidbod.velocity.y < maxMoveSpeed) {
-				rigidbod.AddForce(Vector2.up*verticalInput*moveForce);
-			}
+		Vector2 moveDirection = new Vector2(horizontalInput, verticalInput);
+		rigidbod.velocity = moveDirection.normalized*walkingSpeed;
 
-			// Dodge roll
-			if (Input.GetKeyDown(KeyCode.Space)) {
-				if ((stamina-rollingStaminaCost) > 0) {
-					animator.SetTrigger("rollTrigger");
-					if (!isRolling) {
-						isRolling = true;
-						moveForce = rollForce;
-						maxMoveSpeed = maxRollingSpeed;
-						rollDirection = new Vector2(horizontalInput*rollForce, verticalInput*rollForce);
-						stamina -= rollingStaminaCost;
-					}
+		// Dodge roll
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			if ((stamina-rollingStaminaCost) > 0) {
+				animator.SetTrigger("rollTrigger");
+				if (!isRolling) {
+					isRolling = true;
+					rollDirection = new Vector2(horizontalInput, verticalInput);
+					stamina -= rollingStaminaCost;
 				}
 			}
-
-		} else {
-			animator.SetBool("isWalking", false);
-		}
-	}
-
-	void maxSpeedTrim() {
-		if (Mathf.Abs(rigidbod.velocity.x) > maxMoveSpeed) {
-			rigidbod.velocity = new Vector2(Mathf.Sign(rigidbod.velocity.x)*maxMoveSpeed, rigidbod.velocity.y);
-		}
-
-		if (Mathf.Abs(rigidbod.velocity.y) > maxMoveSpeed) {
-			rigidbod.velocity = new Vector2(rigidbod.velocity.x, Mathf.Sign(rigidbod.velocity.y)*maxMoveSpeed);
 		}
 	}
 
