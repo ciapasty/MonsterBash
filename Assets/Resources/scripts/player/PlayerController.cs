@@ -235,7 +235,7 @@ public class PlayerController : MonoBehaviour {
 		// Check if there is any other player_soul -> spawn player soul
 		GameObject pSoul = GameObject.FindGameObjectWithTag("Player_Soul");
 		if (pSoul != null) {
-			pSoul.GetComponent<Animator>().SetTrigger("deathTrigger");
+			pSoul.SendMessage("killMe");
 		}
 
 		GameObject soul = (GameObject)Instantiate(Resources.Load("prefabs/player_soul"), transform.position, Quaternion.identity);

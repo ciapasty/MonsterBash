@@ -28,8 +28,12 @@ public class BonfireSafeZone : MonoBehaviour {
 				atSafeZone = true;
 			}
 			if (timer < 0) {
-				if(!player.GetComponent<PlayerSitDown>().isSitting) {
-					player.GetComponent<PlayerSitDown>().SendMessage("sitDown");
+				if (!player.GetComponent<PlayerHealth>().isDead) {
+					if(!player.GetComponent<PlayerSitDown>().isSitting) {
+						player.SendMessage("sitDown");
+					}
+				} else {
+					timer = sitDownTime;
 				}
 			}
 			if (Input.anyKeyDown) {
