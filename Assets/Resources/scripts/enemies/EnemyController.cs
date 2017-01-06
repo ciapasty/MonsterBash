@@ -11,6 +11,9 @@ public class EnemyController : MonoBehaviour {
 
 	public GameObject target;
 
+	public float repeatDamagePeriod = 0.5f;
+	private float lastHitTime;
+
 	public int soulsCarried = 10;
 
 	void Start () {
@@ -36,6 +39,12 @@ public class EnemyController : MonoBehaviour {
 				}
 			}
 		}
+
+		if (rigidbod.velocity.x != 0 || rigidbod.velocity.y != 0) {
+			animator.SetBool("isWalking", true);
+		} else {
+			animator.SetBool("isWalking", false);
+		}
 	}
 
 	public void switchAttackStateTo(bool state) {
@@ -59,13 +68,21 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void onHit(Attack attack) {
-		// No advanced hit detection now :(
-		takeDamage(attack.damage);
-		Vector3 hitVector = transform.position - attack.gameObject.transform.position;
-		rigidbod.AddForce(hitVector * attack.force * 100);
+		if (Time.time > lastHitTime+repeatDamagePeriod) {
+			// No advanced hit detection now :(
+			takeDamage(attack.damage);
+			Vector3 hitVector = transform.position-attack.gameObject.transform.position;
+			rigidbod.AddForce(hitVector*attack.force*100);
+
+			lastHitTime = Time.time;
+		}
 	}
 
 	void takeDamage(int damage) {
+		animator.SetTrigger("damageTrigger");
+		if (GetComponentInChildren<ParticleSystem>() != null) {
+			GetComponentInChildren<ParticleSystem>().Play();
+		}
 		enemyHealth.changeHitpointsBy(-1);
 		if (enemyHealth.isDead) {
 			onDeath();

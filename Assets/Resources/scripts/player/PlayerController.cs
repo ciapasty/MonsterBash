@@ -225,6 +225,7 @@ public class PlayerController : MonoBehaviour {
 				rigidbod.AddForce(hitVector*attack.force*100);
 				takeDamage(attack.damage);
 			}
+			lastHitTime = Time.time;
 		}
 	}
 
@@ -286,7 +287,6 @@ public class PlayerController : MonoBehaviour {
 		if (playerHealth.isDead) {
 			onDeath();
 		} else {
-			lastHitTime = Time.time;
 			GetComponent<SoundController>().playHurtSound();
 		}
 	}
