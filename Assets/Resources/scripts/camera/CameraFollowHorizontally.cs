@@ -9,20 +9,13 @@ public class CameraFollowHorizontally : MonoBehaviour {
 	public float xSmooth = 2.5f;				// How smoothly the camera catches up with it's target movement in the x axis.
 	//public Vector2 maxXAndY;					// The maximum x and y coordinates the camera can have.
 	public Vector2 minXAndY = Vector2.zero;		// The minimum x and y coordinates the camera can have.
+	public bool rightMovementOnly = false;
 
 	bool CheckXMargin()
 	{
 		// Returns true if the distance between the camera and the player in the x axis is greater than the x margin.
 		return Mathf.Abs(transform.position.x - player.transform.position.x) > xMargin;
 	}
-
-
-//	bool CheckYMargin()
-//	{
-//		// Returns true if the distance between the camera and the player in the y axis is greater than the y margin.
-//		return Mathf.Abs(transform.position.y - player.transform.position.y) > yMargin;
-//	}
-
 
 	void FixedUpdate ()
 	{
@@ -41,14 +34,14 @@ public class CameraFollowHorizontally : MonoBehaviour {
 			// ... the target x coordinate should be a Lerp between the camera's current x position and the player's current x position.
 			targetX = Mathf.Lerp(transform.position.x, player.transform.position.x, xSmooth * Time.deltaTime);
 
-		// If the player has moved beyond the y margin...
-//		if(CheckYMargin())
-//			// ... the target y coordinate should be a Lerp between the camera's current y position and the player's current y position.
-//			targetY = Mathf.Lerp(transform.position.y, player.transform.position.y, ySmooth * Time.deltaTime);
-
 		// The target x and y coordinates should not be larger than the maximum or smaller than the minimum.
 		targetX = Mathf.Clamp(targetX, minXAndY.x, Mathf.Infinity);
-		//targetY = Mathf.Clamp(targetY, minXAndY.y, maxXAndY.y);
+
+		if (rightMovementOnly) {
+			if (targetX < transform.position.x) {
+				targetX = transform.position.x;
+			}
+		}
 
 		// Set the camera's position to the target position with the same z component.
 		transform.position = new Vector3(targetX, targetY, transform.position.z);
