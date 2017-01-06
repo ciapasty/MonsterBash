@@ -18,6 +18,13 @@ public class MoveTowardsTarget : MonoBehaviour {
 		waypoint = target.transform.position;
 	}
 
+	void Update() {
+		Vector3 direction = (target.transform.position - transform.position);
+		if (Mathf.Abs(direction.x) > 0.1) {
+			GetComponent<SpriteRenderer>().flipX = (direction.x < 0);
+		}
+	}
+
 	void FixedUpdate () {
 		float distance = Vector3.Distance(target.transform.position, transform.position);
 		if (distance > keepMaxDistance ) {
