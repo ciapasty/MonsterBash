@@ -27,8 +27,8 @@ public class MeleeAttack : Attack {
 		foreach (var collider in hitColliders) {
 			foreach (var tag in go_tags) {
 				if (collider.gameObject.tag == tag) {
-					if ((gameObject.GetComponent<PlayerController>().isFacingRight && (collider.gameObject.transform.position-transform.position).x > 0) || 
-						(!gameObject.GetComponent<PlayerController>().isFacingRight && (collider.gameObject.transform.position-transform.position).x < 0)) {
+					if ((!gameObject.GetComponent<SpriteRenderer>().flipX && (collider.gameObject.transform.position-transform.position).x > 0) || 
+						(gameObject.GetComponent<SpriteRenderer>().flipX && (collider.gameObject.transform.position-transform.position).x < 0)) {
 						collider.gameObject.SendMessage("onHit", this);
 					}
 				}

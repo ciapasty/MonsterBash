@@ -38,4 +38,9 @@ public class PlayerSitDown : MonoBehaviour {
 		standupTimer = -1f;
 		isSitting = true;
 	}
+
+	void resetSitDown() {
+		standupTimer = 1f;
+		isSitting = false;
+	}
 }

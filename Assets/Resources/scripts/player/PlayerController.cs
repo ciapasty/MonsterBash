@@ -225,6 +225,7 @@ public class PlayerController : MonoBehaviour {
 				rigidbod.AddForce(hitVector*attack.force*100);
 				takeDamage(attack.damage);
 			}
+			lastHitTime = Time.time;
 		}
 	}
 
@@ -235,7 +236,7 @@ public class PlayerController : MonoBehaviour {
 		// Check if there is any other player_soul -> spawn player soul
 		GameObject pSoul = GameObject.FindGameObjectWithTag("Player_Soul");
 		if (pSoul != null) {
-			pSoul.GetComponent<Animator>().SetTrigger("deathTrigger");
+			pSoul.SendMessage("killMe");
 		}
 
 		GameObject soul = (GameObject)Instantiate(Resources.Load("prefabs/player_soul"), transform.position, Quaternion.identity);
@@ -286,7 +287,6 @@ public class PlayerController : MonoBehaviour {
 		if (playerHealth.isDead) {
 			onDeath();
 		} else {
-			lastHitTime = Time.time;
 			GetComponent<SoundController>().playHurtSound();
 		}
 	}
