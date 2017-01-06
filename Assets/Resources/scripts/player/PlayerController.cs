@@ -156,6 +156,7 @@ public class PlayerController : MonoBehaviour {
 		} else {
 			rigidbod.velocity = rollDirection.normalized*rollingSpeed;
 		}
+		clampMovement();
 	}
 
 	// Pickups
@@ -265,6 +266,7 @@ public class PlayerController : MonoBehaviour {
 			isFacingRight = (horizontalInput > 0);
 
 		Vector2 moveDirection = new Vector2(horizontalInput, verticalInput);
+
 		rigidbod.velocity = moveDirection.normalized*walkingSpeed;
 
 		// Dodge roll
@@ -277,6 +279,22 @@ public class PlayerController : MonoBehaviour {
 					stamina -= rollingStaminaCost;
 				}
 			}
+		}
+	}
+
+	void clampMovement() {
+		Vector2 maxXY = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+		maxXY.x = maxXY.x-GetComponent<SpriteRenderer>().bounds.extents.x;
+		maxXY.y = maxXY.y-GetComponent<SpriteRenderer>().bounds.extents.y*2;
+		Vector2 minXY = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
+		minXY.x = minXY.x+GetComponent<SpriteRenderer>().bounds.extents.x;
+		Vector3 pos = transform.position;
+
+		if ((pos.x >= maxXY.x && rigidbod.velocity.x > 0) || (pos.x <= minXY.x && rigidbod.velocity.x < 0)) {
+			rigidbod.velocity = new Vector2(0, rigidbod.velocity.y);
+		}
+		if ((pos.y >= maxXY.y && rigidbod.velocity.y > 0) || (pos.y <= minXY.y && rigidbod.velocity.y < 0)) {
+			rigidbod.velocity = new Vector2(rigidbod.velocity.x, 0);
 		}
 	}
 
