@@ -7,15 +7,30 @@ public class ObjectSpawner : MonoBehaviour {
 	public float spawnRate = 2f;
 	public float delay = 4f;
 	public bool spawnInsideView = false;
+	public bool spawnOnlyOnRight = false;
 	public float minimumDistanceFromPlayer = 2f;
 
-	void Update () {
-		delay -= Time.deltaTime;
+	private Vector3 currCameraPos;
+	private Vector3 prevCameraPos;
 
-		if (delay <= 0) {
-			GameObject go = (GameObject)Instantiate(prefabs[Random.Range(0,prefabs.Length)], getSpawnPosition(), Quaternion.identity);
-			go.transform.SetParent(gameObject.transform);
-			delay = (10*Random.value)/spawnRate;
+	void Start() {
+		currCameraPos = Camera.main.transform.position;
+		prevCameraPos = currCameraPos;
+	}
+
+	void Update () {
+		if (delay > 0) {
+			delay -= Time.deltaTime;
+		} else {
+			currCameraPos = Camera.main.transform.position;
+
+			if (Vector3.Distance(currCameraPos, prevCameraPos) > 0) {
+				GameObject go = (GameObject)Instantiate(prefabs[Random.Range(0, prefabs.Length)], getSpawnPosition(), Quaternion.identity);
+				go.transform.SetParent(gameObject.transform);
+				delay = (10*Random.value)/spawnRate;
+			}
+
+			prevCameraPos = currCameraPos;
 		}
 	}
 
@@ -24,7 +39,11 @@ public class ObjectSpawner : MonoBehaviour {
 		if (spawnInsideView) {
 			spawnPos = randomCoordsInsideCameraView();
 		} else {
-			spawnPos = randomCoordsOutsideCameraView();
+			if (spawnOnlyOnRight) {
+				spawnPos = randomCoordsOutsideRightSideOfCameraView();
+			} else {
+				spawnPos = randomCoordsOutsideCameraView();
+			}
 		}
 		if (Vector3.Distance(spawnPos, GameObject.FindGameObjectWithTag("Player").transform.position) < minimumDistanceFromPlayer) {
 			return getSpawnPosition();
@@ -47,6 +66,10 @@ public class ObjectSpawner : MonoBehaviour {
 			}
 		}
 		return Camera.main.ViewportToWorldPoint(new Vector3(xCoord, yCoord, Mathf.Abs(Camera.main.transform.position.z)));
+	}
+
+	Vector3 randomCoordsOutsideRightSideOfCameraView() {
+		return Camera.main.ViewportToWorldPoint(new Vector3(1.2f, Random.value, Mathf.Abs(Camera.main.transform.position.z)));
 	}
 
 	Vector3 randomCoordsInsideCameraView() {

@@ -75,6 +75,11 @@ public class EnemyController : MonoBehaviour {
 			rigidbod.AddForce(hitVector*attack.force*100);
 
 			lastHitTime = Time.time;
+
+			if (GetComponent<MoveIdle>().enabled) {
+				GetComponent<MoveIdle>().enabled = false;
+				GetComponent<MoveTowardsTarget>().enabled = true;
+			}
 		}
 	}
 
