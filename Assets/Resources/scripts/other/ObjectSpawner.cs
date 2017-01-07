@@ -73,6 +73,6 @@ public class ObjectSpawner : MonoBehaviour {
 	}
 
 	Vector3 randomCoordsInsideCameraView() {
-		return Camera.main.ViewportToWorldPoint(new Vector3(Random.value, Random.value, Mathf.Abs(Camera.main.transform.position.z)));
+		return Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f), Mathf.Abs(Camera.main.transform.position.z)));
 	}
 }
