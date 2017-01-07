@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour {
 			// Attack
 			if (!meleeAttack.isAttacking && !rangedAttack.isAttacking) {
 				// Melee attack
-				if (Input.GetKeyDown(KeyCode.X)) {
+				if (Input.GetButtonDown("Attack1")) {
 					if (meleeAttack.cooldown <= 0) {
 						if (stamina-attackStaminaCost > 0) {
 							animator.SetTrigger("attackTrigger");
@@ -109,7 +109,7 @@ public class PlayerController : MonoBehaviour {
 						}
 					}
 				}
-				if (Input.GetKeyDown(KeyCode.Z)) {
+				if (Input.GetButtonDown("Attack2")) {
 					if (rangedAttack.cooldown <= 0) {
 						if (stamina-attackStaminaCost > 0) {
 							animator.SetTrigger("attackTrigger");
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour {
 					}
 				}
 				// Blocking -> cannot move
-				if (Input.GetKey(KeyCode.LeftShift)) {
+				if (Input.GetButton("Block1")) {
 					if (stamina > 1) {
 						isBlocking = true;
 						animator.SetBool("isWalking", false);
@@ -270,7 +270,7 @@ public class PlayerController : MonoBehaviour {
 		rigidbod.velocity = moveDirection.normalized*walkingSpeed;
 
 		// Dodge roll
-		if (Input.GetKeyDown(KeyCode.Space)) {
+		if (Input.GetButtonDown("Dodge")) {
 			if ((stamina-rollingStaminaCost) > 0) {
 				animator.SetTrigger("rollTrigger");
 				if (!isRolling) {
