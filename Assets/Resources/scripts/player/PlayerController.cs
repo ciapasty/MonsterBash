@@ -271,6 +271,7 @@ public class PlayerController : MonoBehaviour {
 
 		// Dodge roll
 		if (Input.GetButtonDown("Dodge")) {
+			Debug.Log("Dodge");
 			if ((stamina-rollingStaminaCost) > 0) {
 				animator.SetTrigger("rollTrigger");
 				if (!isRolling) {
