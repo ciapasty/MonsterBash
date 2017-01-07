@@ -3,16 +3,21 @@ using System.Collections;
 
 public class MeleeAttack : Attack {
 
+	public bool preAttack = false;
+	public float preAttackTime = 0.5f;
+	private float preAttackTimer = 0;
+
 	override public void Update () {
 		base.Update();
 		if (isAttacking) {
-			doAttack();
-			durationTimer += Time.deltaTime;
-		}
-
-		if (durationTimer >= duration) {
-			isAttacking = false;
-			durationTimer = 0;
+			if (preAttack) {
+				if (preAttackTimer <= 0) {
+					doAttack();
+				}
+				preAttackTimer -= Time.deltaTime;
+			} else {
+				doAttack();
+			}
 		}
 	}
 
@@ -20,9 +25,14 @@ public class MeleeAttack : Attack {
 		//base.execute();
 		isAttacking = true;
 		cooldown = cooldownTime;
+		if (preAttack) {
+			preAttackTimer = preAttackTime;
+			animator.SetTrigger("preAttackTrigger");
+		}
 	}
 
 	void doAttack() {
+		animator.SetTrigger("attackTrigger");
 		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(GetComponent<Renderer>().bounds.center, radius);
 		foreach (var collider in hitColliders) {
 			foreach (var tag in go_tags) {
@@ -34,5 +44,6 @@ public class MeleeAttack : Attack {
 				}
 			}
 		}
+		isAttacking = false;
 	}
 }

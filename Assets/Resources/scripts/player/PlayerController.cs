@@ -103,7 +103,7 @@ public class PlayerController : MonoBehaviour {
 				if (Input.GetButtonDown("Attack1")) {
 					if (meleeAttack.cooldown <= 0) {
 						if (stamina-attackStaminaCost > 0) {
-							animator.SetTrigger("attackTrigger");
+							//animator.SetTrigger("attackTrigger");
 							stamina -= attackStaminaCost;
 							meleeAttack.execute();
 						}

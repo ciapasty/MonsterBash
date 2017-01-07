@@ -35,7 +35,6 @@ public class EnemyController : MonoBehaviour {
 						(attk as ProjectileAttack).direction = direction/direction.magnitude;
 					}
 					attk.execute();
-					animator.SetTrigger("attackTrigger");
 				}
 			}
 		}
