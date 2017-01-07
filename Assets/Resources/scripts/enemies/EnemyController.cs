@@ -56,7 +56,7 @@ public class EnemyController : MonoBehaviour {
 		switch(coll.gameObject.tag) {
 		case "Projectile":
 			Attack attk = coll.gameObject.GetComponent<Projectile>().attack;
-			if (attk.gameObject != gameObject) {
+			if (attk.gameObject != gameObject && attk.gameObject.tag == "Player") {
 				onHit(attk);
 				coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
 			}

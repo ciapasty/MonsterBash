@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour {
 			break;
 		case "Projectile":
 			Attack attk = coll.gameObject.GetComponent<Projectile>().attack;
-			if (attk.gameObject != gameObject) {
+			if (attk.gameObject != gameObject && attk.gameObject.tag == "Enemy") {
 				onHit(attk);
 				coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
 			}
