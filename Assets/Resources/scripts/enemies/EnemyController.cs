@@ -35,7 +35,6 @@ public class EnemyController : MonoBehaviour {
 						(attk as ProjectileAttack).direction = direction/direction.magnitude;
 					}
 					attk.execute();
-					animator.SetTrigger("attackTrigger");
 				}
 			}
 		}
@@ -57,7 +56,7 @@ public class EnemyController : MonoBehaviour {
 		switch(coll.gameObject.tag) {
 		case "Projectile":
 			Attack attk = coll.gameObject.GetComponent<Projectile>().attack;
-			if (attk.gameObject != gameObject) {
+			if (attk.gameObject != gameObject && attk.gameObject.tag == "Player") {
 				onHit(attk);
 				coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
 			}
@@ -75,6 +74,11 @@ public class EnemyController : MonoBehaviour {
 			rigidbod.AddForce(hitVector*attack.force*100);
 
 			lastHitTime = Time.time;
+
+			if (GetComponent<MoveIdle>().enabled) {
+				GetComponent<MoveIdle>().enabled = false;
+				GetComponent<MoveTowardsTarget>().enabled = true;
+			}
 		}
 	}
 

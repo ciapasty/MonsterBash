@@ -19,10 +19,6 @@ public class Attack : MonoBehaviour {
 	public float cooldownTime = 2f;
 	public float cooldown { get; protected set; }
 
-	// Time of damage being dealt in radius
-	public float duration = 0.1f;
-	protected float durationTimer = 0f;
-
 	public bool isAttacking { get; protected set; }
 
 	protected Animator animator;

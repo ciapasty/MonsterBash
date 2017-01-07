@@ -8,6 +8,7 @@ public class ProjectileAttack : Attack {
 	public GameObject projectilePrefab;
 
 	public override void execute() {
+		animator.SetTrigger("attackTrigger");
 		GameObject projectile = (GameObject)Instantiate(projectilePrefab, GetComponent<Renderer>().bounds.center, Quaternion.identity);
 		projectile.transform.SetParent(transform);
 		projectile.GetComponent<Projectile>().attack = this;

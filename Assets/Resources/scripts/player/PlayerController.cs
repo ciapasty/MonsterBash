@@ -100,16 +100,16 @@ public class PlayerController : MonoBehaviour {
 			// Attack
 			if (!meleeAttack.isAttacking && !rangedAttack.isAttacking) {
 				// Melee attack
-				if (Input.GetKeyDown(KeyCode.X)) {
+				if (Input.GetButtonDown("Attack1")) {
 					if (meleeAttack.cooldown <= 0) {
 						if (stamina-attackStaminaCost > 0) {
-							animator.SetTrigger("attackTrigger");
+							//animator.SetTrigger("attackTrigger");
 							stamina -= attackStaminaCost;
 							meleeAttack.execute();
 						}
 					}
 				}
-				if (Input.GetKeyDown(KeyCode.Z)) {
+				if (Input.GetButtonDown("Attack2")) {
 					if (rangedAttack.cooldown <= 0) {
 						if (stamina-attackStaminaCost > 0) {
 							animator.SetTrigger("attackTrigger");
@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour {
 					}
 				}
 				// Blocking -> cannot move
-				if (Input.GetKey(KeyCode.LeftShift)) {
+				if (Input.GetButton("Block1")) {
 					if (stamina > 1) {
 						isBlocking = true;
 						animator.SetBool("isWalking", false);
@@ -156,6 +156,7 @@ public class PlayerController : MonoBehaviour {
 		} else {
 			rigidbod.velocity = rollDirection.normalized*rollingSpeed;
 		}
+		clampMovement();
 	}
 
 	// Pickups
@@ -199,7 +200,7 @@ public class PlayerController : MonoBehaviour {
 			break;
 		case "Projectile":
 			Attack attk = coll.gameObject.GetComponent<Projectile>().attack;
-			if (attk.gameObject != gameObject) {
+			if (attk.gameObject != gameObject && attk.gameObject.tag == "Enemy") {
 				onHit(attk);
 				coll.gameObject.GetComponent<Animator>().SetTrigger("deathTrigger");
 			}
@@ -265,18 +266,37 @@ public class PlayerController : MonoBehaviour {
 			isFacingRight = (horizontalInput > 0);
 
 		Vector2 moveDirection = new Vector2(horizontalInput, verticalInput);
+
 		rigidbod.velocity = moveDirection.normalized*walkingSpeed;
 
 		// Dodge roll
-		if (Input.GetKeyDown(KeyCode.Space)) {
-			if ((stamina-rollingStaminaCost) > 0) {
-				animator.SetTrigger("rollTrigger");
-				if (!isRolling) {
-					isRolling = true;
-					rollDirection = new Vector2(horizontalInput, verticalInput);
-					stamina -= rollingStaminaCost;
+		if (Input.GetButtonDown("Dodge")) {
+			if (rigidbod.velocity != Vector2.zero) {
+				if ((stamina-rollingStaminaCost) > 0) {
+					animator.SetTrigger("rollTrigger");
+					if (!isRolling) {
+						isRolling = true;
+						rollDirection = new Vector2(horizontalInput, verticalInput);
+						stamina -= rollingStaminaCost;
+					}
 				}
 			}
+		}
+	}
+
+	void clampMovement() {
+		Vector2 maxXY = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+		maxXY.x = maxXY.x-GetComponent<SpriteRenderer>().bounds.extents.x;
+		maxXY.y = maxXY.y-GetComponent<SpriteRenderer>().bounds.extents.y*2;
+		Vector2 minXY = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
+		minXY.x = minXY.x+GetComponent<SpriteRenderer>().bounds.extents.x;
+		Vector3 pos = transform.position;
+
+		if ((pos.x >= maxXY.x && rigidbod.velocity.x > 0) || (pos.x <= minXY.x && rigidbod.velocity.x < 0)) {
+			rigidbod.velocity = new Vector2(0, rigidbod.velocity.y);
+		}
+		if ((pos.y >= maxXY.y && rigidbod.velocity.y > 0) || (pos.y <= minXY.y && rigidbod.velocity.y < 0)) {
+			rigidbod.velocity = new Vector2(rigidbod.velocity.x, 0);
 		}
 	}
 
