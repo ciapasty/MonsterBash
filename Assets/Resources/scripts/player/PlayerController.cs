@@ -271,12 +271,14 @@ public class PlayerController : MonoBehaviour {
 
 		// Dodge roll
 		if (Input.GetButtonDown("Dodge")) {
-			if ((stamina-rollingStaminaCost) > 0) {
-				animator.SetTrigger("rollTrigger");
-				if (!isRolling) {
-					isRolling = true;
-					rollDirection = new Vector2(horizontalInput, verticalInput);
-					stamina -= rollingStaminaCost;
+			if (rigidbod.velocity != Vector2.zero) {
+				if ((stamina-rollingStaminaCost) > 0) {
+					animator.SetTrigger("rollTrigger");
+					if (!isRolling) {
+						isRolling = true;
+						rollDirection = new Vector2(horizontalInput, verticalInput);
+						stamina -= rollingStaminaCost;
+					}
 				}
 			}
 		}
