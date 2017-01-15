@@ -5,12 +5,18 @@ public class WorldController : MonoBehaviour {
 
 	public World world;
 
+	public GameObject playerPrefab;
 	public GameObject wallPrefab;
 	public GameObject floorPrefab;
 	
 	// Update is called once per frame
 	void Update () {
 		
+	}
+
+	public void spawnPlayer() {
+		GameObject player = (GameObject)Instantiate(playerPrefab, transform.position, Quaternion.identity);
+		player.transform.position = world.getPlayerPosition();
 	}
 
 	public void generateTiles() {

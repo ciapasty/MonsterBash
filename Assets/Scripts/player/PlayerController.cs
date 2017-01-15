@@ -73,14 +73,21 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Start () {
+		Camera.main.GetComponent<CameraFollowPlayer>().player = gameObject;
+		Vector3 cameraPos = gameObject.transform.position;
+		cameraPos.z = -10f;
+		Camera.main.transform.position = cameraPos;
+
 		animator = GetComponent<Animator>();
 		rigidbod = GetComponent<Rigidbody2D>();
 		playerHealth = GetComponent<PlayerHealth>();
 
+		GameObject.FindGameObjectWithTag("UI_StaminaBar").GetComponent<StaminaBarControl>().player = gameObject;
+		GameObject.FindGameObjectWithTag("UI_HealthBar").GetComponent<HealthBarControl>().playerHealth = playerHealth;
+
 		meleeAttack = GetComponent<MeleeAttack>();
 		rangedAttack = GetComponent<ProjectileAttack>();
 
-		GameObject.FindGameObjectWithTag("UI_StaminaBar").GetComponent<StaminaBarControl>().player = gameObject;
 		stamina = maxStamina;
 	}
 	

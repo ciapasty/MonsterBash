@@ -480,8 +480,12 @@ public class GenerateRooms : MonoBehaviour {
 		drawExtendedTree = false;
 		drawFinalTree = false;
 
-		WorldController wc = GameObject.FindGameObjectWithTag("WorldController").GetComponent<WorldController>();
+		WorldController wc = GetComponentInParent<WorldController>();
 		wc.world = new World(mainRooms, corridors);
 		wc.generateTiles();
+
+		Time.timeScale = 1f;
+
+		wc.spawnPlayer();
 	}
 }

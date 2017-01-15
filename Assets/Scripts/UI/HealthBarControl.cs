@@ -3,23 +3,22 @@ using System.Collections.Generic;
 
 public class HealthBarControl : MonoBehaviour {
 
-	public GameObject player;
 	public GameObject heartPanel;
 
 	public Sprite fullHeart;
 	public Sprite emptyHeart;
 	public Sprite lockedHeart;
 
-	private PlayerHealth playerHealth;
+	public PlayerHealth playerHealth;
 	private List<GameObject> panels;
 
 	void Awake() {
-		playerHealth = player.GetComponent<PlayerHealth>();
+		//playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
 		panels = new List<GameObject>();
 
-		for (int i = 0; i < playerHealth.maxHitpoints; i++) {
-			addHeartPanel(i);
-		}
+//		for (int i = 0; i < playerHealth.maxHitpoints; i++) {
+//			addHeartPanel(i);
+//		}
 	}
 
 	void updateHealth() {

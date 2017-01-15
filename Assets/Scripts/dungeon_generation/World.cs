@@ -15,6 +15,8 @@ public class World {
 	List<Room> rooms;
 	List<LineSegment> corridors;
 
+	Vector2 playerPosition;
+
 	public World(List<Room> rooms, List<LineSegment> corridors) {
 		this.rooms = rooms;
 		this.corridors = corridors;
@@ -29,15 +31,29 @@ public class World {
 
 		if (rooms != null) {
 			layoutRooms();
+			setStartingPosition();
 		}
 		if (corridors != null) {
 			layoutCorridors();
 		}
+
+
 	}
 
 	public Tile getTileAt(int x, int y) {
 		return tileMap[x,y];
 	}
+
+	public Vector2 getPlayerPosition() {
+		return playerPosition;
+	}
+
+	// TEMPORARY
+	void setStartingPosition() {
+		int rand = Random.Range(0, rooms.Count);
+		playerPosition = new Vector2(rooms[rand].position.x, rooms[rand].position.y);
+	}
+
 
 	void layoutRooms() {
 		foreach (var room in rooms) {
