@@ -73,7 +73,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Start () {
-		Camera.main.GetComponent<CameraFollowPlayer>().player = gameObject;
+		if (Camera.main.GetComponent<CameraFollowPlayer>())
+			Camera.main.GetComponent<CameraFollowPlayer>().player = gameObject;
 		Vector3 cameraPos = gameObject.transform.position;
 		cameraPos.z = -10f;
 		Camera.main.transform.position = cameraPos;
@@ -83,7 +84,7 @@ public class PlayerController : MonoBehaviour {
 		playerHealth = GetComponent<PlayerHealth>();
 
 		GameObject.FindGameObjectWithTag("UI_StaminaBar").GetComponent<StaminaBarControl>().player = gameObject;
-		GameObject.FindGameObjectWithTag("UI_HealthBar").GetComponent<HealthBarControl>().playerHealth = playerHealth;
+		GameObject.FindGameObjectWithTag("UI_HealthBar").GetComponent<HealthBarControl>().player = gameObject;
 
 		meleeAttack = GetComponent<MeleeAttack>();
 		rangedAttack = GetComponent<ProjectileAttack>();

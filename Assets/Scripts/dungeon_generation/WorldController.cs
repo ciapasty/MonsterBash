@@ -8,9 +8,18 @@ public class WorldController : MonoBehaviour {
 	public GameObject playerPrefab;
 	public GameObject wallPrefab;
 	public GameObject floorPrefab;
-	
-	// Update is called once per frame
-	void Update () {
+
+	void Start() {
+		/// 1. Generate Map
+		/// 2. Fill in room -> randomize
+		/// 3. Spawn enemies
+		/// 4. Spawn player
+		/// Move into UI scripts:
+		/// 5. Reload UI
+		/// 6. Hide splash screen
+	}
+
+	void Update() {
 		
 	}
 

@@ -9,7 +9,7 @@ public class HealthBarControl : MonoBehaviour {
 	public Sprite emptyHeart;
 	public Sprite lockedHeart;
 
-	public PlayerHealth playerHealth;
+	public GameObject player;
 	private List<GameObject> panels;
 
 	void Awake() {
@@ -22,18 +22,18 @@ public class HealthBarControl : MonoBehaviour {
 	}
 
 	void updateHealth() {
-		if (playerHealth.maxHitpoints > panels.Count) {
-			int addPanels = playerHealth.maxHitpoints-panels.Count;
+		if (player.GetComponent<PlayerHealth>().maxHitpoints > panels.Count) {
+			int addPanels = player.GetComponent<PlayerHealth>().maxHitpoints-panels.Count;
 			for (int i = 0; i < addPanels; i++) {
 				addHeartPanel(panels.Count+1);
 			}
 		}
 
 		for (int i = 0; i < panels.Count; i++) {
-			if (i < playerHealth.hitpoints) {
+			if (i < player.GetComponent<PlayerHealth>().hitpoints) {
 				panels[i].GetComponent<UnityEngine.UI.Image>().sprite = fullHeart;
 			} else {
-				if (playerHealth.lockedHitpoints && i > (playerHealth.maxHitpoints-1)/2) {
+				if (player.GetComponent<PlayerHealth>().lockedHitpoints && i > (player.GetComponent<PlayerHealth>().maxHitpoints-1)/2) {
 					panels[i].GetComponent<UnityEngine.UI.Image>().sprite = lockedHeart;
 				} else {
 					panels[i].GetComponent<UnityEngine.UI.Image>().sprite = emptyHeart;
