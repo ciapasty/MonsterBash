@@ -150,11 +150,7 @@ public class World {
 			if (right > maxX) { maxX = right; }
 		}
 
-		//Debug.Log("minX: "+minX+" maxX: "+maxX+" minY: "+minY+" maxY: "+maxY);
-
 		width = Mathf.CeilToInt(maxX);
 		height = Mathf.CeilToInt(maxY);
-
-		Debug.Log("Width: "+width+ " Height: "+height);
 	}
 }

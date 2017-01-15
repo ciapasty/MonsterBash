@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GenerateRooms : MonoBehaviour {
+public class MapGenerator : MonoBehaviour {
 
 	public int roomCount = 30;
 	public int minMainRoomCount = 6;
@@ -21,9 +21,9 @@ public class GenerateRooms : MonoBehaviour {
 	public float mainRoomMeanValueMod = 0.8f;
 	public int roomWallMargin = 2;
 
-	public bool drawTriangulation = true;
-	public bool drawSpanningTree = true;
-	public bool drawExtendedTree = true;
+	public bool drawTriangulation = false;
+	public bool drawSpanningTree = false;
+	public bool drawExtendedTree = false;
 	public bool drawFinalTree = false;
 
 	float meanRoomWidth = 0f;
@@ -49,12 +49,10 @@ public class GenerateRooms : MonoBehaviour {
 	// World
 	private World world;
 
-	void Awake() {
+	public void generateRooms() {
 		generateInitialRooms();
 		createRoomGOs();
-	}
 
-	void Start() {
 		Time.timeScale = 5f;
 		StartCoroutine(CheckObjectsHaveStopped());
 	}
@@ -101,8 +99,6 @@ public class GenerateRooms : MonoBehaviour {
 			}
 
 			Camera.main.transform.Translate(new Vector3(-minX, -minY, 0));
-
-			drawFinalTree = true;
 			triangulate();
 		}
 	}
@@ -181,9 +177,10 @@ public class GenerateRooms : MonoBehaviour {
 		}
 
 		Debug.Log("Final tree created");
-		drawFinalTree = true;
 
+		// TODO: Move corridor generation to strict matrix
 		generateCorridors();
+
 		removeRoomGOs();
 
 		createNewWorld();
@@ -477,15 +474,7 @@ public class GenerateRooms : MonoBehaviour {
 	/// 
 
 	void createNewWorld() {
-		drawExtendedTree = false;
-		drawFinalTree = false;
-
 		WorldController wc = GetComponentInParent<WorldController>();
-		wc.world = new World(mainRooms, corridors);
-		wc.generateTiles();
-
-		Time.timeScale = 1f;
-
-		wc.spawnPlayer();
+		wc.setupWorld(mainRooms, corridors);
 	}
 }

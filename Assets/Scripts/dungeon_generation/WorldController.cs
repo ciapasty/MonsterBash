@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using Delaunay.Geo;
+using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WorldController : MonoBehaviour {
 
@@ -9,8 +11,16 @@ public class WorldController : MonoBehaviour {
 	public GameObject wallPrefab;
 	public GameObject floorPrefab;
 
+	private MapGenerator generator;
+
+	void Awake() {
+		generator = GetComponentInChildren<MapGenerator>();
+	}
+
 	void Start() {
 		/// 1. Generate Map
+		generator.generateRooms();
+
 		/// 2. Fill in room -> randomize
 		/// 3. Spawn enemies
 		/// 4. Spawn player
@@ -21,6 +31,15 @@ public class WorldController : MonoBehaviour {
 
 	void Update() {
 		
+	}
+
+	public void setupWorld(List<Room> mainRooms, List<LineSegment> corridors) {
+		world = new World(mainRooms, corridors);
+		generateTiles();
+
+		Time.timeScale = 1f;
+
+		spawnPlayer();
 	}
 
 	public void spawnPlayer() {
