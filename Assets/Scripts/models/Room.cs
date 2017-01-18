@@ -3,16 +3,22 @@ using System.Collections.Generic;
 
 public class Room {
 
-	public int id;
-	public Vector2 size;
-	public Vector2 position;
+	public int id { get; protected set; }
+	//public Vector2 size;
+	public int width { get; protected set; }
+	public int height { get; protected set; }
+	public Vector2 center;
+	//public Vector2 rBase;
+	public Tile roomBase { get; protected set; }
 
 	public List<Room> connectedRooms;
 
-	public Room(int id, int width, int height, Vector2 position) {
+	public Room(int id, int width, int height, Vector2 center) {
 		connectedRooms = new List<Room>();
 
-		this.size = new Vector2(width, height);
-		this.position = position;
+		this.id = id;
+		this.width = width;
+		this.height = height;
+		this.center = center;
 	}
 }

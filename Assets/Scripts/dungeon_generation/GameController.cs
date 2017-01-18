@@ -3,9 +3,9 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class WorldController : MonoBehaviour {
+public class GameController : MonoBehaviour {
 
-	public World world;
+	public Map map;
 
 	public GameObject playerPrefab;
 	public GameObject wallPrefab;
@@ -13,13 +13,15 @@ public class WorldController : MonoBehaviour {
 
 	private MapGenerator generator;
 
+	private bool tilesSetupFinished = false;
+
 	void Awake() {
 		generator = GetComponentInChildren<MapGenerator>();
 	}
 
 	void Start() {
 		/// 1. Generate Map
-		generator.generateRooms();
+		generator.startMapCreation();
 
 		/// 2. Fill in room -> randomize
 		/// 3. Spawn enemies
@@ -30,32 +32,38 @@ public class WorldController : MonoBehaviour {
 	}
 
 	void Update() {
-		
+		if (!tilesSetupFinished) {
+			if (generator.isFinished) {
+				setupWorld();
+			}
+		}
 	}
 
-	public void setupWorld(List<Room> mainRooms, List<LineSegment> corridors) {
-		world = new World(mainRooms, corridors);
+	public void setupWorld() {
+		map = generator.map;
 		generateTiles();
 
 		Time.timeScale = 1f;
 
 		spawnPlayer();
+
+		tilesSetupFinished = true;
 	}
 
 	public void spawnPlayer() {
 		GameObject player = (GameObject)Instantiate(playerPrefab, transform.position, Quaternion.identity);
-		player.transform.position = world.getPlayerPosition();
+		//player.transform.position = world.getPlayerPosition();
 	}
 
 	public void generateTiles() {
-		for (int x = 0; x < world.width; x++) {
-			for (int y = 0; y < world.height; y++) {
-				if (world.getTileAt(x, y).type == TileType.floor) {
+		for (int x = 0; x < map.width; x++) {
+			for (int y = 0; y < map.height; y++) {
+				if (map.getTileAt(x, y).type == TileType.floor) {
 					GameObject tile = (GameObject)Instantiate(floorPrefab, transform.position, Quaternion.identity);
 					tile.transform.SetParent(this.transform);
 					tile.transform.position = new Vector2(x+0.5f, y+0.5f);
 				}
-				if (world.getTileAt(x, y).type == TileType.wall) {
+				if (map.getTileAt(x, y).type == TileType.wall) {
 					GameObject tile = (GameObject)Instantiate(wallPrefab, transform.position, Quaternion.identity);
 					tile.transform.SetParent(this.transform);
 					tile.transform.position = new Vector2(x+0.5f, y+0.5f);
