@@ -12,16 +12,17 @@ public class Map {
 //	float minY = 0f;
 
 	Tile[,] tileMap;
-	List<Room> rooms;
+	public List<Room> rooms;
 	//List<LineSegment> corridors;
 
 	//Vector2 playerPosition;
 
-	public Map(List<Room> rooms) {
+	public Map(int width, int height, List<Room> rooms) {
+		this.width = width;
+		this.height = height;
 		this.rooms = rooms;
 		//this.corridors = corridors;
-
-		getWorldDimentions();
+		
 		tileMap = new Tile[width, height];
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
@@ -55,15 +56,16 @@ public class Map {
 
 	void layoutRooms() {
 		foreach (var room in rooms) {
-			int roomBaseX = (int)(room.center.x-(room.width/2));
-			int roomBaseY = (int)(room.center.y-(room.height/2));
+			int roomBaseX = Mathf.CeilToInt(room.center.x)-(room.width/2);
+			int roomBaseY = Mathf.CeilToInt(room.center.y)-(room.height/2);
+			room.setBaseTileTo(tileMap[roomBaseX,roomBaseY]);
 			for (int x = 0; x < room.width; x++) {
 				for (int y = 0; y < room.height; y++) {
 //					if (roomBaseX+x >= width || roomBaseX+x < 0 || roomBaseY+y >= height || roomBaseY+y < 0){
 //						Debug.Log(width+" "+height);
 //						Debug.Log((roomBaseX+x)+" "+(roomBaseY+y));
 //					}
-					Tile tile = tileMap[roomBaseX+x,roomBaseY+y];
+					Tile tile = getTileAt(room.roomBase.x+x,room.roomBase.y+y);
 					tile.setRoom(room.id);
 					if (x == 0 || x == room.width-1 || y == 0 || y == room.height-1) {
 						tile.type = TileType.wall;
@@ -138,20 +140,4 @@ public class Map {
 //				tileMap[x+1,y+1].type = TileType.wall;
 //		}
 //	}
-
-	void getWorldDimentions() {		
-		float maxX = 0f;
-		float maxY = 0f;
-
-		foreach (var room in rooms) {
-			float top = room.center.y+room.height/2;
-			float right = room.center.x+room.width/2;
-
-			if (top > maxY) { maxY = top; }
-			if (right > maxX) { maxX = right; }
-		}
-
-		width = Mathf.CeilToInt(maxX)+1;
-		height = Mathf.CeilToInt(maxY+1);
-	}
 }

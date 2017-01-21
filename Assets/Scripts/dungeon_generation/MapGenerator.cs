@@ -16,6 +16,7 @@ public class MapGenerator : MonoBehaviour {
 	public GameObject room_go;
 
 	public int alignmentIterations = 3;
+	public int mainRoomsBuffer = 2;
 	public float connectionsAdded = 0.1f;
 
 	public float mainRoomMeanValueMod = 0.8f;
@@ -124,10 +125,10 @@ public class MapGenerator : MonoBehaviour {
 
 		Debug.Log("Rooms not overlaping");
 
-		iterationCount++;
-		if (iterationCount <= alignmentIterations) {
+//		iterationCount++;
+//		if (iterationCount <= alignmentIterations) {
 			updateMainRoomsPosition();
-		} else {
+		//} else {
 			// Move everything to positive coords
 			foreach (var room in mainRooms) {
 				float bottom = room.center.y-room.height/2;
@@ -148,7 +149,7 @@ public class MapGenerator : MonoBehaviour {
 
 			Camera.main.transform.Translate(new Vector3(-minX, -minY, 0));
 			createSpanningTree();
-		}
+//		}
 	}
 
 	/// <summary>
@@ -159,20 +160,20 @@ public class MapGenerator : MonoBehaviour {
 		foreach (var room in mainRooms) {
 			GameObject go = roomGoMap[room];
 
-			float xPos = Mathf.Ceil(go.transform.position.x);
-			float yPos = Mathf.Ceil(go.transform.position.y);
-
-			Vector2 pos = new Vector2(xPos, yPos);
-
-			go.transform.position = pos;
-			room.center = pos;
+//			float xPos = Mathf.Ceil(go.transform.position.x);
+//			float yPos = Mathf.Ceil(go.transform.position.y);
+//
+//			Vector2 pos = new Vector2(xPos, yPos);
+//
+//			go.transform.position = pos;
+			room.center = go.transform.position;
 		}
-
-		if (iterationCount <= alignmentIterations) {
-			removeRoomGOs();
-			createMainRoomGOs();
-			StartCoroutine(CheckObjectsHaveStopped());
-		} 
+//
+//		if (iterationCount <= alignmentIterations) {
+//			removeRoomGOs();
+//			createMainRoomGOs();
+//			StartCoroutine(CheckObjectsHaveStopped());
+//		} 
 	}
 
 	/// <summary>
@@ -237,8 +238,19 @@ public class MapGenerator : MonoBehaviour {
 		Debug.Log("Final tree created");
 		drawFinalTree = true;
 
+		float maxX = 0f;
+		float maxY = 0f;
+
+		foreach (var room in mainRooms) {
+			float top = (room.center.y+room.height/2)+mainRoomsBuffer*10;
+			float right = (room.center.x+room.width/2)+mainRoomsBuffer*10;
+
+			if (top > maxY) { maxY = top; }
+			if (right > maxX) { maxX = right; }
+		}
+
 		// Layout rooms in newly created tile map.
-		map = new Map(mainRooms);
+		map = new Map(Mathf.CeilToInt(maxX)+1, Mathf.CeilToInt(maxY)+1, mainRooms);
 		removeRoomGOs();
 
 		generateCorridors();
@@ -250,23 +262,95 @@ public class MapGenerator : MonoBehaviour {
 
 	void generateCorridors() {
 		List<Room> done = new List<Room>();
-		corridors = new List<LineSegment>();
+		Tile tile1, tile2, tile3;
 
-		foreach (var room in mainRooms) {
-			foreach (var connRoom in room.connectedRooms) {
-				if (!done.Contains(connRoom)) {
-					Vector2[] corridor = checkSuitableCorridor(room, connRoom);
+		foreach (var r1 in map.rooms) {
+			foreach (var r2 in r1.connectedRooms) {
+				if (!done.Contains(r2)) {
+					int midY = ((r1.roomBase.y+r1.height/2)+(r2.roomBase.y+r2.height/2))/2;
+					int midX = ((r1.roomBase.x+r1.width/2)+(r2.roomBase.x+r2.width/2))/2;
+
+					if(isHorizontalCorridor(r1, r2, midY)) {
+						if (midX < r1.roomBase.x+r1.width/2) {
+							tile2 = map.getTileAt(r1.roomBase.x, midY);
+							tile1 = map.getTileAt(r2.roomBase.x+r2.width-1, midY);
+						} else {
+							tile1 = map.getTileAt(r1.roomBase.x+r1.width-1, midY);
+							tile2 = map.getTileAt(r2.roomBase.x, midY);
+						}
+						if (!crossesRoomHorizontally(tile1, tile2))
+							layoutHorizontalCorridor(tile1, tile2);
+						
+					} else if (isVerticalCorridor(r1, r2, midX)) {
+						if (midY < r1.roomBase.y+r1.height/2) {
+							tile2 = map.getTileAt(midX, r1.roomBase.y);
+							tile1 = map.getTileAt(midX, r2.roomBase.y+r2.height-1);
+						} else {
+							tile1 = map.getTileAt(midX, r1.roomBase.y+r1.height-1);
+							tile2 = map.getTileAt(midX, r2.roomBase.y);
+						}
+						if (!crossesRoomVertically(tile1, tile2))
+							layoutVerticallCorridor(tile1, tile2);
+						
+					} else {
+						
+					}
 				}
 			}
-			done.Add(room);
+			done.Add(r1);
 		}
 	}
-		
-	Vector2[] checkSuitableCorridor(Room r1, Room r2) {
-//		if() {
-//			
-//		}
-		return null;
+
+	bool isHorizontalCorridor(Room r1, Room r2, int midY) {
+		return ((midY-r1.roomBase.y) > 0 && (midY-r1.roomBase.y) < r1.height) && ((midY-r2.roomBase.y) > 0 && (midY-r2.roomBase.y) < r2.height);
+	}
+
+	bool isVerticalCorridor(Room r1, Room r2, int midX) {
+		return ((midX-r1.roomBase.x) > 0 && (midX-r1.roomBase.x) < r1.width) && ((midX-r2.roomBase.x) > 0 && (midX-r2.roomBase.x) < r2.width);
+	}
+
+	bool crossesRoomHorizontally(Tile t1, Tile t2) {
+		for (int i = t1.x; i < t2.x; i++) {
+			if (map.getTileAt(i, t1.y).type == TileType.floor)
+				return true;
+		}
+		return false;
+	}
+
+	bool crossesRoomVertically(Tile t1, Tile t2) {
+		for (int i = t1.y; i < t2.y; i++) {
+			if (map.getTileAt(t1.x, i).type == TileType.floor)
+				return true;
+		}
+		return false;
+	}
+
+	void layoutHorizontalCorridor(Tile t1, Tile t2) {
+		// TODO: change door status
+		if (t1.roomID != null)
+			t1.tClass = TileClass.door;
+
+		if (t2.roomID != null)
+			t2.tClass = TileClass.door;
+
+		for (int i = t1.x; i <= t2.x; i++) {
+			Tile t = map.getTileAt(i, t1.y);
+			t.type = TileType.floor;
+		}
+	}
+
+	void layoutVerticallCorridor(Tile t1, Tile t2) {
+		// TODO: change door status
+		if (t1.roomID != null)
+			t1.tClass = TileClass.door;
+
+		if (t2.roomID != null)
+			t2.tClass = TileClass.door;
+
+		for (int i = t1.y; i <= t2.y; i++) {
+			Tile t = map.getTileAt(t1.x, i);
+			t.type = TileType.floor;
+		}
 	}
 
 //	void generateCorridors_OLD() {
@@ -378,7 +462,7 @@ public class MapGenerator : MonoBehaviour {
 			GameObject go = (GameObject)Instantiate(room_go, transform.position, Quaternion.identity);
 			go.transform.SetParent(this.transform);
 			go.transform.position = room.center;
-			go.GetComponent<BoxCollider2D>().size = new Vector2(room.width, room.height);
+			go.GetComponent<BoxCollider2D>().size = new Vector2(room.width+mainRoomsBuffer, room.height+mainRoomsBuffer);
 			roomGoMap.Add(room, go);
 
 			if (mainRooms.Contains(room)) {
@@ -399,7 +483,7 @@ public class MapGenerator : MonoBehaviour {
 			GameObject go = (GameObject)Instantiate(room_go, transform.position, Quaternion.identity);
 			go.transform.SetParent(this.transform);
 			go.transform.position = room.center;
-			go.GetComponent<BoxCollider2D>().size = new Vector2(room.width, room.height);
+			go.GetComponent<BoxCollider2D>().size = new Vector2(room.width+mainRoomsBuffer, room.height+mainRoomsBuffer);
 			roomGoMap.Add(room, go);
 
 			go.GetComponent<DrawBorders>().color = Color.red;
@@ -520,7 +604,7 @@ public class MapGenerator : MonoBehaviour {
 //			}
 			Gizmos.color = Color.white;
 			foreach (var room in mainRooms) {
-				Gizmos.DrawWireCube(room.center, new Vector2(room.width, room.height));
+				Gizmos.DrawWireCube(new Vector2((room.roomBase.x+room.width/2)+0.5f, (room.roomBase.y+room.height/2)+0.5f), new Vector2(1f, 1f));
 			}
 //			foreach (var corr in corridors) {
 //				Vector2 left = (Vector2)corr.p0;

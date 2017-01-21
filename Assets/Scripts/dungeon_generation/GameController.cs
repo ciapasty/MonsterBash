@@ -62,6 +62,9 @@ public class GameController : MonoBehaviour {
 					GameObject tile = (GameObject)Instantiate(floorPrefab, transform.position, Quaternion.identity);
 					tile.transform.SetParent(this.transform);
 					tile.transform.position = new Vector2(x+0.5f, y+0.5f);
+					if (map.getTileAt(x, y).tClass == TileClass.door) {
+						tile.GetComponent<SpriteRenderer>().color = Color.red;
+					}
 				}
 				if (map.getTileAt(x, y).type == TileType.wall) {
 					GameObject tile = (GameObject)Instantiate(wallPrefab, transform.position, Quaternion.identity);
