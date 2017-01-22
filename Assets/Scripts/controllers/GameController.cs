@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour {
 	MapGenerator mapGenerator;
 	MapSpriteController mapSpriteController;
 
+	CameraFollowPlayer cameraFollowPlayer;
+
 	// Player tracking
 	Tile prevTile;
 	Tile currTile;
@@ -31,6 +33,7 @@ public class GameController : MonoBehaviour {
 				if (currRoomID != -1) {
 					map.getRoomWithID(currRoomID).doorsLocked(false);
 					Debug.Log("Unlocking doors in room "+currRoomID);
+					//cameraFollowPlayer.snapToRoom = false;
 				}
 			}
 		}
@@ -46,6 +49,7 @@ public class GameController : MonoBehaviour {
 	void Awake() {
 		mapGenerator = GetComponentInChildren<MapGenerator>();
 		mapSpriteController = GetComponentInChildren<MapSpriteController>();
+		cameraFollowPlayer = Camera.main.GetComponent<CameraFollowPlayer>();
 	}
 
 	void Start() {
@@ -77,6 +81,10 @@ public class GameController : MonoBehaviour {
 				timer -= Time.deltaTime;
 			}
 		}
+
+		if (Input.GetKeyDown(KeyCode.Q)) {
+			cameraFollowPlayer.snapToRoom = false;
+		}
 	}
 
 	public void spawnPlayer() {
@@ -94,6 +102,8 @@ public class GameController : MonoBehaviour {
 		if (currTile != prevTile) {
 			if (currRoomID != prevRoomID && currTile.tClass != TileClass.door) {
 				// TEMP - forr door lock testing
+				cameraFollowPlayer.room = map.getRoomWithID(currRoomID);
+				cameraFollowPlayer.snapToRoom = true;
 				logRoomInfo();
 				if (currRoomID != -1) {
 					map.getRoomWithID(currRoomID).doorsLocked(true);

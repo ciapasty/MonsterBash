@@ -5,39 +5,47 @@ public class CameraFollowPlayer : MonoBehaviour {
 
 	public GameObject player;
 
+	public bool snapToRoom = false;
+	public Room room;
+
 	public float xMargin = 1f;		// Distance in the x axis the player can move before the camera follows.
 	public float yMargin = 0.6f;		// Distance in the y axis the player can move before the camera follows.
 	public float xSmooth = 1.5f;		// How smoothly the camera catches up with it's target movement in the x axis.
 	public float ySmooth = 2f;		// How smoothly the camera catches up with it's target movement in the y axis.
-	//public Vector2 maxXAndY;		// The maximum x and y coordinates the camera can have.
-	//public Vector2 minXAndY;		// The minimum x and y coordinates the camera can have.
 
-	bool CheckXMargin()
-	{
+	Vector2 halfCameraView;
+
+	void Start() {
+		Vector2 cameraCenter = Camera.main.ViewportToWorldPoint(new Vector2(0.5f, 0.5f));
+		Vector2 cameraBase = Camera.main.ViewportToWorldPoint(new Vector2(0f, 0f));
+		halfCameraView = cameraCenter-cameraBase;
+
+	}
+
+	bool CheckXMargin() {
 		// Returns true if the distance between the camera and the player in the x axis is greater than the x margin.
 		return Mathf.Abs(transform.position.x - player.transform.position.x) > xMargin;
 	}
 
 
-	bool CheckYMargin()
-	{
+	bool CheckYMargin() {
 		// Returns true if the distance between the camera and the player in the y axis is greater than the y margin.
 		return Mathf.Abs(transform.position.y - player.transform.position.y) > yMargin;
 	}
 
-
-	void FixedUpdate ()
-	{
+	void FixedUpdate () {
 		if (player != null)
 			TrackPlayer();		
 	}
 
 
-	void TrackPlayer ()
-	{
+	void TrackPlayer () {
 		// By default the target x and y coordinates of the camera are it's current x and y coordinates.
 		float targetX = transform.position.x;
 		float targetY = transform.position.y;
+
+		float minX, maxX;
+		float minY, maxY;
 
 		// If the player has moved beyond the x margin...
 		if(CheckXMargin())
@@ -49,10 +57,33 @@ public class CameraFollowPlayer : MonoBehaviour {
 			// ... the target y coordinate should be a Lerp between the camera's current y position and the player's current y position.
 			targetY = Mathf.Lerp(transform.position.y, player.transform.position.y, ySmooth * Time.deltaTime);
 
-		// The target x and y coordinates should not be larger than the maximum or smaller than the minimum.
-		//targetX = Mathf.Clamp(targetX, minXAndY.x, maxXAndY.x);
-		//targetY = Mathf.Clamp(targetY, minXAndY.y, maxXAndY.y);
+		if (snapToRoom && room != null) {
+			// The target x and y coordinates should not be larger than the maximum or smaller than the minimum.
+			if (room.width <= halfCameraView.x*2) {
+				maxX = minX = room.roomBase.x+room.width/2;
+			} else {
+				minX = room.roomBase.x+halfCameraView.x;
+				maxX = room.roomBase.x+room.width-halfCameraView.x;
+			}
+			if (transform.position.x < room.roomBase.x+halfCameraView.x || transform.position.x > room.roomBase.x+room.width-halfCameraView.x) {
+				targetX = Mathf.Lerp(transform.position.x, Mathf.Clamp(targetX, minX, maxX), 2.5f*xSmooth * Time.deltaTime);
+			} else {
+				targetX = Mathf.Clamp(targetX, minX, maxX);
+			}
+				
+			if (room.height <= halfCameraView.y*2) {
+				maxY = minY = room.roomBase.y+room.width/2;
+			} else {
+				minY = room.roomBase.y+halfCameraView.y;
+				maxY = room.roomBase.y+room.height-halfCameraView.y;
+			}
+			if (transform.position.y < room.roomBase.y+halfCameraView.y || transform.position.y > room.roomBase.y+room.height-halfCameraView.y) {
+				targetY = Mathf.Lerp(transform.position.y, Mathf.Clamp(targetY, minY, maxY), 2.5f*ySmooth * Time.deltaTime);
+			} else {
+				targetY = Mathf.Clamp(targetY, minY, maxY);
+			}
 
+		}
 		// Set the camera's position to the target position with the same z component.
 		transform.position = new Vector3(targetX, targetY, transform.position.z);
 	}
