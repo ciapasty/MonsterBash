@@ -386,6 +386,11 @@ public class MapGenerator : MonoBehaviour {
 		return false;
 	}
 
+	/// <summary>
+	/// Layouts horizontal corridor.
+	/// </summary>
+	/// <param name="t1">Start tile.</param>
+	/// <param name="t2">End tile.</param>
 	void layoutHorizontalCorridor(Tile t1, Tile t2) {
 		// TODO: change door status
 		if (t1.roomID != null && t1.roomID != -1)
@@ -398,14 +403,20 @@ public class MapGenerator : MonoBehaviour {
 		min = (t1.x > t2.x) ? t2.x : t1.x;
 		max = (t1.x > t2.x) ? t1.x : t2.x;
 
+		Tile t;
 		for (int i = min; i <= max; i++) {
-			Tile t = map.getTileAt(i, t1.y);
+			t = map.getTileAt(i, t1.y);
 			t.type = TileType.floor;
 			if (!t.roomID.HasValue)
 				t.setRoom(-1);
 		}
 	}
 
+	/// <summary>
+	/// Layouts verticall corridor.
+	/// </summary>
+	/// <param name="t1">Start tile.</param>
+	/// <param name="t2">End tile.</param>
 	void layoutVerticallCorridor(Tile t1, Tile t2) {
 		// TODO: change door status
 		if (t1.roomID != null && t1.roomID != -1)
@@ -418,40 +429,40 @@ public class MapGenerator : MonoBehaviour {
 		min = (t1.y > t2.y) ? t2.y : t1.y;
 		max = (t1.y > t2.y) ? t1.y : t2.y;
 
+		Tile t;
 		for (int i = min; i <= max; i++) {
-			Tile t = map.getTileAt(t1.x, i);
+			t = map.getTileAt(t1.x, i);
 			t.type = TileType.floor;
 			if (!t.roomID.HasValue)
 				t.setRoom(-1);
 		}
 	}
 
+	/// <summary>
+	/// Adds walls to corridors. Loops through whole tile map
+	/// </summary>
 	void addCorridorWalls() {
 		for (int x = 0; x < map.width; x++) {
 			for (int y = 0; y < map.height; y++) {
 				Tile t = map.getTileAt(x, y);
 				if (t.roomID == -1 && t.type == TileType.floor) {
-					if (x+1 < map.width)
-						setCorridorWall(map.getTileAt(x+1, y));
-					if (x-1 > 0)
-						setCorridorWall(map.getTileAt(x-1, y));
-					if (y+1 < map.height)
-						setCorridorWall(map.getTileAt(x, y+1));
-					if (y-1 > 0)
-						setCorridorWall(map.getTileAt(x, y-1));
-					if (x+1 < map.width && y+1 < map.height)
-						setCorridorWall(map.getTileAt(x+1, y+1));
-					if (x+1 < map.width && y-1 > 0)
-						setCorridorWall(map.getTileAt(x+1, y-1));
-					if (x-1 > 0 && y+1 < map.height)
-						setCorridorWall(map.getTileAt(x-1, y+1));
-					if (x-1 > 0 && y-1 > 0)
-						setCorridorWall(map.getTileAt(x-1, y-1));
+					setCorridorWall(map.getTileAt(x+1, y));
+					setCorridorWall(map.getTileAt(x-1, y));
+					setCorridorWall(map.getTileAt(x, y+1));
+					setCorridorWall(map.getTileAt(x, y-1));
+					setCorridorWall(map.getTileAt(x+1, y+1));
+					setCorridorWall(map.getTileAt(x+1, y-1));
+					setCorridorWall(map.getTileAt(x-1, y+1));
+					setCorridorWall(map.getTileAt(x-1, y-1));
 				}
 			}
 		}
 	}
 
+	/// <summary>
+	/// Sets tile to corridor wall if empty.
+	/// </summary>
+	/// <param name="tile">Tile.</param>
 	void setCorridorWall(Tile tile) {
 		if (tile.type == TileType.empty && !tile.roomID.HasValue) {
 			tile.setRoom(-1);

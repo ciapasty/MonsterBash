@@ -5,23 +5,33 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
+	public static GameController instance { get; protected set; }
+
 	public Map map;
 
 	public GameObject playerPrefab;
 	public GameObject wallPrefab;
 	public GameObject floorPrefab;
 
-	private MapGenerator generator;
+	MapGenerator mapGenerator;
 
 	private bool tilesSetupFinished = false;
 
+	void OnEnable() {
+		if(instance != null) {
+			Debug.LogError("There should never be two game controllers.");
+		}
+		instance = this;
+	}
+
 	void Awake() {
-		generator = GetComponentInChildren<MapGenerator>();
+		mapGenerator = GetComponentInChildren<MapGenerator>();
+
 	}
 
 	void Start() {
 		/// 1. Generate Map
-		generator.startMapCreation();
+		mapGenerator.startMapCreation();
 
 		/// 2. Fill in room -> randomize
 		/// 3. Spawn enemies
@@ -33,14 +43,14 @@ public class GameController : MonoBehaviour {
 
 	void Update() {
 		if (!tilesSetupFinished) {
-			if (generator.isFinished) {
+			if (mapGenerator.isFinished) {
 				setupWorld();
 			}
 		}
 	}
 
 	public void setupWorld() {
-		map = generator.map;
+		map = mapGenerator.map;
 		generateTiles();
 
 		Time.timeScale = 1f;
