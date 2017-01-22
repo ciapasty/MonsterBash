@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour {
 	public GameObject floorPrefab;
 
 	MapGenerator mapGenerator;
+	MapSpriteController mapSpriteController;
 
 	private bool tilesSetupFinished = false;
 
@@ -26,7 +27,7 @@ public class GameController : MonoBehaviour {
 
 	void Awake() {
 		mapGenerator = GetComponentInChildren<MapGenerator>();
-
+		mapSpriteController = GetComponentInChildren<MapSpriteController>();
 	}
 
 	void Start() {
