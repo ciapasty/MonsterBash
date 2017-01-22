@@ -11,6 +11,8 @@ public class Map {
 	Tile[,] tileMap;
 	public List<Room> rooms { get; protected set; }
 
+	public Tile bonfire { get; protected set; }
+
 	public Map(int width, int height, List<Room> rooms) {
 		this.width = width;
 		this.height = height;
@@ -44,6 +46,10 @@ public class Map {
 				return room;
 		}
 		return null;
+	}
+
+	public void setSpawnTileTo(Tile tile) {
+		bonfire = tile;
 	}
 
 	void layoutRooms() {

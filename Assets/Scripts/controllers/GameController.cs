@@ -5,24 +5,27 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
-	public static GameController instance { get; protected set; }
+	public static GameController Instance { get; protected set; }
 
 	public Map map;
 
 	public GameObject playerPrefab;
-	public GameObject wallPrefab;
-	public GameObject floorPrefab;
+	GameObject player;
 
 	MapGenerator mapGenerator;
 	MapSpriteController mapSpriteController;
 
-	private bool tilesSetupFinished = false;
+	// Player tracking
+	Tile prevTile;
+	Tile currTile;
+	int prevRoomID;
+	int currRoomID;
 
 	void OnEnable() {
-		if(instance != null) {
+		if(Instance != null) {
 			Debug.LogError("There should never be two game controllers.");
 		}
-		instance = this;
+		Instance = this;
 	}
 
 	void Awake() {
@@ -39,50 +42,49 @@ public class GameController : MonoBehaviour {
 		/// 4. Spawn player
 		/// Move into UI scripts:
 		/// 5. Reload UI
-		/// 6. Hide splash screen
+		/// 6. Hide loading screen
 	}
 
 	void Update() {
-		if (!tilesSetupFinished) {
+		if (!mapSpriteController.areSpritesSetup) {
 			if (mapGenerator.isFinished) {
-				setupWorld();
+				map = mapGenerator.map;
+				mapSpriteController.setupSprites();
+				Time.timeScale = 1f;
+				spawnPlayer();
 			}
 		}
-	}
-
-	public void setupWorld() {
-		map = mapGenerator.map;
-		generateTiles();
-
-		Time.timeScale = 1f;
-
-		spawnPlayer();
-
-		tilesSetupFinished = true;
+		if (player != null)
+			trackPlayer();
 	}
 
 	public void spawnPlayer() {
-		GameObject player = (GameObject)Instantiate(playerPrefab, transform.position, Quaternion.identity);
-		//player.transform.position = world.getPlayerPosition();
+		GameObject p_go = (GameObject)Instantiate(playerPrefab, transform.position, Quaternion.identity);
+		p_go.transform.position = new Vector3(map.bonfire.x-1, map.bonfire.y+1, 0);
+		player = p_go;
+		currTile = prevTile = map.getTileAt((int)(player.transform.position.x), (int)(player.transform.position.y));
+		currRoomID = prevRoomID = currTile.roomID.Value;
+		logRoomInfo();
 	}
 
-	public void generateTiles() {
-		for (int x = 0; x < map.width; x++) {
-			for (int y = 0; y < map.height; y++) {
-				if (map.getTileAt(x, y).type == TileType.floor) {
-					GameObject tile = (GameObject)Instantiate(floorPrefab, transform.position, Quaternion.identity);
-					tile.transform.SetParent(this.transform);
-					tile.transform.position = new Vector2(x+0.5f, y+0.5f);
-					if (map.getTileAt(x, y).tClass == TileClass.door) {
-						tile.GetComponent<SpriteRenderer>().color = Color.red;
-					}
-				}
-				if (map.getTileAt(x, y).type == TileType.wall) {
-					GameObject tile = (GameObject)Instantiate(wallPrefab, transform.position, Quaternion.identity);
-					tile.transform.SetParent(this.transform);
-					tile.transform.position = new Vector2(x+0.5f, y+0.5f);
-				}
+	void trackPlayer() {
+		currTile = map.getTileAt((int)(player.transform.position.x), (int)(player.transform.position.y));
+		currRoomID = currTile.roomID.Value;
+		if (currTile != prevTile) {
+			if (currRoomID != prevRoomID && currTile.tClass != TileClass.door) {
+				logRoomInfo();
+				prevRoomID = currRoomID;
 			}
+			//Debug.Log("Moved to: ("+currTile.x+", "+currTile.y+")");
+			prevTile = currTile;
+		}
+	}
+
+	void logRoomInfo() {
+		if (currRoomID == -1) {
+			Debug.Log("Corridor");
+		} else {
+			Debug.Log("Room: id "+currRoomID+", room type "+map.getRoomWithID(currRoomID).type);
 		}
 	}
 }

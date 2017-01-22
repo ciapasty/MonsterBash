@@ -144,7 +144,6 @@ public class MapGenerator : MonoBehaviour {
 			go_pos.y += -minY;
 		}
 
-		Camera.main.transform.Translate(new Vector3(-minX, -minY, 0));
 		createSpanningTree();
 	}
 
@@ -219,26 +218,39 @@ public class MapGenerator : MonoBehaviour {
 		}
 
 		Debug.Log("Final tree created");
-		drawFinalTree = true;
 
 		float maxX = 0f;
 		float maxY = 0f;
+
+		List<Room> singleEntranceRooms = new List<Room>();
 
 		foreach (var room in mainRooms) {
 			float top = (room.center.y+room.height/2)+mainRoomsBuffer*10;
 			float right = (room.center.x+room.width/2)+mainRoomsBuffer*10;
 
+			if (room.connectedRooms.Count == 1) {
+				singleEntranceRooms.Add(room);
+			}
+
 			if (top > maxY) { maxY = top; }
 			if (right > maxX) { maxX = right; }
 		}
 
+		removeRoomGOs();
+		if (singleEntranceRooms.Count < 2) {
+			Debug.Log("Not enough single entrance rooms! Regenerating!");
+			startMapCreation();
+			return;
+		}
+
 		// Layout rooms in newly created tile map.
 		map = new Map(Mathf.CeilToInt(maxX)+1, Mathf.CeilToInt(maxY)+1, mainRooms);
-		removeRoomGOs();
 
 		generateCorridors();
 
 		addCorridorWalls();
+
+		assignRooms();
 
 		isFinished = true;
 	}
@@ -393,11 +405,17 @@ public class MapGenerator : MonoBehaviour {
 	/// <param name="t2">End tile.</param>
 	void layoutHorizontalCorridor(Tile t1, Tile t2) {
 		// TODO: change door status
-		if (t1.roomID != null && t1.roomID != -1)
+		if (t1.roomID != null && t1.roomID != -1) {
 			t1.tClass = TileClass.door;
+			Room r = map.getRoomWithID(t1.roomID.Value);
+			r.addDoor(t1);
+		}
 
-		if (t2.roomID != null && t2.roomID != -1)
+		if (t2.roomID != null && t2.roomID != -1) {
 			t2.tClass = TileClass.door;
+			Room r = map.getRoomWithID(t2.roomID.Value);
+			r.addDoor(t2);
+		}
 
 		int min, max;
 		min = (t1.x > t2.x) ? t2.x : t1.x;
@@ -419,11 +437,17 @@ public class MapGenerator : MonoBehaviour {
 	/// <param name="t2">End tile.</param>
 	void layoutVerticallCorridor(Tile t1, Tile t2) {
 		// TODO: change door status
-		if (t1.roomID != null && t1.roomID != -1)
+		if (t1.roomID != null && t1.roomID != -1) {
 			t1.tClass = TileClass.door;
+			Room r = map.getRoomWithID(t1.roomID.Value);
+			r.addDoor(t1);
+		}
 
-		if (t2.roomID != null && t2.roomID != -1)
+		if (t2.roomID != null && t2.roomID != -1) {
 			t2.tClass = TileClass.door;
+			Room r = map.getRoomWithID(t2.roomID.Value);
+			r.addDoor(t2);
+		}
 
 		int min, max;
 		min = (t1.y > t2.y) ? t2.y : t1.y;
@@ -467,6 +491,36 @@ public class MapGenerator : MonoBehaviour {
 		if (tile.type == TileType.empty && !tile.roomID.HasValue) {
 			tile.setRoom(-1);
 			tile.type = TileType.wall;
+		}
+	}
+
+	void assignRooms() {
+		bool hasBonfire = false;
+		bool hasExit = false;
+
+		List<Room> done = new List<Room>();
+
+		while (done.Count < map.rooms.Count) {
+			Room room = map.rooms[Random.Range(0, map.rooms.Count)];
+			if (!done.Contains(room)) {
+				if (room.doors.Count == 1) {
+					if (!hasExit) {
+						room.setRoomType(RoomType.exit);
+						hasExit = true;
+						done.Add(room);
+						continue;
+					} 
+					if (!hasBonfire) {
+						room.setRoomType(RoomType.bonfire);
+						map.setSpawnTileTo(map.getTileAt(room.roomBase.x+room.width/2, room.roomBase.y+room.height/2));
+						hasBonfire = true;
+						done.Add(room);
+						continue;
+					}
+				}
+				room.setRoomType(RoomType.generic);
+				done.Add(room);
+			}
 		}
 	}
 
@@ -614,28 +668,10 @@ public class MapGenerator : MonoBehaviour {
 		}
 
 		if (drawFinalTree) {
-			Gizmos.color = Color.blue;
-//			foreach (var corr in corridors) {
-//				Vector2 left = (Vector2)corr.p0;
-//				Vector2 right = (Vector2)corr.p1;
-//				Gizmos.DrawLine(left, right);
-//			}
 			Gizmos.color = Color.white;
 			foreach (var room in mainRooms) {
 				Gizmos.DrawWireCube(new Vector2((room.roomBase.x+room.width/2)+0.5f, (room.roomBase.y+room.height/2)+0.5f), new Vector2(1f, 1f));
 			}
-//			foreach (var corr in corridors) {
-//				Vector2 left = (Vector2)corr.p0;
-//				Vector2 right = (Vector2)corr.p1;
-//				//Gizmos.DrawLine(left, right);
-//				Vector2 size = new Vector2(3f, 3f);
-//				if (left.x != right.x) {
-//					size.x = Vector2.Distance(left, right);
-//				} else if (left.y != right.y) {
-//					size.y = Vector2.Distance(left, right);
-//				}
-//				Gizmos.DrawWireCube(midpoint(left, right), size);
-//			}
 		}
 	}
 	#endif
