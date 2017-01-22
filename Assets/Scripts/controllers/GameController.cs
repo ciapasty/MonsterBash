@@ -72,6 +72,7 @@ public class GameController : MonoBehaviour {
 		currRoomID = currTile.roomID.Value;
 		if (currTile != prevTile) {
 			if (currRoomID != prevRoomID && currTile.tClass != TileClass.door) {
+				// TEMP helper method
 				logRoomInfo();
 				prevRoomID = currRoomID;
 			}

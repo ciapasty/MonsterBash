@@ -244,7 +244,9 @@ public class MapGenerator : MonoBehaviour {
 		}
 
 		// Layout rooms in newly created tile map.
-		map = new Map(Mathf.CeilToInt(maxX)+1, Mathf.CeilToInt(maxY)+1, mainRooms);
+		map = new Map(Mathf.CeilToInt(maxX)+1, Mathf.CeilToInt(maxY)+1);
+
+		layOutRooms();
 
 		generateCorridors();
 
@@ -253,6 +255,32 @@ public class MapGenerator : MonoBehaviour {
 		assignRooms();
 
 		isFinished = true;
+	}
+
+	/// <summary>
+	/// Lays out main rooms on tile map
+	/// </summary>
+	void layOutRooms() {
+		foreach (var room in mainRooms) {
+			map.addRoom(room);
+			int roomBaseX = Mathf.CeilToInt(room.center.x)-(room.width/2);
+			int roomBaseY = Mathf.CeilToInt(room.center.y)-(room.height/2);
+			room.setBaseTileTo(map.getTileAt(roomBaseX,roomBaseY));
+			for (int x = 0; x < room.width; x++) {
+				for (int y = 0; y < room.height; y++) {
+					if (roomBaseX+x >= map.width || roomBaseX+x < 0 || roomBaseY+y >= map.height || roomBaseY+y < 0){
+						Debug.LogError("Tile ("+(roomBaseX+x)+", "+(roomBaseY+y)+") is out of map bounds ("+map.width+". "+map.height+")");
+					}
+					Tile tile = map.getTileAt(room.roomBase.x+x,room.roomBase.y+y);
+					tile.setRoom(room.id);
+					if (x == 0 || x == room.width-1 || y == 0 || y == room.height-1) {
+						tile.type = TileType.wall;
+					} else {
+						tile.type = TileType.floor;
+					}
+				}
+			}
+		}
 	}
 
 	// Corridor generation
@@ -279,7 +307,7 @@ public class MapGenerator : MonoBehaviour {
 							tile2 = map.getTileAt(r2.roomBase.x, midY);
 						}
 						if (!crossesRoomHorizontally(tile1, tile2))
-							layoutHorizontalCorridor(tile1, tile2);
+							layOutHorizontalCorridor(tile1, tile2);
 
 					} else if (isVerticalCorridor(r1, r2, midX)) {
 						if (midY < r1.roomBase.y+r1.height/2) {
@@ -290,7 +318,7 @@ public class MapGenerator : MonoBehaviour {
 							tile2 = map.getTileAt(midX, r2.roomBase.y);
 						}
 						if (!crossesRoomVertically(tile1, tile2))
-							layoutVerticallCorridor(tile1, tile2);
+							layOutVerticallCorridor(tile1, tile2);
 						
 					} else {
 						// TODO: Double segment corridors
@@ -320,12 +348,12 @@ public class MapGenerator : MonoBehaviour {
 								tile3 = map.getTileAt(r1.roomBase.x+r1.width-1, r1.roomBase.y+r1.height/2);
 							}
 							if (!(crossesRoomVertically(tile1, tile2) || crossesRoomHorizontally(tile2, tile3))) {
-								layoutHorizontalCorridor(tile3, tile2);
-								layoutVerticallCorridor(tile2, tile1);
+								layOutHorizontalCorridor(tile3, tile2);
+								layOutVerticallCorridor(tile2, tile1);
 							}
 						} else {
-							layoutHorizontalCorridor(tile3, tile2);
-							layoutVerticallCorridor(tile2, tile1);
+							layOutHorizontalCorridor(tile3, tile2);
+							layOutVerticallCorridor(tile2, tile1);
 						}
 					}
 				}
@@ -399,22 +427,22 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Layouts horizontal corridor.
+	/// Layouts horizontal corridor on tile map.
 	/// </summary>
 	/// <param name="t1">Start tile.</param>
 	/// <param name="t2">End tile.</param>
-	void layoutHorizontalCorridor(Tile t1, Tile t2) {
+	void layOutHorizontalCorridor(Tile t1, Tile t2) {
 		// TODO: change door status
 		if (t1.roomID != null && t1.roomID != -1) {
 			t1.tClass = TileClass.door;
 			Room r = map.getRoomWithID(t1.roomID.Value);
-			r.addDoor(t1);
+			r.addDoor(new Door(t1));
 		}
 
 		if (t2.roomID != null && t2.roomID != -1) {
 			t2.tClass = TileClass.door;
 			Room r = map.getRoomWithID(t2.roomID.Value);
-			r.addDoor(t2);
+			r.addDoor(new Door(t2));
 		}
 
 		int min, max;
@@ -431,22 +459,22 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Layouts verticall corridor.
+	/// Lays out verticall corridor on tile map.
 	/// </summary>
 	/// <param name="t1">Start tile.</param>
 	/// <param name="t2">End tile.</param>
-	void layoutVerticallCorridor(Tile t1, Tile t2) {
+	void layOutVerticallCorridor(Tile t1, Tile t2) {
 		// TODO: change door status
 		if (t1.roomID != null && t1.roomID != -1) {
 			t1.tClass = TileClass.door;
 			Room r = map.getRoomWithID(t1.roomID.Value);
-			r.addDoor(t1);
+			r.addDoor(new Door(t1));
 		}
 
 		if (t2.roomID != null && t2.roomID != -1) {
 			t2.tClass = TileClass.door;
 			Room r = map.getRoomWithID(t2.roomID.Value);
-			r.addDoor(t2);
+			r.addDoor(new Door(t2));
 		}
 
 		int min, max;

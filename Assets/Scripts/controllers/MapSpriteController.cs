@@ -23,13 +23,17 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 	public void setupSprites() {
-		createBasicGOs();
-		updateSprites();
+		createTileGOs();
+		updateTileSprites();
+
+		createDoorGOs();
+
+
 		placeBonfire();
 		areSpritesSetup = true;
 	}
 
-	void createBasicGOs() {
+	void createTileGOs() {
 		for (int x = 0; x < gc.map.width; x++) {
 			for (int y = 0; y < gc.map.height; y++) {
 				Tile tile = gc.map.getTileAt(x, y);
@@ -49,7 +53,7 @@ public class MapSpriteController : MonoBehaviour {
 		}
 	}
 
-	void updateSprites() {
+	void updateTileSprites() {
 		foreach (var go in go_tileMap.Keys) {
 			SpriteRenderer go_sr = go.GetComponent<SpriteRenderer>();
 
@@ -72,6 +76,10 @@ public class MapSpriteController : MonoBehaviour {
 				go_sr.color = Color.yellow;
 			}
 		}
+	}
+
+	void createDoorGOs() {
+		
 	}
 
 	void placeBonfire() {

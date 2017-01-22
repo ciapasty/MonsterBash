@@ -13,10 +13,9 @@ public class Map {
 
 	public Tile bonfire { get; protected set; }
 
-	public Map(int width, int height, List<Room> rooms) {
+	public Map(int width, int height) {
 		this.width = width;
 		this.height = height;
-		this.rooms = rooms;
 
 		tileMap = new Tile[width, height];
 		for (int x = 0; x < width; x++) {
@@ -25,9 +24,7 @@ public class Map {
 			}
 		}
 
-		if (rooms != null) {
-			layoutRooms();
-		}
+		rooms = new List<Room>();
 	}
 
 	public Tile getTileAt(int x, int y) {
@@ -36,6 +33,10 @@ public class Map {
 			return null;
 		}
 		return tileMap[x,y];
+	}
+
+	public void addRoom(Room room) {
+		rooms.Add(room);
 	}
 
 	public Room getRoomWithID(int id) {
@@ -50,27 +51,5 @@ public class Map {
 
 	public void setSpawnTileTo(Tile tile) {
 		bonfire = tile;
-	}
-
-	void layoutRooms() {
-		foreach (var room in rooms) {
-			int roomBaseX = Mathf.CeilToInt(room.center.x)-(room.width/2);
-			int roomBaseY = Mathf.CeilToInt(room.center.y)-(room.height/2);
-			room.setBaseTileTo(tileMap[roomBaseX,roomBaseY]);
-			for (int x = 0; x < room.width; x++) {
-				for (int y = 0; y < room.height; y++) {
-					if (roomBaseX+x >= width || roomBaseX+x < 0 || roomBaseY+y >= height || roomBaseY+y < 0){
-						Debug.LogError("Tile ("+(roomBaseX+x)+", "+(roomBaseY+y)+") is out of map bounds ("+width+". "+height+")");
-					}
-					Tile tile = getTileAt(room.roomBase.x+x,room.roomBase.y+y);
-					tile.setRoom(room.id);
-					if (x == 0 || x == room.width-1 || y == 0 || y == room.height-1) {
-						tile.type = TileType.wall;
-					} else {
-						tile.type = TileType.floor;
-					}
-				}
-			}
-		}
 	}
 }

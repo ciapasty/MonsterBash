@@ -9,7 +9,7 @@ public class Room {
 	public int width { get; protected set; }
 	public int height { get; protected set; }
 	public RoomType? type { get; protected set; }
-	public List<Tile> doors { get; protected set; }
+	public List<Door> doors { get; protected set; }
 
 	public Vector2 center;
 
@@ -19,7 +19,7 @@ public class Room {
 
 	public Room(int id, int width, int height, Vector2 center) {
 		connectedRooms = new List<Room>();
-		doors = new List<Tile>();
+		doors = new List<Door>();
 
 		this.id = id;
 		this.width = width;
@@ -37,7 +37,13 @@ public class Room {
 		this.type = type;
 	}
 
-	public void addDoor(Tile tile) {
-		doors.Add(tile);
+	public void addDoor(Door door) {
+		doors.Add(door);
+	}
+
+	public void lockDoors() {
+		foreach (var door in doors) {
+			door.lockDoor();
+		}
 	}
 }
