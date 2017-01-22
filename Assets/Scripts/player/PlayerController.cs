@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour {
 		if (Camera.main.GetComponent<CameraFollowPlayer>())
 			Camera.main.GetComponent<CameraFollowPlayer>().player = gameObject;
 		Vector3 cameraPos = gameObject.transform.position;
-		cameraPos.z = -10f;
+		cameraPos.z = Camera.main.transform.position.z;
 		Camera.main.transform.position = cameraPos;
 
 		animator = GetComponent<Animator>();

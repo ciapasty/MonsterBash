@@ -36,6 +36,7 @@ public class StaminaBarControl : MonoBehaviour {
 		panel_go.name = "stamina_panel_"+i;
 		panel_go.transform.SetParent(transform);
 		panel_go.transform.localScale = new Vector3(1f, 1f, 1f);
+		panel_go.transform.position = new Vector3(0f, 0f, 10f);
 		panels.Add(panel_go);
 	}
 }
