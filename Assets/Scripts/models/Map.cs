@@ -40,6 +40,10 @@ public class Map {
 	}
 
 	public Tile getTileAt(int x, int y) {
+//		if (x >= width || y >= height) {
+//			Debug.LogError("Tried to fetch tile: ("+x+", "+y+") in range: "+width+", "+height);
+//		}
+//		Debug.Log("Tried to fetch tile: ("+x+", "+y+") in range: "+width+", "+height);
 		return tileMap[x,y];
 	}
 
