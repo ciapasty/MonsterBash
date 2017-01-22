@@ -85,6 +85,7 @@ public class MapSpriteController : MonoBehaviour {
 				door_go.transform.position = new Vector2(door.tile.x+0.5f, door.tile.y+0.5f);
 				door_go.GetComponent<DoorController>().door = door;
 				door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
+				door.cbOnChanged(door);
 			}
 		}
 

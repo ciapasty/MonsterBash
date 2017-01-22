@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DoorOrientation { NS, WE }
+
 public class Door {
 
 	public Tile tile { get; protected set; }
+	public DoorOrientation orientation { get; protected set; }
 
 	private bool _isOpen = false;
 	public bool isOpen {
@@ -42,8 +45,9 @@ public class Door {
 	// Callback
 	public Action<Door> cbOnChanged;
 
-	public Door(Tile tile) {
+	public Door(Tile tile, DoorOrientation orientation) {
 		this.tile = tile;
+		this.orientation = orientation;
 	}
 
 	public void registerOnChangedCallback(Action<Door> callback) {

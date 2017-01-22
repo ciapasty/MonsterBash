@@ -436,13 +436,13 @@ public class MapGenerator : MonoBehaviour {
 		if (t1.roomID != null && t1.roomID != -1) {
 			t1.tClass = TileClass.door;
 			Room r = map.getRoomWithID(t1.roomID.Value);
-			r.addDoor(new Door(t1));
+			r.addDoor(new Door(t1, DoorOrientation.NS));
 		}
 
 		if (t2.roomID != null && t2.roomID != -1) {
 			t2.tClass = TileClass.door;
 			Room r = map.getRoomWithID(t2.roomID.Value);
-			r.addDoor(new Door(t2));
+			r.addDoor(new Door(t2, DoorOrientation.NS));
 		}
 
 		int min, max;
@@ -468,13 +468,13 @@ public class MapGenerator : MonoBehaviour {
 		if (t1.roomID != null && t1.roomID != -1) {
 			t1.tClass = TileClass.door;
 			Room r = map.getRoomWithID(t1.roomID.Value);
-			r.addDoor(new Door(t1));
+			r.addDoor(new Door(t1, DoorOrientation.WE));
 		}
 
 		if (t2.roomID != null && t2.roomID != -1) {
 			t2.tClass = TileClass.door;
 			Room r = map.getRoomWithID(t2.roomID.Value);
-			r.addDoor(new Door(t2));
+			r.addDoor(new Door(t2, DoorOrientation.WE));
 		}
 
 		int min, max;

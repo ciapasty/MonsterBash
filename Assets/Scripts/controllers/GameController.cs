@@ -21,7 +21,7 @@ public class GameController : MonoBehaviour {
 	int prevRoomID;
 	int currRoomID;
 
-	// TEMP
+	// TEMP - for door lock testing
 	float _timer = 0f;
 	float timer {
 		get { return _timer; }
@@ -72,7 +72,7 @@ public class GameController : MonoBehaviour {
 		if (player != null)
 			trackPlayer();
 
-		if (currRoomID > 0) {
+		if (currRoomID >= 0) {
 			if (timer > 0) {
 				timer -= Time.deltaTime;
 			}
@@ -93,7 +93,7 @@ public class GameController : MonoBehaviour {
 		currRoomID = currTile.roomID.Value;
 		if (currTile != prevTile) {
 			if (currRoomID != prevRoomID && currTile.tClass != TileClass.door) {
-				// TEMP
+				// TEMP - forr door lock testing
 				logRoomInfo();
 				if (currRoomID != -1) {
 					map.getRoomWithID(currRoomID).doorsLocked(true);
@@ -102,7 +102,6 @@ public class GameController : MonoBehaviour {
 				}
 				prevRoomID = currRoomID;
 			}
-			//Debug.Log("Moved to: ("+currTile.x+", "+currTile.y+")");
 			prevTile = currTile;
 		}
 	}
