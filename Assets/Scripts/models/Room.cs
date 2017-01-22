@@ -41,9 +41,9 @@ public class Room {
 		doors.Add(door);
 	}
 
-	public void lockDoors() {
+	public void doorsLocked(bool locked) {
 		foreach (var door in doors) {
-			door.lockDoor();
+			door.isLocked = locked;
 		}
 	}
 }

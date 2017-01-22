@@ -21,6 +21,21 @@ public class GameController : MonoBehaviour {
 	int prevRoomID;
 	int currRoomID;
 
+	// TEMP
+	float _timer = 0f;
+	float timer {
+		get { return _timer; }
+		set {
+			_timer = value;
+			if (timer <= 0) {
+				if (currRoomID != -1) {
+					map.getRoomWithID(currRoomID).doorsLocked(false);
+					Debug.Log("Unlocking doors in room "+currRoomID);
+				}
+			}
+		}
+	}
+
 	void OnEnable() {
 		if(Instance != null) {
 			Debug.LogError("There should never be two game controllers.");
@@ -46,7 +61,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Update() {
-		if (!mapSpriteController.areSpritesSetup) {
+		if (!mapSpriteController.areSpritesSetUp) {
 			if (mapGenerator.isFinished) {
 				map = mapGenerator.map;
 				mapSpriteController.setupSprites();
@@ -56,6 +71,12 @@ public class GameController : MonoBehaviour {
 		}
 		if (player != null)
 			trackPlayer();
+
+		if (currRoomID > 0) {
+			if (timer > 0) {
+				timer -= Time.deltaTime;
+			}
+		}
 	}
 
 	public void spawnPlayer() {
@@ -72,8 +93,13 @@ public class GameController : MonoBehaviour {
 		currRoomID = currTile.roomID.Value;
 		if (currTile != prevTile) {
 			if (currRoomID != prevRoomID && currTile.tClass != TileClass.door) {
-				// TEMP helper method
+				// TEMP
 				logRoomInfo();
+				if (currRoomID != -1) {
+					map.getRoomWithID(currRoomID).doorsLocked(true);
+					Debug.Log("Locking doors in room: "+currRoomID);
+					timer = 3f;
+				}
 				prevRoomID = currRoomID;
 			}
 			//Debug.Log("Moved to: ("+currTile.x+", "+currTile.y+")");

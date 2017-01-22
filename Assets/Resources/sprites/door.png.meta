@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: b87653a8ed7c64edb916d4256fbab9af
-timeCreated: 1485093662
+timeCreated: 1485114052
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,8 @@ TextureImporter:
     21300002: door_WE_open
     21300004: door_NS_closed
     21300006: door_NS_open
+    21300008: door_WE_locked
+    21300010: door_NS_locked
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -85,7 +87,7 @@ TextureImporter:
       name: door_WE_closed
       rect:
         serializedVersion: 2
-        x: 0
+        x: 24
         y: 24
         width: 24
         height: 24
@@ -98,7 +100,7 @@ TextureImporter:
       name: door_WE_open
       rect:
         serializedVersion: 2
-        x: 24
+        x: 48
         y: 24
         width: 24
         height: 24
@@ -111,7 +113,7 @@ TextureImporter:
       name: door_NS_closed
       rect:
         serializedVersion: 2
-        x: 0
+        x: 24
         y: 0
         width: 24
         height: 24
@@ -124,7 +126,33 @@ TextureImporter:
       name: door_NS_open
       rect:
         serializedVersion: 2
-        x: 24
+        x: 48
+        y: 0
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: door_WE_locked
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 24
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: door_NS_locked
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 0
         width: 24
         height: 24

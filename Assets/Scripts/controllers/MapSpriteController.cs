@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class MapSpriteController : MonoBehaviour {
 
-	public bool areSpritesSetup { get; protected set;}
+	public bool areSpritesSetUp { get; protected set;}
 
 	public GameObject wallPrefab;
 	public GameObject floorPrefab;
+	public GameObject doorPrefab;
 
 	GameController gc;
 
 	Dictionary<GameObject, Tile> go_tileMap;
 
 	void OnEnable() {
-		areSpritesSetup = false;
+		areSpritesSetUp = false;
 	}
 
 	void Start() {
@@ -23,17 +24,16 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 	public void setupSprites() {
-		createTileGOs();
+		createGOs();
 		updateTileSprites();
 
 		createDoorGOs();
 
-
 		placeBonfire();
-		areSpritesSetup = true;
+		areSpritesSetUp = true;
 	}
 
-	void createTileGOs() {
+	void createGOs() {
 		for (int x = 0; x < gc.map.width; x++) {
 			for (int y = 0; y < gc.map.height; y++) {
 				Tile tile = gc.map.getTileAt(x, y);
@@ -79,7 +79,15 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 	void createDoorGOs() {
-		
+		foreach (var room in gc.map.rooms) {
+			foreach (var door in room.doors) {
+				GameObject door_go = (GameObject)Instantiate(doorPrefab, transform.position, Quaternion.identity);
+				door_go.transform.position = new Vector2(door.tile.x+0.5f, door.tile.y+0.5f);
+				door_go.GetComponent<DoorController>().door = door;
+				door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
+			}
+		}
+
 	}
 
 	void placeBonfire() {
