@@ -27,19 +27,22 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void Update() {
-		foreach (var attk in attacks) {
-			if (attk.cooldown <= 0) {
-				if (Vector3.Distance(target.transform.position, transform.position) < attk.range ) {
-					if (attk as ProjectileAttack) {
-						Vector3 direction = (target.transform.position-transform.position);
-						(attk as ProjectileAttack).direction = direction/direction.magnitude;
+		if (attacks.Length > 0) {
+			foreach (var attk in attacks) {
+				if (attk.cooldown <= 0) {
+					if (Vector3.Distance(target.transform.position, transform.position) < attk.range) {
+						if (attk as ProjectileAttack) {
+							Vector3 direction = (target.transform.position-transform.position);
+							(attk as ProjectileAttack).direction = direction/direction.magnitude;
+						}
+						attk.execute();
 					}
-					attk.execute();
 				}
 			}
 		}
 
 		if (rigidbod.velocity.x != 0 || rigidbod.velocity.y != 0) {
+			GetComponent<SpriteRenderer>().flipX = !(rigidbod.velocity.x > 0);
 			animator.SetBool("isWalking", true);
 		} else {
 			animator.SetBool("isWalking", false);

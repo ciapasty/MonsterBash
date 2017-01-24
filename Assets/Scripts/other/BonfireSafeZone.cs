@@ -24,7 +24,7 @@ public class BonfireSafeZone : MonoBehaviour {
 		if (Vector3.Distance(player.transform.position, transform.position) <= 2) {
 			timer -= Time.deltaTime;
 			if (!atSafeZone) {
-				setEnemiesAndSpawnersAttackTo(false);
+				//setEnemiesAndSpawnersAttackTo(false);
 				atSafeZone = true;
 			}
 			if (timer < 0) {
@@ -43,7 +43,7 @@ public class BonfireSafeZone : MonoBehaviour {
 		} else {
 			if (atSafeZone) {
 				timer = sitDownTime;
-				setEnemiesAndSpawnersAttackTo(true);
+				//setEnemiesAndSpawnersAttackTo(true);
 				atSafeZone = false;
 			}
 		}

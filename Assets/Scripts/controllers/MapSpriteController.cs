@@ -82,6 +82,7 @@ public class MapSpriteController : MonoBehaviour {
 		foreach (var room in gc.map.rooms) {
 			foreach (var door in room.doors) {
 				GameObject door_go = (GameObject)Instantiate(doorPrefab, transform.position, Quaternion.identity);
+				door_go.transform.SetParent(this.transform);
 				door_go.transform.position = new Vector2(door.tile.x+0.5f, door.tile.y+0.5f);
 				door_go.GetComponent<DoorController>().door = door;
 				door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
