@@ -43,10 +43,10 @@ public class MoveTowardsTarget : MonoBehaviour {
 	}
 
 	void clampMovement() {
-		Vector2 maxXY = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+		Vector2 maxXY = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<Camera>().ViewportToWorldPoint(new Vector2(1, 1));
 		maxXY.x = maxXY.x-GetComponent<SpriteRenderer>().bounds.extents.x;
 		maxXY.y = maxXY.y-GetComponent<SpriteRenderer>().bounds.extents.y*2;
-		Vector2 minXY = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
+		Vector2 minXY = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<Camera>().ViewportToWorldPoint(new Vector2(0, 0));
 		minXY.x = minXY.x+GetComponent<SpriteRenderer>().bounds.extents.x;
 		Vector3 pos = transform.position;
 
