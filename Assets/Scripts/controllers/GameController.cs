@@ -20,8 +20,8 @@ public class GameController : MonoBehaviour {
 	// Player tracking
 	Tile prevTile;
 	Tile currTile;
-	int prevRoomID;
-	int currRoomID;
+	Area prevArea;
+	Area currArea;
 
 	// TEMP - for door lock testing
 	float _timer = 0f;
@@ -30,9 +30,9 @@ public class GameController : MonoBehaviour {
 		set {
 			_timer = value;
 			if (timer <= 0) {
-				if (currRoomID != -1) {
-					map.getRoomWithID(currRoomID).doorsLocked(false);
-					Debug.Log("Unlocking doors in room "+currRoomID);
+				if (currArea is Room) {
+					map.getRoomWithID(currArea.ID).lockDoors(false);
+					Debug.Log("Unlocking doors in room "+currArea.ID);
 					//cameraFollowPlayer.snapToRoom = false;
 				}
 			}
@@ -49,7 +49,7 @@ public class GameController : MonoBehaviour {
 	void Awake() {
 		mapGenerator = GetComponentInChildren<MapGenerator>();
 		mapSpriteController = GetComponentInChildren<MapSpriteController>();
-		cameraFollowPlayer = Camera.main.GetComponent<CameraFollowPlayer>();
+		cameraFollowPlayer = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CameraFollowPlayer>();
 	}
 
 	void Start() {
@@ -76,7 +76,7 @@ public class GameController : MonoBehaviour {
 		if (player != null)
 			trackPlayer();
 
-		if (currRoomID >= 0) {
+		if (currArea != null && currArea.ID >= 0) {
 			if (timer > 0) {
 				timer -= Time.deltaTime;
 			}
@@ -92,35 +92,64 @@ public class GameController : MonoBehaviour {
 		p_go.transform.position = new Vector3(map.bonfire.x-1, map.bonfire.y+1, 0);
 		player = p_go;
 		currTile = prevTile = map.getTileAt((int)(player.transform.position.x), (int)(player.transform.position.y));
-		currRoomID = prevRoomID = currTile.roomID.Value;
+		currArea = prevArea = currTile.room;
 		logRoomInfo();
 	}
 
 	void trackPlayer() {
 		currTile = map.getTileAt((int)(player.transform.position.x), (int)(player.transform.position.y));
-		currRoomID = currTile.roomID.Value;
 		if (currTile != prevTile) {
-			if (currRoomID != prevRoomID && currTile.tClass != TileClass.door) {
-				// TEMP - forr door lock testing
-				cameraFollowPlayer.room = map.getRoomWithID(currRoomID);
-				cameraFollowPlayer.snapToRoom = true;
-				logRoomInfo();
-				if (currRoomID != -1) {
-					map.getRoomWithID(currRoomID).doorsLocked(true);
-					Debug.Log("Locking doors in room: "+currRoomID);
-					timer = 3f;
+			//logTileInfo();
+			if (currTile.room != null && currTile.corridor != null) {
+				// Door
+				Debug.Log("Crossing door");
+			} 
+			if (currTile.room != null && currTile.corridor == null) {
+				// Entered Room
+				currArea = currTile.room;
+				if (!currArea.isDiscovered) {
+					currArea.isDiscovered = true;
+					mapSpriteController.revealTilesForAreaWithID(currArea.ID);
 				}
-				prevRoomID = currRoomID;
+				if (currArea.ID != prevArea.ID && currTile.tClass != TileClass.door) {
+					// TEMP - for door lock testing
+					cameraFollowPlayer.room = map.getRoomWithID(currArea.ID);
+					cameraFollowPlayer.snapToRoom = true;
+					logRoomInfo();
+					map.getRoomWithID(currArea.ID).lockDoors(true);
+					Debug.Log("Locking doors in room: "+currArea.ID);
+					timer = 3f;
+					prevArea = currArea;
+				}
+			} 
+			if (currTile.room == null && currTile.corridor != null) {
+				// Entered Corridor
+				currArea = currTile.corridor;
+				if (!currArea.isDiscovered) {
+					currArea.isDiscovered = true;
+					mapSpriteController.revealTilesForAreaWithID(currArea.ID);
+				}
+				if (currArea.ID != prevArea.ID) {
+					logRoomInfo();
+					prevArea = currArea;
+				}
+			} 
+			if (currTile.room == null && currTile.corridor == null) {
+				Debug.LogError("Player outside room or corridor??");
 			}
 			prevTile = currTile;
 		}
 	}
 
 	void logRoomInfo() {
-		if (currRoomID == -1) {
-			Debug.Log("Corridor");
+		if (currArea is Corridor) {
+			Debug.Log("Corridor: id "+currArea.ID+"; Discovered: "+currArea.isDiscovered);
 		} else {
-			Debug.Log("Room: id "+currRoomID+", room type "+map.getRoomWithID(currRoomID).type);
+			Debug.Log("Room: id "+currArea.ID+", room type "+map.getRoomWithID(currArea.ID).type+"; Discovered: "+currArea.isDiscovered);
 		}
+	}
+
+	void logTileInfo() {
+		Debug.Log("Current tile: ("+currTile.x+", "+currTile.y+"); Corridor: "+currTile.corridor+"; Room: "+currTile.room);
 	}
 }

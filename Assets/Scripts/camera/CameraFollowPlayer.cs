@@ -16,8 +16,8 @@ public class CameraFollowPlayer : MonoBehaviour {
 	Vector2 halfCameraView;
 
 	void Start() {
-		Vector2 cameraCenter = Camera.main.ViewportToWorldPoint(new Vector2(0.5f, 0.5f));
-		Vector2 cameraBase = Camera.main.ViewportToWorldPoint(new Vector2(0f, 0f));
+		Vector2 cameraCenter = GetComponent<Camera>().ViewportToWorldPoint(new Vector2(0.5f, 0.5f));
+		Vector2 cameraBase = GetComponent<Camera>().ViewportToWorldPoint(new Vector2(0f, 0f));
 		halfCameraView = cameraCenter-cameraBase;
 
 	}

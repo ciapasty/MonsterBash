@@ -10,11 +10,13 @@ public class ObjectSpawner : MonoBehaviour {
 	public bool spawnOnlyOnRight = false;
 	public float minimumDistanceFromPlayer = 2f;
 
+	private Camera playerCamera;
 	private Vector3 currCameraPos;
 	private Vector3 prevCameraPos;
 
 	void Start() {
-		currCameraPos = Camera.main.transform.position;
+		playerCamera = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<Camera>();
+		currCameraPos = GameObject.FindGameObjectWithTag("PlayerCamera").transform.position;
 		prevCameraPos = currCameraPos;
 	}
 
@@ -22,7 +24,7 @@ public class ObjectSpawner : MonoBehaviour {
 		if (delay > 0) {
 			delay -= Time.deltaTime;
 		} else {
-			currCameraPos = Camera.main.transform.position;
+			currCameraPos = playerCamera.transform.position;
 
 			if (Vector3.Distance(currCameraPos, prevCameraPos) > 0) {
 				GameObject go = (GameObject)Instantiate(prefabs[Random.Range(0, prefabs.Length)], getSpawnPosition(), Quaternion.identity);
@@ -65,14 +67,14 @@ public class ObjectSpawner : MonoBehaviour {
 				yCoord -= 0.1f;
 			}
 		}
-		return Camera.main.ViewportToWorldPoint(new Vector3(xCoord, yCoord, Mathf.Abs(Camera.main.transform.position.z)));
+		return playerCamera.ViewportToWorldPoint(new Vector3(xCoord, yCoord, Mathf.Abs(playerCamera.transform.position.z)));
 	}
 
 	Vector3 randomCoordsOutsideRightSideOfCameraView() {
-		return Camera.main.ViewportToWorldPoint(new Vector3(1.2f, Random.value, Mathf.Abs(Camera.main.transform.position.z)));
+		return playerCamera.ViewportToWorldPoint(new Vector3(1.2f, Random.value, Mathf.Abs(playerCamera.transform.position.z)));
 	}
 
 	Vector3 randomCoordsInsideCameraView() {
-		return Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f), Mathf.Abs(Camera.main.transform.position.z)));
+		return playerCamera.ViewportToWorldPoint(new Vector3(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f), Mathf.Abs(playerCamera.transform.position.z)));
 	}
 }

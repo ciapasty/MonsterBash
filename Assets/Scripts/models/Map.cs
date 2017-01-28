@@ -9,7 +9,9 @@ public class Map {
 	public int height { get; protected set; }
 
 	Tile[,] tileMap;
+
 	public List<Room> rooms { get; protected set; }
+	public List<Corridor> corridors { get; protected set; }
 
 	public Tile bonfire { get; protected set; }
 
@@ -25,6 +27,7 @@ public class Map {
 		}
 
 		rooms = new List<Room>();
+		corridors = new List<Corridor>();
 	}
 
 	public Tile getTileAt(int x, int y) {
@@ -39,12 +42,26 @@ public class Map {
 		rooms.Add(room);
 	}
 
-	public Room getRoomWithID(int id) {
+	public void addCorridor(Corridor corridor) {
+		corridors.Add(corridor);
+	}
+
+	public Room getRoomWithID(int ID) {
 		Room room;
 		for (int i = 0; i < rooms.Count; i++) {
 			room = rooms[i];
-			if (room.id == id)
+			if (room.ID == ID)
 				return room;
+		}
+		return null;
+	}
+
+	public Corridor getCorridorWithID(int ID) {
+		Corridor corridor;
+		for (int i = 0; i < corridors.Count; i++) {
+			corridor = corridors[i];
+			if (corridor.ID == ID)
+				return corridor;
 		}
 		return null;
 	}

@@ -45,6 +45,7 @@ public class MapGenerator : MonoBehaviour {
 	private List<LineSegment> m_delaunayTriangulation;
 	private List<LineSegment> m_extendedTree;
 
+	// Corridors
 	private List<LineSegment> corridors;
 
 	// World
@@ -237,6 +238,7 @@ public class MapGenerator : MonoBehaviour {
 		}
 
 		removeRoomGOs();
+		// Regenerate map if there are not enough single entrance rooms for bonfire and exit
 		if (singleEntranceRooms.Count < 2) {
 			Debug.Log("Not enough single entrance rooms! Regenerating!");
 			startMapCreation();
@@ -272,7 +274,7 @@ public class MapGenerator : MonoBehaviour {
 						Debug.LogError("Tile ("+(roomBaseX+x)+", "+(roomBaseY+y)+") is out of map bounds ("+map.width+". "+map.height+")");
 					}
 					Tile tile = map.getTileAt(room.roomBase.x+x,room.roomBase.y+y);
-					tile.setRoom(room.id);
+					tile.setRoom(room);
 					if (x == 0 || x == room.width-1 || y == 0 || y == room.height-1) {
 						tile.type = TileType.wall;
 					} else {
@@ -291,10 +293,14 @@ public class MapGenerator : MonoBehaviour {
 	void generateCorridors() {
 		List<Room> done = new List<Room>();
 		Tile tile1, tile2, tile3;
+		Corridor corridor;
+		int corridorID = roomCount;
 
 		foreach (var r1 in map.rooms) {
 			foreach (var r2 in r1.connectedRooms) {
 				if (!done.Contains(r2)) {
+					corridor = new Corridor(corridorID);
+
 					int midY = ((r1.roomBase.y+(r1.height/2))+(r2.roomBase.y+(r2.height/2)))/2;
 					int midX = ((r1.roomBase.x+(r1.width/2))+(r2.roomBase.x+(r2.width/2)))/2;
 
@@ -307,7 +313,7 @@ public class MapGenerator : MonoBehaviour {
 							tile2 = map.getTileAt(r2.roomBase.x, midY);
 						}
 						if (!crossesRoomHorizontally(tile1, tile2))
-							layOutHorizontalCorridor(tile1, tile2);
+							layOutHorizontalCorridor(tile1, tile2, corridor);
 
 					} else if (isVerticalCorridor(r1, r2, midX)) {
 						if (midY < r1.roomBase.y+r1.height/2) {
@@ -318,7 +324,7 @@ public class MapGenerator : MonoBehaviour {
 							tile2 = map.getTileAt(midX, r2.roomBase.y);
 						}
 						if (!crossesRoomVertically(tile1, tile2))
-							layOutVerticallCorridor(tile1, tile2);
+							layOutVerticallCorridor(tile1, tile2, corridor);
 						
 					} else {
 						// TODO: Double segment corridors
@@ -348,14 +354,15 @@ public class MapGenerator : MonoBehaviour {
 								tile3 = map.getTileAt(r1.roomBase.x+r1.width-1, r1.roomBase.y+r1.height/2);
 							}
 							if (!(crossesRoomVertically(tile1, tile2) || crossesRoomHorizontally(tile2, tile3))) {
-								layOutHorizontalCorridor(tile3, tile2);
-								layOutVerticallCorridor(tile2, tile1);
+								layOutHorizontalCorridor(tile3, tile2, corridor);
+								layOutVerticallCorridor(tile2, tile1, corridor);
 							}
 						} else {
-							layOutHorizontalCorridor(tile3, tile2);
-							layOutVerticallCorridor(tile2, tile1);
+							layOutHorizontalCorridor(tile3, tile2, corridor);
+							layOutVerticallCorridor(tile2, tile1, corridor);
 						}
 					}
+					corridorID += 1;
 				}
 			}
 			done.Add(r1);
@@ -431,19 +438,27 @@ public class MapGenerator : MonoBehaviour {
 	/// </summary>
 	/// <param name="t1">Start tile.</param>
 	/// <param name="t2">End tile.</param>
-	void layOutHorizontalCorridor(Tile t1, Tile t2) {
-		// TODO: change door status
-		if (t1.roomID != null && t1.roomID != -1) {
+	/// <param name="corridor">Corridor</param>> 
+	void layOutHorizontalCorridor(Tile t1, Tile t2, Corridor corridor) {
+		if (t1.room != null) {
+			// TODO: change door status
 			t1.tClass = TileClass.door;
-			Room r = map.getRoomWithID(t1.roomID.Value);
+			Room r = map.getRoomWithID(t1.room.ID);
 			r.addDoor(new Door(t1, DoorOrientation.NS));
+			map.getTileAt(t1.x, t1.y+1).setCorridor(corridor);
+			map.getTileAt(t1.x, t1.y-1).setCorridor(corridor);
 		}
 
-		if (t2.roomID != null && t2.roomID != -1) {
+		if (t2.room != null) {
+			// TODO: change door status
 			t2.tClass = TileClass.door;
-			Room r = map.getRoomWithID(t2.roomID.Value);
+			Room r = map.getRoomWithID(t2.room.ID);
 			r.addDoor(new Door(t2, DoorOrientation.NS));
+			map.getTileAt(t2.x, t2.y+1).setCorridor(corridor);
+			map.getTileAt(t2.x, t2.y-1).setCorridor(corridor);
 		}
+
+		map.addCorridor(corridor);
 
 		int min, max;
 		min = (t1.x > t2.x) ? t2.x : t1.x;
@@ -453,8 +468,8 @@ public class MapGenerator : MonoBehaviour {
 		for (int i = min; i <= max; i++) {
 			t = map.getTileAt(i, t1.y);
 			t.type = TileType.floor;
-			if (!t.roomID.HasValue)
-				t.setRoom(-1);
+			if (t.corridor == null)
+				t.setCorridor(corridor);
 		}
 	}
 
@@ -463,19 +478,27 @@ public class MapGenerator : MonoBehaviour {
 	/// </summary>
 	/// <param name="t1">Start tile.</param>
 	/// <param name="t2">End tile.</param>
-	void layOutVerticallCorridor(Tile t1, Tile t2) {
-		// TODO: change door status
-		if (t1.roomID != null && t1.roomID != -1) {
+	/// <param name="corridor">Corridor</param>
+	void layOutVerticallCorridor(Tile t1, Tile t2, Corridor corridor) {
+		if (t1.room != null) {
+			// TODO: change door status
 			t1.tClass = TileClass.door;
-			Room r = map.getRoomWithID(t1.roomID.Value);
+			Room r = map.getRoomWithID(t1.room.ID);
 			r.addDoor(new Door(t1, DoorOrientation.WE));
+			map.getTileAt(t1.x+1, t1.y).setCorridor(corridor);
+			map.getTileAt(t1.x-1, t1.y).setCorridor(corridor);
 		}
 
-		if (t2.roomID != null && t2.roomID != -1) {
+		if (t2.room != null) {
+			// TODO: change door status
 			t2.tClass = TileClass.door;
-			Room r = map.getRoomWithID(t2.roomID.Value);
+			Room r = map.getRoomWithID(t2.room.ID);
 			r.addDoor(new Door(t2, DoorOrientation.WE));
+			map.getTileAt(t2.x+1, t2.y).setCorridor(corridor);
+			map.getTileAt(t2.x-1, t2.y).setCorridor(corridor);
 		}
+
+		map.addCorridor(corridor);
 
 		int min, max;
 		min = (t1.y > t2.y) ? t2.y : t1.y;
@@ -485,8 +508,8 @@ public class MapGenerator : MonoBehaviour {
 		for (int i = min; i <= max; i++) {
 			t = map.getTileAt(t1.x, i);
 			t.type = TileType.floor;
-			if (!t.roomID.HasValue)
-				t.setRoom(-1);
+			if (t.corridor == null)
+				t.setCorridor(corridor);
 		}
 	}
 
@@ -497,15 +520,15 @@ public class MapGenerator : MonoBehaviour {
 		for (int x = 0; x < map.width; x++) {
 			for (int y = 0; y < map.height; y++) {
 				Tile t = map.getTileAt(x, y);
-				if (t.roomID == -1 && t.type == TileType.floor) {
-					setCorridorWall(map.getTileAt(x+1, y));
-					setCorridorWall(map.getTileAt(x-1, y));
-					setCorridorWall(map.getTileAt(x, y+1));
-					setCorridorWall(map.getTileAt(x, y-1));
-					setCorridorWall(map.getTileAt(x+1, y+1));
-					setCorridorWall(map.getTileAt(x+1, y-1));
-					setCorridorWall(map.getTileAt(x-1, y+1));
-					setCorridorWall(map.getTileAt(x-1, y-1));
+				if (t.corridor != null && t.type == TileType.floor) {
+					setCorridorWall(map.getTileAt(x+1, y), t.corridor);
+					setCorridorWall(map.getTileAt(x-1, y), t.corridor);
+					setCorridorWall(map.getTileAt(x, y+1), t.corridor);
+					setCorridorWall(map.getTileAt(x, y-1), t.corridor);
+					setCorridorWall(map.getTileAt(x+1, y+1), t.corridor);
+					setCorridorWall(map.getTileAt(x+1, y-1), t.corridor);
+					setCorridorWall(map.getTileAt(x-1, y+1), t.corridor);
+					setCorridorWall(map.getTileAt(x-1, y-1), t.corridor);
 				}
 			}
 		}
@@ -515,13 +538,16 @@ public class MapGenerator : MonoBehaviour {
 	/// Sets tile to corridor wall if empty.
 	/// </summary>
 	/// <param name="tile">Tile.</param>
-	void setCorridorWall(Tile tile) {
-		if (tile.type == TileType.empty && !tile.roomID.HasValue) {
-			tile.setRoom(-1);
+	void setCorridorWall(Tile tile, Corridor corridor) {
+		if (tile.type == TileType.empty) {
+			tile.setCorridor(corridor);
 			tile.type = TileType.wall;
 		}
 	}
 
+	/// <summary>
+	/// Assigns start and exit zones to rooms with one entrance.
+	/// </summary>
 	void assignRooms() {
 		bool hasBonfire = false;
 		bool hasExit = false;

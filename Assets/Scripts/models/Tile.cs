@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 // To be extended
@@ -13,15 +14,20 @@ public class Tile {
 
 	public TileType type;
 	public TileClass tClass;
-	public int? roomID { get; protected set; }
+	public Room room { get; protected set; }
+	public Corridor corridor { get; protected set; }
 
 	public Tile(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public void setRoom(int? roomID) {
-		this.roomID = roomID;
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+
+	public void setCorridor(Corridor corridor) {
+		this.corridor = corridor;
 	}
 
 }

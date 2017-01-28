@@ -5,6 +5,8 @@ public class PlayerController : MonoBehaviour {
 
 	private Animator animator;
 	private Rigidbody2D rigidbod;
+	private GameObject playerCamera;
+
 	private PlayerHealth playerHealth;
 
 	private MeleeAttack meleeAttack;
@@ -73,11 +75,12 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Start () {
-		if (Camera.main.GetComponent<CameraFollowPlayer>())
-			Camera.main.GetComponent<CameraFollowPlayer>().player = gameObject;
+		playerCamera = GameObject.FindGameObjectWithTag("PlayerCamera");
+		if (playerCamera.GetComponent<CameraFollowPlayer>())
+			playerCamera.GetComponent<CameraFollowPlayer>().player = gameObject;
 		Vector3 cameraPos = gameObject.transform.position;
-		cameraPos.z = Camera.main.transform.position.z;
-		Camera.main.transform.position = cameraPos;
+		cameraPos.z = playerCamera.transform.position.z;
+		playerCamera.transform.position = cameraPos;
 
 		animator = GetComponent<Animator>();
 		rigidbod = GetComponent<Rigidbody2D>();
@@ -293,10 +296,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void clampMovement() {
-		Vector2 maxXY = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+		Vector2 maxXY = playerCamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector2(1, 1));
 		maxXY.x = maxXY.x-GetComponent<SpriteRenderer>().bounds.extents.x;
 		maxXY.y = maxXY.y-GetComponent<SpriteRenderer>().bounds.extents.y*2;
-		Vector2 minXY = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
+		Vector2 minXY = playerCamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector2(0, 0));
 		minXY.x = minXY.x+GetComponent<SpriteRenderer>().bounds.extents.x;
 		Vector3 pos = transform.position;
 

@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour {
 			}
 		}
 
-		if (rigidbod.velocity.x != 0 || rigidbod.velocity.y != 0) {
+		if (Mathf.Abs(rigidbod.velocity.x) > 0.1f || Mathf.Abs(rigidbod.velocity.y) > 0.1f) {
 			GetComponent<SpriteRenderer>().flipX = !(rigidbod.velocity.x > 0);
 			animator.SetBool("isWalking", true);
 		} else {

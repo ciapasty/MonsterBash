@@ -18,7 +18,7 @@ public class DoorController : MonoBehaviour {
 		if (!door.isLocked) {
 			if (!door.isOpen) {
 				door.isOpen = true;
-				Camera.main.GetComponent<CameraFollowPlayer>().snapToRoom = false;
+				GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CameraFollowPlayer>().snapToRoom = false;
 			}
 		} else {
 			Debug.Log("Door locked!");

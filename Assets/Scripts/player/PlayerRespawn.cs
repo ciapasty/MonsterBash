@@ -29,8 +29,9 @@ public class PlayerRespawn : MonoBehaviour {
 			GameObject body_go = (GameObject)Instantiate(playerBodyPrefab, transform.position, Quaternion.identity);
 			body_go.GetComponent<SpriteRenderer>().flipX = gameObject.GetComponent<SpriteRenderer>().flipX;
 			// Move player to starting location
+			// TODO: Fix to move to bonfire location
 			transform.position = startPosition;
-			Camera.main.transform.position = new Vector3(0,0,-2f);
+			GameObject.FindGameObjectWithTag("PlayerCamera").transform.position = new Vector3(0,0,-2f);
 			GameObject.FindGameObjectWithTag("UI_YouDied").GetComponent<UnityEngine.UI.Text>().enabled = false;
 			timer = restartTime;
 
