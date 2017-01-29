@@ -102,7 +102,9 @@ public class GameController : MonoBehaviour {
 			//logTileInfo();
 			if (currTile.room != null && currTile.corridor != null) {
 				// Door
-				Debug.Log("Crossing door");
+				Debug.Log("Crossing door. "+"Room: "+currTile.room.ID+"; Corridor: "+currTile.corridor.ID);
+				if (!currTile.corridor.isDiscovered)
+					mapSpriteController.revealTilesForAreaWithID(currTile.corridor.ID);
 			} 
 			if (currTile.room != null && currTile.corridor == null) {
 				// Entered Room
@@ -127,7 +129,7 @@ public class GameController : MonoBehaviour {
 				currArea = currTile.corridor;
 				if (!currArea.isDiscovered) {
 					currArea.isDiscovered = true;
-					mapSpriteController.revealTilesForAreaWithID(currArea.ID);
+					//mapSpriteController.revealTilesForAreaWithID(currArea.ID);
 				}
 				if (currArea.ID != prevArea.ID) {
 					logRoomInfo();
