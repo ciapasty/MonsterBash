@@ -12,6 +12,7 @@ public class MapSpriteController : MonoBehaviour {
 	public GameObject fogPrefab;
 
 	GameController gc;
+	MiniMapControl miniMapControl;
 
 	Dictionary<Tile, GameObject> go_tileMap;
 	Dictionary<GameObject, GameObject> go_fogMap;
@@ -22,6 +23,7 @@ public class MapSpriteController : MonoBehaviour {
 
 	void Start() {
 		gc = GameController.Instance;
+		miniMapControl = FindObjectOfType<MiniMapControl>();
 		go_tileMap = new Dictionary<Tile, GameObject>();
 		go_fogMap = new Dictionary<GameObject, GameObject>();
 	}
@@ -161,6 +163,6 @@ public class MapSpriteController : MonoBehaviour {
 
 	public void revealTile(Tile tile) {
 		go_fogMap[go_tileMap[tile]].GetComponent<SpriteRenderer>().enabled = false;
-		//FindObjectOfType<MiniMapControl>().updateTile(tile);
+		miniMapControl.updateTile(tile);
 	}
 }

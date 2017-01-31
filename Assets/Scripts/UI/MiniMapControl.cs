@@ -88,13 +88,13 @@ public class MiniMapControl : MonoBehaviour {
 			switch (tile.type) {
 			case TileType.wall:
 				panelImage.color = wallColor; 
-				break;
+				return;
 			case TileType.floor:
 				panelImage.color = floorColor;
-				break;
+				return;
 			case TileType.empty:
 				panelImage.color = seeThrough;
-				break;
+				return;
 			}
 		}
 	}

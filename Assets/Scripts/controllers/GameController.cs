@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour {
 
 	MapGenerator mapGenerator;
 	MapSpriteController mapSpriteController;
+	MiniMapControl miniMapControl;
 
 	CameraFollowPlayer cameraFollowPlayer;
 
@@ -53,6 +54,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Start() {
+		miniMapControl = FindObjectOfType<MiniMapControl>();
 		/// 1. Generate Map
 		mapGenerator.startMapCreation();
 
@@ -69,7 +71,7 @@ public class GameController : MonoBehaviour {
 			if (mapGenerator.isFinished) {
 				map = mapGenerator.map;
 				mapSpriteController.setupSprites();
-				//FindObjectOfType<MiniMapControl>().setupMiniMap();
+				FindObjectOfType<MiniMapControl>().setupMiniMap();
 				Time.timeScale = 1f;
 				spawnPlayer();
 			}
@@ -142,8 +144,8 @@ public class GameController : MonoBehaviour {
 			if (currTile.room == null && currTile.corridor == null) {
 				Debug.LogError("Player outside room or corridor??");
 			}
-			//FindObjectOfType<MiniMapControl>().updateTile(currTile);
-			//FindObjectOfType<MiniMapControl>().updateTile(prevTile);
+			miniMapControl.updateTile(currTile);
+			miniMapControl.updateTile(prevTile);
 			prevTile = currTile;
 		}
 	}
