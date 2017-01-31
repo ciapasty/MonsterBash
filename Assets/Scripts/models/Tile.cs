@@ -12,6 +12,22 @@ public class Tile {
 	public int x { get; protected set; }
 	public int y { get; protected set; }
 
+	protected bool _isDiscovered = false;
+	public bool isDiscovered { 
+		get {
+			return _isDiscovered;
+		}
+		set {
+			if (value && !_isDiscovered) {
+				_isDiscovered = value;
+				if (cbIsDiscovered != null)
+					cbIsDiscovered(this);
+			}
+		}
+	}
+
+	Action<Tile> cbIsDiscovered;
+
 	public TileType type;
 	public TileClass tClass;
 	public Room room { get; protected set; }
@@ -28,6 +44,14 @@ public class Tile {
 
 	public void setCorridor(Corridor corridor) {
 		this.corridor = corridor;
+	}
+
+	public void registerBeenDiscoveredCallback(Action<Tile> callback) {
+		cbIsDiscovered += callback;
+	}
+
+	public void unregisterBeenDiscoveredCallback(Action<Tile> callback) {
+		cbIsDiscovered -= callback;
 	}
 
 }

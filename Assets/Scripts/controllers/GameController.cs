@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour {
 
 	// Player tracking
 	Tile prevTile;
-	Tile currTile;
+	public Tile currTile { get; protected set; }
 	Area prevArea;
 	Area currArea;
 
@@ -69,6 +69,7 @@ public class GameController : MonoBehaviour {
 			if (mapGenerator.isFinished) {
 				map = mapGenerator.map;
 				mapSpriteController.setupSprites();
+				//FindObjectOfType<MiniMapControl>().setupMiniMap();
 				Time.timeScale = 1f;
 				spawnPlayer();
 			}
@@ -103,15 +104,17 @@ public class GameController : MonoBehaviour {
 			if (currTile.room != null && currTile.corridor != null) {
 				// Door
 				Debug.Log("Crossing door. "+"Room: "+currTile.room.ID+"; Corridor: "+currTile.corridor.ID);
-				if (!currTile.corridor.isDiscovered)
-					mapSpriteController.revealTilesForAreaWithID(currTile.corridor.ID);
+				if (!currTile.corridor.isDiscovered) {
+					StartCoroutine(mapSpriteController.revealTilesForAreaWithID(currTile.corridor.ID, currTile));
+				}
+				
 			} 
 			if (currTile.room != null && currTile.corridor == null) {
 				// Entered Room
 				currArea = currTile.room;
 				if (!currArea.isDiscovered) {
 					currArea.isDiscovered = true;
-					mapSpriteController.revealTilesForAreaWithID(currArea.ID);
+					StartCoroutine(mapSpriteController.revealTilesForAreaWithID(currArea.ID, currTile));
 				}
 				if (currArea.ID != prevArea.ID && currTile.tClass != TileClass.door) {
 					// TEMP - for door lock testing
@@ -129,7 +132,7 @@ public class GameController : MonoBehaviour {
 				currArea = currTile.corridor;
 				if (!currArea.isDiscovered) {
 					currArea.isDiscovered = true;
-					//mapSpriteController.revealTilesForAreaWithID(currArea.ID);
+					StartCoroutine(mapSpriteController.revealTilesForAreaWithID(currArea.ID, currTile));
 				}
 				if (currArea.ID != prevArea.ID) {
 					logRoomInfo();
@@ -139,6 +142,8 @@ public class GameController : MonoBehaviour {
 			if (currTile.room == null && currTile.corridor == null) {
 				Debug.LogError("Player outside room or corridor??");
 			}
+			//FindObjectOfType<MiniMapControl>().updateTile(currTile);
+			//FindObjectOfType<MiniMapControl>().updateTile(prevTile);
 			prevTile = currTile;
 		}
 	}

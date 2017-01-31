@@ -14,24 +14,12 @@ public class Area {
 		set {
 			if (value && !_isDiscovered) {
 				_isDiscovered = value;
-				if (cbIsDiscovered != null)
-					cbIsDiscovered(this);
 			}
 		}
 	}
-
-	Action<Area> cbIsDiscovered;
-
+		
 	public Area(int ID) {
-		this.ID = ID;
-	}
-
-	public void registerBeenDiscoveredCallback(Action<Area> callback) {
-		cbIsDiscovered += callback;
-	}
-
-	public void unregisterBeenDiscoveredCallback(Action<Area> callback) {
-		cbIsDiscovered -= callback;
+		this.ID += ID;
 	}
 }
 

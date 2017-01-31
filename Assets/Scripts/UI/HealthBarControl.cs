@@ -48,6 +48,7 @@ public class HealthBarControl : MonoBehaviour {
 		GameObject panel_go = (GameObject)Instantiate(heartPanel, transform);
 		panel_go.name = "heart_panel_"+i;
 		panel_go.transform.SetParent(transform);
+		panel_go.transform.position = new Vector3(panel_go.transform.position.x, panel_go.transform.position.y, 0);
 		panel_go.transform.localScale = new Vector3(1f, 1f, 1f);
 		panels.Add(panel_go);
 	}

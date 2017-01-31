@@ -13,7 +13,7 @@ public class MapSpriteController : MonoBehaviour {
 
 	GameController gc;
 
-	Dictionary<GameObject, Tile> go_tileMap;
+	Dictionary<Tile, GameObject> go_tileMap;
 	Dictionary<GameObject, GameObject> go_fogMap;
 
 	void OnEnable() {
@@ -22,7 +22,7 @@ public class MapSpriteController : MonoBehaviour {
 
 	void Start() {
 		gc = GameController.Instance;
-		go_tileMap = new Dictionary<GameObject, Tile>();
+		go_tileMap = new Dictionary<Tile, GameObject>();
 		go_fogMap = new Dictionary<GameObject, GameObject>();
 	}
 
@@ -45,7 +45,7 @@ public class MapSpriteController : MonoBehaviour {
 					GameObject go = (GameObject)Instantiate(floorPrefab, transform.position, Quaternion.identity);
 					go.transform.SetParent(this.transform);
 					go.transform.position = new Vector2(x+0.5f, y+0.5f);
-					go_tileMap.Add(go, tile);
+					go_tileMap.Add(tile, go);
 					// Fog of war GameObject
 					GameObject fog_go = (GameObject)Instantiate(fogPrefab, transform.position, Quaternion.identity);
 					fog_go.transform.SetParent(go.transform);
@@ -57,22 +57,22 @@ public class MapSpriteController : MonoBehaviour {
 					GameObject go = (GameObject)Instantiate(wallPrefab, transform.position, Quaternion.identity);
 					go.transform.SetParent(this.transform);
 					go.transform.position = new Vector2(x+0.5f, y+0.5f);
-					go_tileMap.Add(go, tile);
+					go_tileMap.Add(tile, go);
 					// Fog of war GameObject
 					GameObject fog_go = (GameObject)Instantiate(fogPrefab, transform.position, Quaternion.identity);
 					fog_go.transform.SetParent(go.transform);
 					fog_go.transform.position = go.transform.position;
 					go_fogMap.Add(go, fog_go);
 				}
+				tile.registerBeenDiscoveredCallback(revealTile);
 			}
 		}
 	}
 
 	void updateTileSprites() {
-		foreach (var go in go_tileMap.Keys) {
-			SpriteRenderer go_sr = go.GetComponent<SpriteRenderer>();
+		foreach (var tile in go_tileMap.Keys) {
+			SpriteRenderer go_sr = go_tileMap[tile].GetComponent<SpriteRenderer>();
 
-			Tile tile = go_tileMap[go];
 			if (tile.room != null) {
 				switch (gc.map.getRoomWithID(tile.room.ID).type) {
 				case RoomType.exit:
@@ -113,12 +113,54 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 
-	public void revealTilesForAreaWithID(int ID) {
-		foreach (var go in go_tileMap.Keys) {
-			if ((go_tileMap[go].room != null && go_tileMap[go].room.ID == ID) || 
-				(go_tileMap[go].corridor != null && go_tileMap[go].corridor.ID == ID)) {
-				go_fogMap[go].GetComponent<SpriteRenderer>().enabled = false;
-			}
+	public IEnumerator revealTilesForAreaWithID(int ID, Tile startTile) {
+		Area tileArea;
+		if (startTile.room != null && startTile.room.ID == ID) {
+			tileArea = startTile.room;
+		} else if (startTile.corridor != null && startTile.corridor.ID == ID) {
+			tileArea = startTile.corridor;
+		} else {
+			Debug.LogError("Tile: ("+startTile.x+", "+startTile.y+") does not have Room nor Corridor!");
+			tileArea = null;
+			yield return null;
 		}
+
+		revealArea(tileArea, startTile);
+	}
+
+	void revealArea(Area area, Tile tile) {
+		if (tile == null)
+			return;
+
+		if (tile.isDiscovered || tile.type == TileType.empty)
+			return;
+
+		Area tileArea;
+		if (area is Room && tile.room != null) {
+			tileArea = tile.room;
+		} else if (area is Corridor && tile.corridor != null) {
+			tileArea = tile.corridor;
+		} else {
+			return;
+		}
+
+		if (tileArea.ID != area.ID)
+			return;
+
+		tile.isDiscovered = true;
+
+		revealArea(area, gc.map.getTileAt(tile.x+1, tile.y));
+		revealArea(area, gc.map.getTileAt(tile.x-1, tile.y));
+		revealArea(area, gc.map.getTileAt(tile.x, tile.y+1));
+		revealArea(area, gc.map.getTileAt(tile.x, tile.y-1));
+		revealArea(area, gc.map.getTileAt(tile.x+1, tile.y+1));
+		revealArea(area, gc.map.getTileAt(tile.x+1, tile.y-1));
+		revealArea(area, gc.map.getTileAt(tile.x-1, tile.y+1));
+		revealArea(area, gc.map.getTileAt(tile.x-1, tile.y+1));
+	}
+
+	public void revealTile(Tile tile) {
+		go_fogMap[go_tileMap[tile]].GetComponent<SpriteRenderer>().enabled = false;
+		//FindObjectOfType<MiniMapControl>().updateTile(tile);
 	}
 }
