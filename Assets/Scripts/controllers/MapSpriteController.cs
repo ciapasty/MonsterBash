@@ -163,6 +163,6 @@ public class MapSpriteController : MonoBehaviour {
 
 	public void revealTile(Tile tile) {
 		go_fogMap[go_tileMap[tile]].GetComponent<SpriteRenderer>().enabled = false;
-		miniMapControl.updateTile(tile);
+		//miniMapControl.updateTile(tile);
 	}
 }
