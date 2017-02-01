@@ -12,6 +12,7 @@ public class Room : Area {
 	public Tile roomBase { get; protected set; }
 	public List<Door> doors { get; protected set; }
 	public List<Room> connectedRooms;
+	public List<Enemy> enemies { get; protected set; }
 
 	public RoomType? type { get; protected set; }
 
@@ -23,6 +24,7 @@ public class Room : Area {
 
 		doors = new List<Door>();
 		connectedRooms = new List<Room>();
+		enemies = new List<Enemy>();
 	}
 
 	public void setBaseTileTo(Tile tile) {
@@ -35,6 +37,10 @@ public class Room : Area {
 
 	public void addDoor(Door door) {
 		doors.Add(door);
+	}
+
+	public void addEnemy(Enemy enemy) {
+		enemies.Add(enemy);
 	}
 
 	public void lockDoors(bool locked) {

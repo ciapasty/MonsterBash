@@ -12,6 +12,7 @@ public class Tile {
 	public int x { get; protected set; }
 	public int y { get; protected set; }
 
+	public bool hasContent = false;
 	protected bool _isDiscovered = false;
 	public bool isDiscovered { 
 		get {

@@ -12,7 +12,7 @@ public class MapSpriteController : MonoBehaviour {
 	public GameObject fogPrefab;
 
 	GameController gc;
-	MiniMapControl miniMapControl;
+	//MiniMapControl miniMapControl;
 
 	Dictionary<Tile, GameObject> go_tileMap;
 	Dictionary<GameObject, GameObject> go_fogMap;
@@ -23,22 +23,20 @@ public class MapSpriteController : MonoBehaviour {
 
 	void Start() {
 		gc = GameController.Instance;
-		miniMapControl = FindObjectOfType<MiniMapControl>();
+		//miniMapControl = FindObjectOfType<MiniMapControl>();
 		go_tileMap = new Dictionary<Tile, GameObject>();
 		go_fogMap = new Dictionary<GameObject, GameObject>();
 	}
 
 	public void setupSprites() {
-		createGOs();
+		createTileGOs();
 		updateTileSprites();
-
-		createDoorGOs();
-
+		createInRoomGOs();
 		placeBonfire();
 		areSpritesSetUp = true;
 	}
 
-	void createGOs() {
+	void createTileGOs() {
 		for (int x = 0; x < gc.map.width; x++) {
 			for (int y = 0; y < gc.map.height; y++) {
 				Tile tile = gc.map.getTileAt(x, y);
@@ -95,7 +93,7 @@ public class MapSpriteController : MonoBehaviour {
 		}
 	}
 
-	void createDoorGOs() {
+	void createInRoomGOs() {
 		foreach (var room in gc.map.rooms) {
 			foreach (var door in room.doors) {
 				GameObject door_go = (GameObject)Instantiate(doorPrefab, transform.position, Quaternion.identity);
@@ -104,6 +102,11 @@ public class MapSpriteController : MonoBehaviour {
 				door_go.GetComponent<DoorController>().door = door;
 				door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
 				door.cbOnChanged(door);
+			}
+			foreach (var enemy in room.enemies) {
+				GameObject enemy_go = (GameObject)Instantiate(enemy.prefab, transform.position, Quaternion.identity);
+				enemy_go.transform.SetParent(this.transform);
+				enemy_go.transform.position = new Vector2(enemy.spawnTile.x+0.5f, enemy.spawnTile.y+0.5f);
 			}
 		}
 

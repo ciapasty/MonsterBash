@@ -45,8 +45,8 @@ public class MapGenerator : MonoBehaviour {
 	private List<LineSegment> m_delaunayTriangulation;
 	private List<LineSegment> m_extendedTree;
 
-	// Corridors
-	private List<LineSegment> corridors;
+	// Enemies
+	public GameObject[] enemyPrefabs;
 
 	// World
 	public Map map { get; protected set; }
@@ -248,6 +248,8 @@ public class MapGenerator : MonoBehaviour {
 		// Layout rooms in newly created tile map.
 		map = new Map(Mathf.CeilToInt(maxX)+1, Mathf.CeilToInt(maxY)+1);
 
+		// Final sequence
+
 		layOutRooms();
 
 		generateCorridors();
@@ -255,6 +257,10 @@ public class MapGenerator : MonoBehaviour {
 		addCorridorWalls();
 
 		assignRooms();
+
+		placeEnemies();
+
+		// map is complete
 
 		isFinished = true;
 	}
@@ -574,6 +580,33 @@ public class MapGenerator : MonoBehaviour {
 				}
 				room.setRoomType(RoomType.generic);
 				done.Add(room);
+			}
+		}
+	}
+
+	void placeRandomStuff() {
+		// TODO
+	}
+
+	/// <summary>
+	/// Places random number of enemies on random floor tiles
+	/// </summary>
+	void placeEnemies() {
+		foreach (var room in map.rooms) {
+			if (room.type != RoomType.bonfire && room.type != RoomType.exit) {
+				int enemiesCount = Random.Range(3,5);
+
+				while (enemiesCount > 0) {
+					int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.width-1);
+					int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.height-1);
+					Tile tile = map.getTileAt(randX, randY);
+					if (tile.hasContent)
+						continue;
+
+					room.addEnemy(new Enemy(enemyPrefabs[Random.Range(0,enemyPrefabs.Length)], tile));
+					tile.hasContent = true;
+					enemiesCount--;
+				}
 			}
 		}
 	}
