@@ -75,6 +75,7 @@ public class GameController : MonoBehaviour {
 				//miniMapControl.setupMiniMap();
 				Time.timeScale = 1f;
 				spawnPlayer();
+				StartCoroutine(mapSpriteController.revealTilesForAreaWithID(map.bonfire.room.ID, map.bonfire));
 			}
 		}
 		if (player != null)

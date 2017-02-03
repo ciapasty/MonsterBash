@@ -251,13 +251,9 @@ public class MapGenerator : MonoBehaviour {
 		// Final sequence
 
 		layOutRooms();
-
 		generateCorridors();
-
 		addCorridorWalls();
-
 		assignRooms();
-
 		placeEnemies();
 
 		// map is complete

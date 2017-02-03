@@ -115,6 +115,7 @@ public class MapSpriteController : MonoBehaviour {
 	void placeBonfire() {
 		GameObject go = (GameObject)Instantiate(Resources.Load("prefabs/bonfire"), transform.position, Quaternion.identity);
 		go.transform.position = new Vector3(gc.map.bonfire.x+0.5f, gc.map.bonfire.y+0.5f, 0);
+
 	}
 
 
