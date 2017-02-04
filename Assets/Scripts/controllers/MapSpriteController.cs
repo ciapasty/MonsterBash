@@ -70,28 +70,107 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 	void updateTileSprites() {
+		Dictionary<string, Sprite> roomSprites = new Dictionary<string, Sprite>();
+		foreach (var sprite in Resources.LoadAll<Sprite>("sprites/rooms/generic_room")) {
+			roomSprites.Add(sprite.name, sprite);
+		}
+
 		foreach (var tile in go_tileMap.Keys) {
 			SpriteRenderer go_sr = go_tileMap[tile].GetComponent<SpriteRenderer>();
 
-			if (tile.room != null) {
-				switch (gc.map.getRoomWithID(tile.room.ID).type) {
-				case RoomType.exit:
-					go_sr.color = Color.blue;
-					break;
-				case RoomType.bonfire:
-					go_sr.color = Color.green;
-					break;
-				case RoomType.generic:
-					break;
-				}
-				if (tile.tClass == TileClass.door) {
-					go_sr.color = Color.red;
-				}
+//			if (tile.room != null) {
+//				switch (gc.map.getRoomWithID(tile.room.ID).type) {
+//				case RoomType.exit:
+//					//go_sr.color = Color.blue;
+//					break;
+//				case RoomType.bonfire:
+//					//go_sr.color = Color.green;
+//					break;
+//				case RoomType.generic:
+//					break;
+//				}
+//				if (tile.tClass == TileClass.door) {
+//					go_sr.color = Color.red;
+//				}
+//			} else {
+//				go_sr.color = Color.yellow;
+//			}
+			string spriteName = "generic_"+tile.type.ToString()+"_"+getNeighboursString(tile);
+			if (!roomSprites.ContainsKey(spriteName)) {
+				Debug.LogError("No sprite with name: "+spriteName);
 			} else {
-				go_sr.color = Color.yellow;
+				go_sr.sprite = roomSprites[spriteName];
 			}
 		}
 	}
+
+	string getNeighboursString(Tile tile) {
+		TileType type;
+		if (tile.type == TileType.wall) {
+			type = TileType.floor;
+		} else if (tile.type == TileType.floor) {
+			type = TileType.wall;
+		} else {
+			Debug.LogError("getNeighboursString: Passed tile with type "+tile.type.ToString());
+			return null;
+		}
+
+		string neighbours = "";
+
+		// North wall neighbour;
+		Tile neigh = gc.map.getTileAt(tile.x, tile.y+1);
+		if (neigh != null) {
+			if (neigh.type == type)
+				neighbours += "N";
+		}
+		// East wall neighbour;
+		neigh = gc.map.getTileAt(tile.x+1, tile.y);
+		if (neigh != null) {
+			if (neigh.type == type)
+				neighbours += "E";
+		}
+		// South wall neighbour;
+		neigh = gc.map.getTileAt(tile.x, tile.y-1);
+		if (neigh != null) {
+			if (neigh.type == type)
+				neighbours += "S";
+		}
+		// West wall neighbour;
+		neigh = gc.map.getTileAt(tile.x-1, tile.y);
+		if (neigh != null) {
+			if (neigh.type == type)
+				neighbours += "W";
+		}
+
+		if (neighbours == "") {
+			// North-East wall neighbour;
+			neigh = gc.map.getTileAt(tile.x+1, tile.y+1);
+			if (neigh != null) {
+				if (neigh.type == type)
+					neighbours += "Ne";
+			}
+			// South-East wall neighbour;
+			neigh = gc.map.getTileAt(tile.x+1, tile.y-1);
+			if (neigh != null) {
+				if (neigh.type == type)
+					neighbours += "Se";
+			}
+			// South-West wall neighbour;
+			neigh = gc.map.getTileAt(tile.x-1, tile.y-1);
+			if (neigh != null) {
+				if (neigh.type == type)
+					neighbours += "Sw";
+			}
+			// North-West wall neighbour;
+			neigh = gc.map.getTileAt(tile.x-1, tile.y+1);
+			if (neigh != null) {
+				if (neigh.type == type)
+					neighbours += "Nw";
+			}
+		}
+
+		return neighbours;
+	} 
 
 	void createInRoomGOs() {
 		foreach (var room in gc.map.rooms) {
