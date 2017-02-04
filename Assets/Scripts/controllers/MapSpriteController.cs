@@ -71,7 +71,7 @@ public class MapSpriteController : MonoBehaviour {
 
 	void updateTileSprites() {
 		Dictionary<string, Sprite> roomSprites = new Dictionary<string, Sprite>();
-		foreach (var sprite in Resources.LoadAll<Sprite>("sprites/rooms/generic_room")) {
+		foreach (var sprite in Resources.LoadAll<Sprite>("sprites/rooms/")) {
 			roomSprites.Add(sprite.name, sprite);
 		}
 
@@ -95,7 +95,14 @@ public class MapSpriteController : MonoBehaviour {
 //			} else {
 //				go_sr.color = Color.yellow;
 //			}
-			string spriteName = "generic_"+tile.type.ToString()+"_"+getNeighboursString(tile);
+
+			string neighboursString = getNeighboursString(tile);
+			if (neighboursString == "_") {
+				neighboursString = Random.Range(1, 4).ToString();
+			}
+
+			string spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+neighboursString;
+			// Temporary, for testing
 			if (!roomSprites.ContainsKey(spriteName)) {
 				Debug.LogError("No sprite with name: "+spriteName);
 			} else {
@@ -142,31 +149,31 @@ public class MapSpriteController : MonoBehaviour {
 				neighbours += "W";
 		}
 
-		if (neighbours == "") {
-			// North-East wall neighbour;
-			neigh = gc.map.getTileAt(tile.x+1, tile.y+1);
-			if (neigh != null) {
-				if (neigh.type == type)
-					neighbours += "Ne";
-			}
-			// South-East wall neighbour;
-			neigh = gc.map.getTileAt(tile.x+1, tile.y-1);
-			if (neigh != null) {
-				if (neigh.type == type)
-					neighbours += "Se";
-			}
-			// South-West wall neighbour;
-			neigh = gc.map.getTileAt(tile.x-1, tile.y-1);
-			if (neigh != null) {
-				if (neigh.type == type)
-					neighbours += "Sw";
-			}
-			// North-West wall neighbour;
-			neigh = gc.map.getTileAt(tile.x-1, tile.y+1);
-			if (neigh != null) {
-				if (neigh.type == type)
-					neighbours += "Nw";
-			}
+		neighbours += "_";
+
+		// North-East wall neighbour;
+		neigh = gc.map.getTileAt(tile.x+1, tile.y+1);
+		if (neigh != null) {
+			if (neigh.type == type)
+				neighbours += "Ne";
+		}
+		// South-East wall neighbour;
+		neigh = gc.map.getTileAt(tile.x+1, tile.y-1);
+		if (neigh != null) {
+			if (neigh.type == type)
+				neighbours += "Se";
+		}
+		// South-West wall neighbour;
+		neigh = gc.map.getTileAt(tile.x-1, tile.y-1);
+		if (neigh != null) {
+			if (neigh.type == type)
+				neighbours += "Sw";
+		}
+		// North-West wall neighbour;
+		neigh = gc.map.getTileAt(tile.x-1, tile.y+1);
+		if (neigh != null) {
+			if (neigh.type == type)
+				neighbours += "Nw";
 		}
 
 		return neighbours;
