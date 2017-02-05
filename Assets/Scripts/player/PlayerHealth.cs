@@ -44,7 +44,10 @@ public class PlayerHealth : MonoBehaviour {
 		hitpoints = maxHitpoints;
 	}
 
-	void Update() {}
+	void Update() {
+		if (Input.GetKeyDown(KeyCode.E))
+			GetComponent<PlayerController>().SendMessage("takeDamage", 1);
+	}
 
 	public void changeHitpointsBy(int amount) {
 		if (lockedHitpoints) {

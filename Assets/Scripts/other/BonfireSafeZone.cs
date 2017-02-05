@@ -13,7 +13,6 @@ public class BonfireSafeZone : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		player = GameObject.FindGameObjectWithTag("Player");
 		spawners = GameObject.FindGameObjectsWithTag("Spawner");
 
 		timer = sitDownTime;
@@ -21,6 +20,7 @@ public class BonfireSafeZone : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		player = GameObject.FindGameObjectWithTag("Player");
 		if (Vector3.Distance(player.transform.position, transform.position) <= 2) {
 			timer -= Time.deltaTime;
 			if (!atSafeZone) {

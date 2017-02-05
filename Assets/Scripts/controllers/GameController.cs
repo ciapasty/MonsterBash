@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour {
 	Area prevArea;
 	Area currArea;
 
+	private float restartTimer = 6f;
+
 	void OnEnable() {
 		if(Instance != null) {
 			Debug.LogError("There should never be two game controllers.");
@@ -71,8 +73,32 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Update() {
-		if (player != null)
+		if (player != null) {
 			trackPlayer();
+
+			if (player.GetComponent<PlayerHealth>().isDead) {
+				restartTimer -= Time.deltaTime;
+			}
+
+			if (restartTimer < 4) {
+				// Show "You Died" splash
+				GameObject.FindGameObjectWithTag("UI_YouDied").GetComponent<UnityEngine.UI.Text>().enabled = true;
+			}
+
+			if (restartTimer < 0) {
+				//SendMessage("onRespawn");
+
+				// Hide "You Died" splash
+				GameObject.FindGameObjectWithTag("UI_YouDied").GetComponent<UnityEngine.UI.Text>().enabled = false;
+				player.transform.position = new Vector3(map.bonfire.x-1, map.bonfire.y+1, 0);
+				player.SendMessage("onRespawn");
+
+				cameraFollowPlayer.snapToRoom(null, false);
+
+				restartTimer = 6f;
+			}
+		}
+		
 
 		// TEMP, debug
 		if (Input.GetKeyDown(KeyCode.Q)) {
