@@ -11,6 +11,10 @@ public class MapSpriteController : MonoBehaviour {
 	public GameObject doorPrefab;
 	public GameObject fogPrefab;
 
+	public Color bonfireRoomColor;
+	public Color exitRoomColor;
+	public Color corridorColor;
+
 	GameController gc;
 	//MiniMapControl miniMapControl;
 
@@ -78,23 +82,21 @@ public class MapSpriteController : MonoBehaviour {
 		foreach (var tile in go_tileMap.Keys) {
 			SpriteRenderer go_sr = go_tileMap[tile].GetComponent<SpriteRenderer>();
 
-//			if (tile.room != null) {
-//				switch (gc.map.getRoomWithID(tile.room.ID).type) {
-//				case RoomType.exit:
-//					//go_sr.color = Color.blue;
-//					break;
-//				case RoomType.bonfire:
-//					//go_sr.color = Color.green;
-//					break;
-//				case RoomType.generic:
-//					break;
-//				}
-//				if (tile.tClass == TileClass.door) {
-//					go_sr.color = Color.red;
-//				}
-//			} else {
-//				go_sr.color = Color.yellow;
-//			}
+			if (tile.room != null) {
+				switch (gc.map.getRoomWithID(tile.room.ID).type) {
+				case RoomType.exit:
+					go_sr.color = exitRoomColor;
+					break;
+				case RoomType.bonfire:
+					go_sr.color = bonfireRoomColor;
+					break;
+				case RoomType.generic:
+					break;
+				}
+			} else {
+				go_sr.color = corridorColor;
+			}
+
 			int tileIndex;
 			if (tile.type == TileType.outerWall) {
 				tileIndex = getCrossTileIndex( // Above, left, below, right
