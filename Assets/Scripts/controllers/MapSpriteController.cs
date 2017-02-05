@@ -105,6 +105,17 @@ public class MapSpriteController : MonoBehaviour {
 					gc.map.getTileAt(tile.x-1, tile.y),
 					gc.map.getTileAt(tile.x, tile.y-1), 
 					gc.map.getTileAt(tile.x+1, tile.y));
+
+				// Adjust bounding box for bottom outer walls
+				if (tileIndex%2 == 1) {
+					BoxCollider2D box = go_tileMap[tile].GetComponent<BoxCollider2D>();
+					Vector2 boxOffset = box.offset;
+					Vector2 boxSize = box.size;
+					boxOffset.y = -0.125f;
+					boxSize.y = 0.75f;
+					box.size = boxSize;
+					box.offset = boxOffset;
+				}
 				if (tileIndex == 0)
 					// Diagonal tiles check
 					tileIndex = 16+getCrossTileIndex( // AboveLeft, BelowLeft, BelowRight, AboveRight
@@ -165,7 +176,6 @@ public class MapSpriteController : MonoBehaviour {
 		go.transform.position = new Vector3(gc.map.bonfire.x+0.5f, gc.map.bonfire.y+0.5f, 0);
 
 	}
-
 
 	public IEnumerator revealTilesForAreaWithID(int ID, Tile startTile) {
 		Area tileArea;
