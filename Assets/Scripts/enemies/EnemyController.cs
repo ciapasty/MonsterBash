@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 public class EnemyController : MonoBehaviour {
+
+	public Enemy enemy;
 
 	private Animator animator;
 	private Rigidbody2D rigidbod;
@@ -15,6 +18,8 @@ public class EnemyController : MonoBehaviour {
 	private float lastHitTime;
 
 	public int soulsCarried = 10;
+
+	Action<Enemy> cbOnDeath;
 
 	void Start () {
 		animator = GetComponent<Animator>();
@@ -107,7 +112,22 @@ public class EnemyController : MonoBehaviour {
 		GameObject soul = (GameObject)Instantiate(Resources.Load("prefabs/soul"), transform.position, Quaternion.identity);
 		soul.GetComponent<Soul>().souls = soulsCarried;
 
+		// Callback
+		if (cbOnDeath != null)
+			cbOnDeath(this.enemy);
+		// Remove references
+		cbOnDeath = null;
+		enemy = null;
+
 		Destroy (gameObject, 5);
 		this.enabled = false;
+	}
+
+	public void registerOnChangedCallback(Action<Enemy> callback) {
+		cbOnDeath += callback;
+	}
+
+	public void unregisterOnChangedCallback(Action<Enemy> callback) {
+		cbOnDeath -= callback;
 	}
 }

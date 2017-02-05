@@ -8,37 +8,21 @@ public class GameController : MonoBehaviour {
 	public static GameController Instance { get; protected set; }
 
 	public Map map;
+	Dictionary<Room, RoomController> roomControllersMap;
 
 	public GameObject playerPrefab;
 	GameObject player;
+	CameraFollowPlayer cameraFollowPlayer;
 
 	MapGenerator mapGenerator;
 	MapSpriteController mapSpriteController;
 	MiniMapControl miniMapControl;
 
-	CameraFollowPlayer cameraFollowPlayer;
-
 	// Player tracking
-	Tile prevTile;
 	public Tile currTile { get; protected set; }
+	Tile prevTile;
 	Area prevArea;
 	Area currArea;
-
-	// TEMP - for door lock testing
-	float _timer = 0f;
-	float timer {
-		get { return _timer; }
-		set {
-			_timer = value;
-			if (timer <= 0) {
-				if (currArea is Room) {
-					map.getRoomWithID(currArea.ID).lockDoors(false);
-					Debug.Log("Unlocking doors in room "+currArea.ID);
-					//cameraFollowPlayer.snapToRoom = false;
-				}
-			}
-		}
-	}
 
 	void OnEnable() {
 		if(Instance != null) {
@@ -48,6 +32,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Awake() {
+		roomControllersMap = new Dictionary<Room, RoomController>();
 		mapGenerator = GetComponentInChildren<MapGenerator>();
 		mapSpriteController = GetComponentInChildren<MapSpriteController>();
 		cameraFollowPlayer = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CameraFollowPlayer>();
@@ -67,28 +52,31 @@ public class GameController : MonoBehaviour {
 		/// 6. Hide loading screen
 	}
 
-	void Update() {
-		if (!mapSpriteController.areSpritesSetUp) {
-			if (mapGenerator.isFinished) {
-				map = mapGenerator.map;
-				mapSpriteController.setupSprites();
-				//miniMapControl.setupMiniMap();
-				Time.timeScale = 1f;
-				spawnPlayer();
-				StartCoroutine(mapSpriteController.revealTilesForAreaWithID(map.bonfire.room.ID, map.bonfire));
-			}
+	void postMapCreationSetup() {
+		map = mapGenerator.map;
+		mapSpriteController.setupSprites();
+		foreach (var room in map.rooms) {
+			GameObject room_go = new GameObject("Room_"+room.ID);
+			room_go.transform.parent = gameObject.transform;
+			room_go.transform.position = new Vector2(room.roomBase.x, room.roomBase.y);
+			RoomController rc = room_go.AddComponent<RoomController>();
+			rc.room = room;
+			roomControllersMap.Add(room, rc);
+			rc.createInRoomGOs();
 		}
+		//miniMapControl.setupMiniMap();
+		Time.timeScale = 1f;
+		spawnPlayer();
+		StartCoroutine(mapSpriteController.revealTilesForAreaWithID(map.bonfire.room.ID, map.bonfire));
+	}
+
+	void Update() {
 		if (player != null)
 			trackPlayer();
 
-		if (currArea != null && currArea.ID >= 0) {
-			if (timer > 0) {
-				timer -= Time.deltaTime;
-			}
-		}
-
+		// TEMP, debug
 		if (Input.GetKeyDown(KeyCode.Q)) {
-			cameraFollowPlayer.snapToRoom = false;
+			cameraFollowPlayer.snapToRoom(null, false);
 		}
 	}
 
@@ -121,13 +109,8 @@ public class GameController : MonoBehaviour {
 					StartCoroutine(mapSpriteController.revealTilesForAreaWithID(currArea.ID, currTile));
 				}
 				if (currArea.ID != prevArea.ID && currTile.tClass != TileClass.door) {
-					// TEMP - for door lock testing
-					cameraFollowPlayer.room = map.getRoomWithID(currArea.ID);
-					cameraFollowPlayer.snapToRoom = true;
 					logRoomInfo();
-					map.getRoomWithID(currArea.ID).lockDoors(true);
-					Debug.Log("Locking doors in room: "+currArea.ID);
-					timer = 3f;
+					roomControllersMap[currArea as Room].playerEntered();
 					prevArea = currArea;
 				}
 			} 

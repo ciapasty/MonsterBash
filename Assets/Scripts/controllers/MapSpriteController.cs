@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MapSpriteController : MonoBehaviour {
 
-	public bool areSpritesSetUp { get; protected set;}
-
 	public GameObject wallPrefab;
 	public GameObject floorPrefab;
 	public GameObject doorPrefab;
@@ -21,10 +19,6 @@ public class MapSpriteController : MonoBehaviour {
 	Dictionary<Tile, GameObject> go_tileMap;
 	Dictionary<GameObject, GameObject> go_fogMap;
 
-	void OnEnable() {
-		areSpritesSetUp = false;
-	}
-
 	void Start() {
 		gc = GameController.Instance;
 		//miniMapControl = FindObjectOfType<MiniMapControl>();
@@ -35,9 +29,8 @@ public class MapSpriteController : MonoBehaviour {
 	public void setupSprites() {
 		createTileGOs();
 		updateTileSprites();
-		createInRoomGOs();
+//		createInRoomGOs();
 		placeBonfire();
-		areSpritesSetUp = true;
 	}
 
 	void createTileGOs() {
@@ -152,24 +145,23 @@ public class MapSpriteController : MonoBehaviour {
 		return sum;
 	}
 
-	void createInRoomGOs() {
-		foreach (var room in gc.map.rooms) {
-			foreach (var door in room.doors) {
-				GameObject door_go = (GameObject)Instantiate(doorPrefab, transform.position, Quaternion.identity);
-				door_go.transform.SetParent(this.transform);
-				door_go.transform.position = new Vector2(door.tile.x+0.5f, door.tile.y+0.5f);
-				door_go.GetComponent<DoorController>().door = door;
-				door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
-				door.cbOnChanged(door);
-			}
-			foreach (var enemy in room.enemies) {
-				GameObject enemy_go = (GameObject)Instantiate(enemy.prefab, transform.position, Quaternion.identity);
-				enemy_go.transform.SetParent(this.transform);
-				enemy_go.transform.position = new Vector2(enemy.spawnTile.x+0.5f, enemy.spawnTile.y+0.5f);
-			}
-		}
-
-	}
+//	void createInRoomGOs() {
+//		foreach (var room in gc.map.rooms) {
+//			foreach (var door in room.doors) {
+//				GameObject door_go = (GameObject)Instantiate(doorPrefab, transform.position, Quaternion.identity);
+//				door_go.transform.SetParent(this.transform);
+//				door_go.transform.position = new Vector2(door.tile.x+0.5f, door.tile.y+0.5f);
+//				door_go.GetComponent<DoorController>().door = door;
+//				door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
+//				door.cbOnChanged(door);
+//			}
+//			foreach (var enemy in room.enemies) {
+//				GameObject enemy_go = (GameObject)Instantiate(enemy.prefab, transform.position, Quaternion.identity);
+//				enemy_go.transform.SetParent(this.transform);
+//				enemy_go.transform.position = new Vector2(enemy.spawnTile.x+0.5f, enemy.spawnTile.y+0.5f);
+//			}
+//		}
+//	}
 
 	void placeBonfire() {
 		GameObject go = (GameObject)Instantiate(Resources.Load("prefabs/bonfire"), transform.position, Quaternion.identity);

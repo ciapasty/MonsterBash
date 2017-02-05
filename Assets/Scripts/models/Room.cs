@@ -42,10 +42,4 @@ public class Room : Area {
 	public void addEnemy(Enemy enemy) {
 		enemies.Add(enemy);
 	}
-
-	public void lockDoors(bool locked) {
-		foreach (var door in doors) {
-			door.isLocked = locked;
-		}
-	}
 }

@@ -25,7 +25,6 @@ public class MapGenerator : MonoBehaviour {
 	public bool drawTriangulation = false;
 	public bool drawSpanningTree = false;
 	public bool drawExtendedTree = false;
-	public bool drawFinalTree = false;
 
 	float meanRoomWidth = 0f;
 	float meanRoomHeight = 0f;
@@ -258,7 +257,7 @@ public class MapGenerator : MonoBehaviour {
 
 		// map is complete
 
-		isFinished = true;
+		GameController.Instance.SendMessage("postMapCreationSetup");
 	}
 
 	/// <summary>
@@ -580,7 +579,7 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
-	void placeRandomStuff() {
+	void placeRandomObjects() {
 		// TODO
 	}
 
@@ -747,13 +746,6 @@ public class MapGenerator : MonoBehaviour {
 					Vector2 right = (Vector2)m_extendedTree[i].p1;
 					Gizmos.DrawLine(left, right);
 				}
-			}
-		}
-
-		if (drawFinalTree) {
-			Gizmos.color = Color.white;
-			foreach (var room in mainRooms) {
-				Gizmos.DrawWireCube(new Vector2((room.roomBase.x+room.width/2)+0.5f, (room.roomBase.y+room.height/2)+0.5f), new Vector2(1f, 1f));
 			}
 		}
 	}

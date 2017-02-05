@@ -5,8 +5,8 @@ public class CameraFollowPlayer : MonoBehaviour {
 
 	public GameObject player;
 
-	public bool snapToRoom = false;
-	public Room room;
+	bool snap = false;
+	Room room;
 
 	public float xMargin = 1f;		// Distance in the x axis the player can move before the camera follows.
 	public float yMargin = 0.6f;		// Distance in the y axis the player can move before the camera follows.
@@ -22,11 +22,15 @@ public class CameraFollowPlayer : MonoBehaviour {
 
 	}
 
+	public void snapToRoom(Room room, bool snap) {
+		this.room = room;
+		this.snap = snap;
+	}
+
 	bool CheckXMargin() {
 		// Returns true if the distance between the camera and the player in the x axis is greater than the x margin.
 		return Mathf.Abs(transform.position.x - player.transform.position.x) > xMargin;
 	}
-
 
 	bool CheckYMargin() {
 		// Returns true if the distance between the camera and the player in the y axis is greater than the y margin.
@@ -37,7 +41,6 @@ public class CameraFollowPlayer : MonoBehaviour {
 		if (player != null)
 			TrackPlayer();		
 	}
-
 
 	void TrackPlayer () {
 		// By default the target x and y coordinates of the camera are it's current x and y coordinates.
@@ -57,7 +60,7 @@ public class CameraFollowPlayer : MonoBehaviour {
 			// ... the target y coordinate should be a Lerp between the camera's current y position and the player's current y position.
 			targetY = Mathf.Lerp(transform.position.y, player.transform.position.y, ySmooth * Time.deltaTime);
 
-		if (snapToRoom && room != null) {
+		if (snap && room != null) {
 			// The target x and y coordinates should not be larger than the maximum or smaller than the minimum.
 			if (room.width <= halfCameraView.x*2) {
 				maxX = minX = room.roomBase.x+room.width/2;
