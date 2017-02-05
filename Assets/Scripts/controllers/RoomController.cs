@@ -30,8 +30,12 @@ public class RoomController : MonoBehaviour {
 		}
 	}
 
-	public void createInRoomGOs() {
-		enemyGoMap = new Dictionary<Enemy, GameObject>();
+	public void createRoomGOs() {
+		createDoors();
+		spawnEnemies();
+	}
+
+	void createDoors() {
 		foreach (var door in room.doors) {
 			GameObject door_go = (GameObject)Instantiate(Resources.Load<GameObject>("prefabs/door"), transform.position, Quaternion.identity);
 			door_go.transform.SetParent(this.transform);
@@ -40,6 +44,10 @@ public class RoomController : MonoBehaviour {
 			door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
 			door.cbOnChanged(door);
 		}
+	}
+
+	void spawnEnemies() {
+		enemyGoMap = new Dictionary<Enemy, GameObject>();
 		foreach (var enemy in room.enemies) {
 			GameObject enemy_go = (GameObject)Instantiate(enemy.prefab, transform.position, Quaternion.identity);
 			enemy_go.transform.SetParent(this.transform);
@@ -48,6 +56,15 @@ public class RoomController : MonoBehaviour {
 			enemy_go.GetComponent<EnemyController>().registerOnChangedCallback(enemyDiedCallback);
 			enemyGoMap.Add(enemy, enemy_go);
 		}
+	}
+
+	public void respawnEnemies() {
+		if (enemyGoMap.Count > 0) {
+			foreach (var enemy in enemyGoMap.Keys) {
+				Destroy(enemyGoMap[enemy]);
+			}
+		}
+		spawnEnemies();
 	}
 
 	void lockDoors(bool locked) {

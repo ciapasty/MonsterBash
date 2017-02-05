@@ -64,7 +64,7 @@ public class GameController : MonoBehaviour {
 			RoomController rc = room_go.AddComponent<RoomController>();
 			rc.room = room;
 			roomControllersMap.Add(room, rc);
-			rc.createInRoomGOs();
+			rc.createRoomGOs();
 		}
 		//miniMapControl.setupMiniMap();
 		Time.timeScale = 1f;
@@ -76,24 +76,23 @@ public class GameController : MonoBehaviour {
 		if (player != null) {
 			trackPlayer();
 
+			// Player has died
 			if (player.GetComponent<PlayerHealth>().isDead) {
 				restartTimer -= Time.deltaTime;
 			}
-
 			if (restartTimer < 4) {
 				// Show "You Died" splash
 				GameObject.FindGameObjectWithTag("UI_YouDied").GetComponent<UnityEngine.UI.Text>().enabled = true;
 			}
-
 			if (restartTimer < 0) {
-				//SendMessage("onRespawn");
-
 				// Hide "You Died" splash
 				GameObject.FindGameObjectWithTag("UI_YouDied").GetComponent<UnityEngine.UI.Text>().enabled = false;
 				player.transform.position = new Vector3(map.bonfire.x-1, map.bonfire.y+1, 0);
 				player.SendMessage("onRespawn");
 
 				cameraFollowPlayer.snapToRoom(null, false);
+
+				resetRooms();
 
 				restartTimer = 6f;
 			}
@@ -103,6 +102,12 @@ public class GameController : MonoBehaviour {
 		// TEMP, debug
 		if (Input.GetKeyDown(KeyCode.Q)) {
 			cameraFollowPlayer.snapToRoom(null, false);
+		}
+	}
+
+	void resetRooms() {
+		foreach (var room in map.rooms) {
+			roomControllersMap[room].respawnEnemies();
 		}
 	}
 
