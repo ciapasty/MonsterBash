@@ -52,7 +52,7 @@ public class MapSpriteController : MonoBehaviour {
 					fog_go.transform.position = go.transform.position;
 					go_fogMap.Add(go, fog_go);
 				}
-				if (tile.type == TileType.wall) {
+				if (tile.type == TileType.outerWall) {
 					// Wall tile GameObject
 					GameObject go = (GameObject)Instantiate(wallPrefab, transform.position, Quaternion.identity);
 					go.transform.SetParent(this.transform);
@@ -95,13 +95,32 @@ public class MapSpriteController : MonoBehaviour {
 //			} else {
 //				go_sr.color = Color.yellow;
 //			}
-
-			string neighboursString = getNeighboursString(tile);
-			if (neighboursString == "_") {
-				neighboursString = Random.Range(1, 4).ToString();
+			int tileIndex;
+			if (tile.type == TileType.outerWall) {
+				tileIndex = getCrossTileIndex( // Above, left, below, right
+					TileType.floor, 
+					gc.map.getTileAt(tile.x, tile.y+1),
+					gc.map.getTileAt(tile.x-1, tile.y),
+					gc.map.getTileAt(tile.x, tile.y-1), 
+					gc.map.getTileAt(tile.x+1, tile.y));
+				if (tileIndex == 0)
+					// Diagonal tiles check
+					tileIndex = 16+getCrossTileIndex( // AboveLeft, BelowLeft, BelowRight, AboveRight
+						TileType.floor,
+						gc.map.getTileAt(tile.x-1, tile.y+1),
+						gc.map.getTileAt(tile.x-1, tile.y-1),
+						gc.map.getTileAt(tile.x+1, tile.y-1),
+						gc.map.getTileAt(tile.x+1, tile.y+1));
+			} else {
+				tileIndex = getCrossTileIndex( // Above, left, below, right
+					tile.type, 
+					gc.map.getTileAt(tile.x, tile.y+1),
+					gc.map.getTileAt(tile.x-1, tile.y),
+					gc.map.getTileAt(tile.x, tile.y-1), 
+					gc.map.getTileAt(tile.x+1, tile.y));
 			}
 
-			string spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+neighboursString;
+			string spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
 			// Temporary, for testing
 			if (!roomSprites.ContainsKey(spriteName)) {
 				Debug.LogError("No sprite with name: "+spriteName);
@@ -111,73 +130,14 @@ public class MapSpriteController : MonoBehaviour {
 		}
 	}
 
-	string getNeighboursString(Tile tile) {
-		TileType type;
-		if (tile.type == TileType.wall) {
-			type = TileType.floor;
-		} else if (tile.type == TileType.floor) {
-			type = TileType.wall;
-		} else {
-			Debug.LogError("getNeighboursString: Passed tile with type "+tile.type.ToString());
-			return null;
-		}
-
-		string neighbours = "";
-
-		// North wall neighbour;
-		Tile neigh = gc.map.getTileAt(tile.x, tile.y+1);
-		if (neigh != null) {
-			if (neigh.type == type)
-				neighbours += "N";
-		}
-		// East wall neighbour;
-		neigh = gc.map.getTileAt(tile.x+1, tile.y);
-		if (neigh != null) {
-			if (neigh.type == type)
-				neighbours += "E";
-		}
-		// South wall neighbour;
-		neigh = gc.map.getTileAt(tile.x, tile.y-1);
-		if (neigh != null) {
-			if (neigh.type == type)
-				neighbours += "S";
-		}
-		// West wall neighbour;
-		neigh = gc.map.getTileAt(tile.x-1, tile.y);
-		if (neigh != null) {
-			if (neigh.type == type)
-				neighbours += "W";
-		}
-
-		neighbours += "_";
-
-		// North-East wall neighbour;
-		neigh = gc.map.getTileAt(tile.x+1, tile.y+1);
-		if (neigh != null) {
-			if (neigh.type == type)
-				neighbours += "Ne";
-		}
-		// South-East wall neighbour;
-		neigh = gc.map.getTileAt(tile.x+1, tile.y-1);
-		if (neigh != null) {
-			if (neigh.type == type)
-				neighbours += "Se";
-		}
-		// South-West wall neighbour;
-		neigh = gc.map.getTileAt(tile.x-1, tile.y-1);
-		if (neigh != null) {
-			if (neigh.type == type)
-				neighbours += "Sw";
-		}
-		// North-West wall neighbour;
-		neigh = gc.map.getTileAt(tile.x-1, tile.y+1);
-		if (neigh != null) {
-			if (neigh.type == type)
-				neighbours += "Nw";
-		}
-
-		return neighbours;
-	} 
+	int getCrossTileIndex(TileType type, Tile above, Tile left, Tile below, Tile right) {
+		var sum = 0;
+		if (above != null && above.type == type) sum += 1;
+		if (left != null && left.type == type)  sum += 2;
+		if (below != null && below.type == type) sum += 4;
+		if (right != null && right.type == type) sum += 8;
+		return sum;
+	}
 
 	void createInRoomGOs() {
 		foreach (var room in gc.map.rooms) {

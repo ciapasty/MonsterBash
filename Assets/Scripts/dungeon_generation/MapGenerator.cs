@@ -278,7 +278,7 @@ public class MapGenerator : MonoBehaviour {
 					Tile tile = map.getTileAt(room.roomBase.x+x,room.roomBase.y+y);
 					tile.setRoom(room);
 					if (x == 0 || x == room.width-1 || y == 0 || y == room.height-1) {
-						tile.type = TileType.wall;
+						tile.type = TileType.outerWall;
 					} else {
 						tile.type = TileType.floor;
 					}
@@ -407,9 +407,9 @@ public class MapGenerator : MonoBehaviour {
 		max = (t1.x > t2.x) ? t1.x : t2.x;
 
 		for (int i = min+1; i < max; i++) {
-			if (map.getTileAt(i, t1.y).type == TileType.floor || map.getTileAt(i, t1.y).type == TileType.wall ||
-				map.getTileAt(i, t1.y+1).type == TileType.floor || map.getTileAt(i, t1.y+1).type == TileType.wall ||
-				map.getTileAt(i, t1.y-1).type == TileType.floor || map.getTileAt(i, t1.y-1).type == TileType.wall )
+			if (map.getTileAt(i, t1.y).type == TileType.floor || map.getTileAt(i, t1.y).type == TileType.outerWall ||
+				map.getTileAt(i, t1.y+1).type == TileType.floor || map.getTileAt(i, t1.y+1).type == TileType.outerWall ||
+				map.getTileAt(i, t1.y-1).type == TileType.floor || map.getTileAt(i, t1.y-1).type == TileType.outerWall )
 				return true;
 		}
 		return false;
@@ -427,9 +427,9 @@ public class MapGenerator : MonoBehaviour {
 		max = (t1.y > t2.y) ? t1.y : t2.y;
 
 		for (int i = min+1; i < max; i++) {
-			if (map.getTileAt(t1.x, i).type == TileType.floor || map.getTileAt(t1.x, i).type == TileType.wall ||
-				map.getTileAt(t1.x+1, i).type == TileType.floor || map.getTileAt(t1.x+1, i).type == TileType.wall ||
-				map.getTileAt(t1.x-1, i).type == TileType.floor || map.getTileAt(t1.x-1, i).type == TileType.wall )
+			if (map.getTileAt(t1.x, i).type == TileType.floor || map.getTileAt(t1.x, i).type == TileType.outerWall ||
+				map.getTileAt(t1.x+1, i).type == TileType.floor || map.getTileAt(t1.x+1, i).type == TileType.outerWall ||
+				map.getTileAt(t1.x-1, i).type == TileType.floor || map.getTileAt(t1.x-1, i).type == TileType.outerWall )
 				return true;
 		}
 		return false;
@@ -543,7 +543,7 @@ public class MapGenerator : MonoBehaviour {
 	void setCorridorWall(Tile tile, Corridor corridor) {
 		if (tile.type == TileType.empty) {
 			tile.setCorridor(corridor);
-			tile.type = TileType.wall;
+			tile.type = TileType.outerWall;
 		}
 	}
 
