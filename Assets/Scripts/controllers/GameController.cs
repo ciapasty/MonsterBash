@@ -108,6 +108,7 @@ public class GameController : MonoBehaviour {
 	void resetRooms() {
 		foreach (var room in map.rooms) {
 			roomControllersMap[room].respawnEnemies();
+			roomControllersMap[room].lockDoors(false);
 		}
 	}
 

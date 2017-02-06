@@ -67,7 +67,7 @@ public class RoomController : MonoBehaviour {
 		spawnEnemies();
 	}
 
-	void lockDoors(bool locked) {
+	public void lockDoors(bool locked) {
 		Debug.Log("Locking doors in room: "+room.ID);
 		foreach (var door in room.doors) {
 			door.isLocked = locked;
