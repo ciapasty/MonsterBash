@@ -20,16 +20,6 @@ public class FirstRenderCamera : MonoBehaviour {
 	}
 
 	void OnPreRender() {
-		
-		setScreenRenderSizes();
-
-		Debug.Log(
-			//"OrtographicSize: "+getOrtographicSize()+" " +
-			"Scale: "+scale+" "+
-			"rTexHeight: "+rTexHeight+" "+
-			"rTexWidth: "+rTexWidth
-		);
-
 		temp = RenderTexture.GetTemporary(rTexWidth, rTexHeight);
 		temp.filterMode = FilterMode.Point;
 		playerCamera.targetTexture = temp;

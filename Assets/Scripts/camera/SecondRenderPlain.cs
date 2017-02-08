@@ -21,7 +21,6 @@ public class SecondRenderPlain : MonoBehaviour {
 		GetComponent<MeshRenderer>().material = mat;
 
 		float aspect = (float)frc.temp.width/(float)frc.temp.height;
-		float yScale = ((float)frc.playerCamera.pixelHeight/(float)frc.rTexHeight)/(float)frc.scale;
 
 		Vector3 lc = new Vector3(-aspect, 1f, -1);
 		transform.localScale = lc;
