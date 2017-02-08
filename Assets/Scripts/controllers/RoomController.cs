@@ -18,6 +18,7 @@ public class RoomController : MonoBehaviour {
 	CameraFollowPlayer cameraFollowPlayer;
 
 	Dictionary<Enemy, GameObject> enemyGoMap;
+	Dictionary<Door, GameObject> doorGoMap;
 
 	void Awake() {
 		cameraFollowPlayer = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CameraFollowPlayer>();
@@ -30,20 +31,38 @@ public class RoomController : MonoBehaviour {
 		}
 	}
 
-	public void createRoomGOs() {
+	public void createGOs() {
 		createDoors();
 		spawnEnemies();
 	}
 
+	public void removeGOs() {
+		removeDoors();
+		removeEnemies();
+		room = null;
+	}
+
 	void createDoors() {
+		doorGoMap = new Dictionary<Door, GameObject>();
 		foreach (var door in room.doors) {
 			GameObject door_go = (GameObject)Instantiate(Resources.Load<GameObject>("prefabs/door"), transform.position, Quaternion.identity);
 			door_go.transform.SetParent(this.transform);
 			door_go.transform.position = new Vector2(door.tile.x+0.5f, door.tile.y+0.5f);
 			door_go.GetComponent<DoorController>().door = door;
+			doorGoMap.Add(door, door_go);
 			door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
 			door.cbOnChanged(door);
 		}
+	}
+
+	void removeDoors() {
+		foreach (var door in room.doors) {
+			door.cbOnChanged = null;
+			doorGoMap[door].GetComponent<DoorController>().door = null;
+			Destroy(doorGoMap[door]);
+			doorGoMap.Remove(door);
+		}
+		doorGoMap = null;
 	}
 
 	void spawnEnemies() {
@@ -65,6 +84,18 @@ public class RoomController : MonoBehaviour {
 			}
 		}
 		spawnEnemies();
+	}
+
+	void removeEnemies() {
+		if (enemyGoMap.Count > 0) {
+			foreach (var enemy in room.enemies) {
+				enemyGoMap[enemy].GetComponent<EnemyController>().unregisterOnChangedCallback(enemyDiedCallback);
+				enemyGoMap[enemy].GetComponent<EnemyController>().enemy = null;
+				Destroy(enemyGoMap[enemy]);
+				enemyGoMap.Remove(enemy);
+			}
+		}
+		enemyGoMap = null;
 	}
 
 	public void lockDoors(bool locked) {

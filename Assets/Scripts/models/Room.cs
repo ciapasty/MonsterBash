@@ -27,6 +27,12 @@ public class Room : Area {
 		enemies = new List<Enemy>();
 	}
 
+	~Room() {
+		doors = null;
+		connectedRooms = null;
+		enemies = null;
+	}
+
 	public void setBaseTileTo(Tile tile) {
 		roomBase = tile;
 	}

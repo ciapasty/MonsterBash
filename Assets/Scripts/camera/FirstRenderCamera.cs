@@ -15,8 +15,8 @@ public class FirstRenderCamera : MonoBehaviour {
 
 	void Start() {
 		playerCamera = GetComponent<Camera>();
-
 		setScreenRenderSizes();
+		temp = RenderTexture.GetTemporary(rTexWidth, rTexHeight);
 	}
 
 	void OnPreRender() {

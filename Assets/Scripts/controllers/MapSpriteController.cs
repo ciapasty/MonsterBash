@@ -18,12 +18,12 @@ public class MapSpriteController : MonoBehaviour {
 
 	Dictionary<Tile, GameObject> go_tileMap;
 	Dictionary<GameObject, GameObject> go_fogMap;
+	GameObject bonfireGO;
+	GameObject exitGO;
 
 	void Start() {
 		gc = GameController.Instance;
 		//miniMapControl = FindObjectOfType<MiniMapControl>();
-		go_tileMap = new Dictionary<Tile, GameObject>();
-		go_fogMap = new Dictionary<GameObject, GameObject>();
 	}
 
 	public void setupSprites() {
@@ -32,7 +32,21 @@ public class MapSpriteController : MonoBehaviour {
 		placeBonfireAndExit();
 	}
 
+	public void removeSprites() {
+		foreach (var tile in go_tileMap.Keys) {
+			Destroy(go_fogMap[go_tileMap[tile]]);
+			Destroy(go_tileMap[tile]);
+		}
+		Destroy(bonfireGO);
+		Destroy(exitGO);
+
+		go_fogMap = null;
+		go_tileMap = null;
+	}
+
 	void createTileGOs() {
+		go_tileMap = new Dictionary<Tile, GameObject>();
+		go_fogMap = new Dictionary<GameObject, GameObject>();
 		for (int x = 0; x < gc.map.width; x++) {
 			for (int y = 0; y < gc.map.height; y++) {
 				Tile tile = gc.map.getTileAt(x, y);
@@ -145,11 +159,11 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 	void placeBonfireAndExit() {
-		GameObject bonfire_go = (GameObject)Instantiate(Resources.Load("prefabs/bonfire"), transform.position, Quaternion.identity);
-		bonfire_go.transform.position = new Vector3(gc.map.bonfire.x+0.5f, gc.map.bonfire.y+0.5f, 0);
+		bonfireGO = (GameObject)Instantiate(Resources.Load("prefabs/bonfire"), transform.position, Quaternion.identity);
+		bonfireGO.transform.position = new Vector3(gc.map.bonfire.x+0.5f, gc.map.bonfire.y+0.5f, 0);
 
-		GameObject exit_go = (GameObject)Instantiate(Resources.Load("prefabs/exit"), transform.position, Quaternion.identity);
-		exit_go.transform.position = new Vector3(gc.map.exit.x+0.5f, gc.map.exit.y+0.5f, 0);
+		exitGO = (GameObject)Instantiate(Resources.Load("prefabs/exit"), transform.position, Quaternion.identity);
+		exitGO.transform.position = new Vector3(gc.map.exit.x+0.5f, gc.map.exit.y+0.5f, 0);
 	}
 
 	public IEnumerator revealTilesForAreaWithID(int ID, Tile startTile) {

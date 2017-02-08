@@ -34,7 +34,6 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Awake() {
-		roomControllersMap = new Dictionary<Room, RoomController>();
 		mapGenerator = GetComponentInChildren<MapGenerator>();
 		mapSpriteController = GetComponentInChildren<MapSpriteController>();
 		cameraFollowPlayer = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CameraFollowPlayer>();
@@ -42,20 +41,15 @@ public class GameController : MonoBehaviour {
 
 	void Start() {
 		//miniMapControl = FindObjectOfType<MiniMapControl>();
-
-		/// 1. Generate Map
 		mapGenerator.startMapCreation();
-
-		/// 2. Fill in room -> randomize
-		/// 3. Spawn enemies
-		/// 4. Spawn player
-		/// Move into UI scripts:
-		/// 5. Reload UI
-		/// 6. Hide loading screen
 	}
 
 	void postMapCreationSetup() {
+		roomControllersMap = new Dictionary<Room, RoomController>();
 		map = mapGenerator.map;
+
+		Time.timeScale = 1f;
+
 		mapSpriteController.setupSprites();
 		foreach (var room in map.rooms) {
 			GameObject room_go = new GameObject("Room_"+room.ID);
@@ -64,17 +58,24 @@ public class GameController : MonoBehaviour {
 			RoomController rc = room_go.AddComponent<RoomController>();
 			rc.room = room;
 			roomControllersMap.Add(room, rc);
-			rc.createRoomGOs();
+			rc.createGOs();
 		}
 		//miniMapControl.setupMiniMap();
-		Time.timeScale = 1f;
-		spawnPlayer();
+		if (player == null) {
+			spawnPlayer();
+		} else {
+			player.transform.position = new Vector3(map.bonfire.x-1, map.bonfire.y+1, 0);
+			currTile = prevTile = map.getTileAt((int)(player.transform.position.x), (int)(player.transform.position.y));
+			currArea = prevArea = currTile.room;
+		}
+		
 		StartCoroutine(mapSpriteController.revealTilesForAreaWithID(map.bonfire.room.ID, map.bonfire));
 	}
 
 	void Update() {
 		if (player != null) {
-			trackPlayer();
+			if (map != null)
+				trackPlayer(); 
 
 			// Player has died
 			if (player.GetComponent<PlayerHealth>().isDead) {
@@ -180,6 +181,29 @@ public class GameController : MonoBehaviour {
 	}
 
 	void playerEnteredExit() {
-		Debug.Log("Hello!");
+		// 1. Show loading screen
+
+		// 2. Save player state
+
+		// 3. Map sprites clean-up
+		foreach (var room in roomControllersMap.Keys) {
+			roomControllersMap[room].removeGOs();
+			Destroy(roomControllersMap[room].gameObject);
+			//roomControllersMap.Remove(room);
+		}
+		roomControllersMap = null;
+
+		mapSpriteController.removeSprites();
+
+		// 4. Map cleanup
+		map = null;
+
+		// 5. Map generation with new level parameteres
+		mapGenerator.startMapCreation();
+
+		// 6. Restore player state
+
+		// 7. Hide loading screen
+
 	}
 }

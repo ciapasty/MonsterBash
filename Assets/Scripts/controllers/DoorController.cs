@@ -18,12 +18,14 @@ public class DoorController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D col) {
-		if (!door.isLocked) {
-			if (!door.isOpen) {
-				door.isOpen = true;
+		if (col.gameObject.tag == "Player") {
+			if (!door.isLocked) {
+				if (!door.isOpen) {
+					door.isOpen = true;
+				}
+			} else {
+				Debug.Log("Door locked!");
 			}
-		} else {
-			Debug.Log("Door locked!");
 		}
 	}
 
