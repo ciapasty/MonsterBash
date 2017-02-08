@@ -561,6 +561,7 @@ public class MapGenerator : MonoBehaviour {
 				if (room.doors.Count == 1) {
 					if (!hasExit) {
 						room.setRoomType(RoomType.exit);
+						map.setExitTileTo(map.getTileAt(room.roomBase.x+room.width/2, room.roomBase.y+room.height/2));
 						hasExit = true;
 						done.Add(room);
 						continue;

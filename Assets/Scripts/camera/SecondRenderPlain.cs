@@ -12,7 +12,6 @@ public class SecondRenderPlain : MonoBehaviour {
 	void Start () {
 		frc = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<FirstRenderCamera>();
 		mat = new Material(Shader.Find("Mobile/Unlit (Supports Lightmap)"));
-
 	}
 	
 	// Update is called once per frame

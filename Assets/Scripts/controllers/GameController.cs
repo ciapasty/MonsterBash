@@ -178,4 +178,8 @@ public class GameController : MonoBehaviour {
 	void logTileInfo() {
 		Debug.Log("Current tile: ("+currTile.x+", "+currTile.y+"); Corridor: "+currTile.corridor+"; Room: "+currTile.room);
 	}
+
+	void playerEnteredExit() {
+		Debug.Log("Hello!");
+	}
 }

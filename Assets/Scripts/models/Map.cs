@@ -14,6 +14,7 @@ public class Map {
 	public List<Corridor> corridors { get; protected set; }
 
 	public Tile bonfire { get; protected set; }
+	public Tile exit { get; protected set; }
 
 	public Map(int width, int height) {
 		this.width = width;
@@ -68,5 +69,9 @@ public class Map {
 
 	public void setSpawnTileTo(Tile tile) {
 		bonfire = tile;
+	}
+
+	public void setExitTileTo(Tile tile) {
+		exit = tile;
 	}
 }

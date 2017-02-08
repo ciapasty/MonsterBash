@@ -29,8 +29,7 @@ public class MapSpriteController : MonoBehaviour {
 	public void setupSprites() {
 		createTileGOs();
 		updateTileSprites();
-//		createInRoomGOs();
-		placeBonfire();
+		placeBonfireAndExit();
 	}
 
 	void createTileGOs() {
@@ -145,28 +144,12 @@ public class MapSpriteController : MonoBehaviour {
 		return sum;
 	}
 
-//	void createInRoomGOs() {
-//		foreach (var room in gc.map.rooms) {
-//			foreach (var door in room.doors) {
-//				GameObject door_go = (GameObject)Instantiate(doorPrefab, transform.position, Quaternion.identity);
-//				door_go.transform.SetParent(this.transform);
-//				door_go.transform.position = new Vector2(door.tile.x+0.5f, door.tile.y+0.5f);
-//				door_go.GetComponent<DoorController>().door = door;
-//				door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
-//				door.cbOnChanged(door);
-//			}
-//			foreach (var enemy in room.enemies) {
-//				GameObject enemy_go = (GameObject)Instantiate(enemy.prefab, transform.position, Quaternion.identity);
-//				enemy_go.transform.SetParent(this.transform);
-//				enemy_go.transform.position = new Vector2(enemy.spawnTile.x+0.5f, enemy.spawnTile.y+0.5f);
-//			}
-//		}
-//	}
+	void placeBonfireAndExit() {
+		GameObject bonfire_go = (GameObject)Instantiate(Resources.Load("prefabs/bonfire"), transform.position, Quaternion.identity);
+		bonfire_go.transform.position = new Vector3(gc.map.bonfire.x+0.5f, gc.map.bonfire.y+0.5f, 0);
 
-	void placeBonfire() {
-		GameObject go = (GameObject)Instantiate(Resources.Load("prefabs/bonfire"), transform.position, Quaternion.identity);
-		go.transform.position = new Vector3(gc.map.bonfire.x+0.5f, gc.map.bonfire.y+0.5f, 0);
-
+		GameObject exit_go = (GameObject)Instantiate(Resources.Load("prefabs/exit"), transform.position, Quaternion.identity);
+		exit_go.transform.position = new Vector3(gc.map.exit.x+0.5f, gc.map.exit.y+0.5f, 0);
 	}
 
 	public IEnumerator revealTilesForAreaWithID(int ID, Tile startTile) {
