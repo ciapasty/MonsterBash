@@ -13,6 +13,7 @@ public class Room : Area {
 	public List<Door> doors { get; protected set; }
 	public List<Room> connectedRooms;
 	public List<Enemy> enemies { get; protected set; }
+	public List<Enemy> objects { get; protected set; }
 
 	public RoomType? type { get; protected set; }
 
@@ -25,6 +26,7 @@ public class Room : Area {
 		doors = new List<Door>();
 		connectedRooms = new List<Room>();
 		enemies = new List<Enemy>();
+		objects = new List<Enemy>();
 	}
 
 	~Room() {
@@ -47,5 +49,9 @@ public class Room : Area {
 
 	public void addEnemy(Enemy enemy) {
 		enemies.Add(enemy);
+	}
+
+	public void addObject(Enemy obj) {
+		objects.Add(obj);
 	}
 }

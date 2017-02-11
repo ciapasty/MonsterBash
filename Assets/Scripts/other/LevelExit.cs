@@ -9,11 +9,6 @@ public class LevelExit : MonoBehaviour {
 	void Start () {
 		gc = GameController.Instance;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
 	void OnCollisionEnter2D(Collision2D col) {
 		if (col.gameObject.tag == "Player") {

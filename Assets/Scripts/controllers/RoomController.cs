@@ -33,6 +33,7 @@ public class RoomController : MonoBehaviour {
 
 	public void createGOs() {
 		createDoors();
+		createObjects();
 		spawnEnemies();
 	}
 
@@ -52,6 +53,18 @@ public class RoomController : MonoBehaviour {
 			doorGoMap.Add(door, door_go);
 			door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
 			door.cbOnChanged(door);
+		}
+	}
+
+	void createObjects() {
+		//enemyGoMap = new Dictionary<Enemy, GameObject>();
+		foreach (var obj in room.objects) {
+			GameObject obj_go = (GameObject)Instantiate(obj.prefab, transform.position, Quaternion.Euler(new Vector3(0f, 0f, Random.Range(0f, 90f))));
+			obj_go.transform.SetParent(this.transform);
+			obj_go.transform.position = new Vector2(obj.spawnTile.x+0.5f, obj.spawnTile.y+0.5f);
+//			obj_go.GetComponent<EnemyController>().enemy = obj;
+//			obj_go.GetComponent<EnemyController>().registerOnChangedCallback(enemyDiedCallback);
+//			enemyGoMap.Add(obj, obj_go);
 		}
 	}
 

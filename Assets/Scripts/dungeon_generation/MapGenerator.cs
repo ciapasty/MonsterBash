@@ -46,6 +46,8 @@ public class MapGenerator : MonoBehaviour {
 
 	// Enemies
 	public GameObject[] enemyPrefabs;
+	// Objects
+	public GameObject[] objectsPrefabs;
 
 	// World
 	public Map map { get; protected set; }
@@ -253,6 +255,7 @@ public class MapGenerator : MonoBehaviour {
 		generateCorridors();
 		addCorridorWalls();
 		assignRooms();
+		placeObjects();
 		placeEnemies();
 
 		// map is complete
@@ -580,8 +583,21 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
-	void placeRandomObjects() {
-		// TODO
+	void placeObjects() {
+		foreach (var room in map.rooms) {
+			int objectsCount = Random.Range(8,12);
+			while (objectsCount > 0) {
+				int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.width-1);
+				int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.height-1);
+				Tile tile = map.getTileAt(randX, randY);
+				if (tile.hasContent)
+					continue;
+
+				room.addObject(new Enemy(objectsPrefabs[Random.Range(0,objectsPrefabs.Length)], tile));
+				tile.hasContent = true;
+				objectsCount--;
+			}
+		}	
 	}
 
 	/// <summary>
