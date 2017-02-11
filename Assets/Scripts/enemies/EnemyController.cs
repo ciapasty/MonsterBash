@@ -4,7 +4,7 @@ using System.Collections;
 
 public class EnemyController : MonoBehaviour {
 
-	public Enemy enemy;
+	public Blueprint enemy;
 
 	private Animator animator;
 	private Rigidbody2D rigidbod;
@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour {
 
 	public int soulsCarried = 10;
 
-	Action<Enemy> cbOnDeath;
+	Action<Blueprint> cbOnDeath;
 
 	void Start () {
 		animator = GetComponent<Animator>();
@@ -123,11 +123,11 @@ public class EnemyController : MonoBehaviour {
 		this.enabled = false;
 	}
 
-	public void registerOnChangedCallback(Action<Enemy> callback) {
+	public void registerOnChangedCallback(Action<Blueprint> callback) {
 		cbOnDeath += callback;
 	}
 
-	public void unregisterOnChangedCallback(Action<Enemy> callback) {
+	public void unregisterOnChangedCallback(Action<Blueprint> callback) {
 		cbOnDeath -= callback;
 	}
 }

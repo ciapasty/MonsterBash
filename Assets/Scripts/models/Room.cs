@@ -12,8 +12,8 @@ public class Room : Area {
 	public Tile roomBase { get; protected set; }
 	public List<Door> doors { get; protected set; }
 	public List<Room> connectedRooms;
-	public List<Enemy> enemies { get; protected set; }
-	public List<Enemy> objects { get; protected set; }
+	public List<Blueprint> enemies { get; protected set; }
+	public List<Blueprint> objects { get; protected set; }
 
 	public RoomType? type { get; protected set; }
 
@@ -25,8 +25,8 @@ public class Room : Area {
 
 		doors = new List<Door>();
 		connectedRooms = new List<Room>();
-		enemies = new List<Enemy>();
-		objects = new List<Enemy>();
+		enemies = new List<Blueprint>();
+		objects = new List<Blueprint>();
 	}
 
 	~Room() {
@@ -47,11 +47,11 @@ public class Room : Area {
 		doors.Add(door);
 	}
 
-	public void addEnemy(Enemy enemy) {
+	public void addEnemy(Blueprint enemy) {
 		enemies.Add(enemy);
 	}
 
-	public void addObject(Enemy obj) {
+	public void addObject(Blueprint obj) {
 		objects.Add(obj);
 	}
 }

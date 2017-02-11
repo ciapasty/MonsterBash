@@ -17,8 +17,11 @@ public class RoomController : MonoBehaviour {
 
 	CameraFollowPlayer cameraFollowPlayer;
 
-	Dictionary<Enemy, GameObject> enemyGoMap;
+	Dictionary<Blueprint, GameObject> enemyGoMap;
+	Dictionary<Blueprint, GameObject> objectGoMap;
 	Dictionary<Door, GameObject> doorGoMap;
+
+	public List<GameObject> garbageGOs;
 
 	void Awake() {
 		cameraFollowPlayer = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CameraFollowPlayer>();
@@ -56,18 +59,6 @@ public class RoomController : MonoBehaviour {
 		}
 	}
 
-	void createObjects() {
-		//enemyGoMap = new Dictionary<Enemy, GameObject>();
-		foreach (var obj in room.objects) {
-			GameObject obj_go = (GameObject)Instantiate(obj.prefab, transform.position, Quaternion.Euler(new Vector3(0f, 0f, Random.Range(0f, 90f))));
-			obj_go.transform.SetParent(this.transform);
-			obj_go.transform.position = new Vector2(obj.spawnTile.x+0.5f, obj.spawnTile.y+0.5f);
-//			obj_go.GetComponent<EnemyController>().enemy = obj;
-//			obj_go.GetComponent<EnemyController>().registerOnChangedCallback(enemyDiedCallback);
-//			enemyGoMap.Add(obj, obj_go);
-		}
-	}
-
 	void removeDoors() {
 		foreach (var door in room.doors) {
 			door.cbOnChanged = null;
@@ -78,8 +69,32 @@ public class RoomController : MonoBehaviour {
 		doorGoMap = null;
 	}
 
+	void createObjects() {
+		objectGoMap = new Dictionary<Blueprint, GameObject>();
+		garbageGOs = new List<GameObject>();
+		foreach (var obj in room.objects) {
+			GameObject obj_go = (GameObject)Instantiate(obj.prefab, transform.position, Quaternion.identity);
+			obj_go.transform.SetParent(this.transform);
+			obj_go.transform.position = new Vector2(obj.spawnTile.x+0.5f, obj.spawnTile.y+0.5f);
+			obj_go.GetComponent<ObjectSmashed>().rc = this;
+			objectGoMap.Add(obj, obj_go);
+		}
+	}
+
+	void removeObjects() {
+		foreach (var obj in room.objects) {
+			Destroy(objectGoMap[obj]);
+			objectGoMap.Remove(obj);
+		}
+		objectGoMap = null;
+		foreach (var trash in garbageGOs) {
+			Destroy(trash);
+		}
+		garbageGOs = null;
+	}
+
 	void spawnEnemies() {
-		enemyGoMap = new Dictionary<Enemy, GameObject>();
+		enemyGoMap = new Dictionary<Blueprint, GameObject>();
 		foreach (var enemy in room.enemies) {
 			GameObject enemy_go = (GameObject)Instantiate(enemy.prefab, transform.position, Quaternion.identity);
 			enemy_go.transform.SetParent(this.transform);
@@ -118,7 +133,7 @@ public class RoomController : MonoBehaviour {
 		}
 	}
 
-	void enemyDiedCallback(Enemy enemy) {
+	void enemyDiedCallback(Blueprint enemy) {
 		enemyGoMap.Remove(enemy);
 		Debug.Log("Enemies left: "+enemyGoMap.Count);
 		if (enemyGoMap.Count == 0) {

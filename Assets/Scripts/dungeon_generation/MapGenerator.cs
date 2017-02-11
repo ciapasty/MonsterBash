@@ -593,7 +593,7 @@ public class MapGenerator : MonoBehaviour {
 				if (tile.hasContent)
 					continue;
 
-				room.addObject(new Enemy(objectsPrefabs[Random.Range(0,objectsPrefabs.Length)], tile));
+				room.addObject(new Blueprint(objectsPrefabs[Random.Range(0,objectsPrefabs.Length)], tile));
 				tile.hasContent = true;
 				objectsCount--;
 			}
@@ -615,7 +615,7 @@ public class MapGenerator : MonoBehaviour {
 					if (tile.hasContent)
 						continue;
 
-					room.addEnemy(new Enemy(enemyPrefabs[Random.Range(0,enemyPrefabs.Length)], tile));
+					room.addEnemy(new Blueprint(enemyPrefabs[Random.Range(0,enemyPrefabs.Length)], tile));
 					tile.hasContent = true;
 					enemiesCount--;
 				}

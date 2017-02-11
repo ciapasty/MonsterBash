@@ -5,7 +5,10 @@ using UnityEngine;
 public class ObjectSmashed : MonoBehaviour {
 
 	public GameObject scrapPrefab;
+	public int averageParts = 4;
+	public float maxVelocity = 8f;
 
+	public RoomController rc;
 	Sprite[] textures;
 
 	void Start () {
@@ -15,15 +18,18 @@ public class ObjectSmashed : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter2D(Collision2D col) {
-		int parts = Random.Range(3, 6);
+		int parts = Random.Range(averageParts-1, averageParts+2);
 		for (int i = 0; i < parts; i++) {
 			GameObject scrap = (GameObject)Instantiate(scrapPrefab, transform.position, Quaternion.Euler(new Vector3(0f,0f,Random.Range(0f, 90f))));
 			SpriteRenderer scrap_sr = scrap.GetComponent<SpriteRenderer>();
 			scrap_sr.sprite = textures[Random.Range(0, textures.Length)];
 			scrap_sr.sortingOrder = Random.Range(1, 4000);
 
-			Vector2 velocity = new Vector2(Random.Range(-8f, 8f), Random.Range(-8f, 8f));
+			Vector2 velocity = new Vector2(Random.Range(-maxVelocity, maxVelocity), Random.Range(-maxVelocity, maxVelocity));
 			scrap.GetComponent<Rigidbody2D>().velocity = velocity;
+			scrap.transform.SetParent(rc.transform);
+
+			rc.garbageGOs.Add(scrap);
 		}
 		Destroy(gameObject);
 	}
