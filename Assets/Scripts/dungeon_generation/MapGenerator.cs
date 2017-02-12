@@ -6,6 +6,11 @@ using System.Collections.Generic;
 
 public class MapGenerator : MonoBehaviour {
 
+	public string roomTemplatesFile = "room_templates.xml";
+	private RoomXMLParser xmlParser;
+	private List<RoomTemplate> roomTemplates;
+
+	// Rooms paramteres
 	public int roomCount = 30;
 	public int mainRoomCount = 6;
 	public int maxRoomWidth = 10;
@@ -22,6 +27,7 @@ public class MapGenerator : MonoBehaviour {
 
 	public float mainRoomMeanValueMod = 0.8f;
 
+	// Debug drawing
 	public bool drawTriangulation = false;
 	public bool drawSpanningTree = false;
 	public bool drawExtendedTree = false;
@@ -56,17 +62,21 @@ public class MapGenerator : MonoBehaviour {
 
 	void Awake() {
 		isFinished = false;
+		xmlParser = new RoomXMLParser();
 	}
 
 	/// <summary>
 	/// Starts the map generation routine.
 	/// </summary>
 	public void startMapCreation() {
-		generateInitialRooms();
-		createRoomGOs();
 
-		Time.timeScale = 5f;
-		StartCoroutine(CheckObjectsHaveStopped());
+		roomTemplates = xmlParser.getRoomTemplatesDictFrom(roomTemplatesFile);
+
+//		generateInitialRooms();
+//		createRoomGOs();
+//
+//		Time.timeScale = 5f;
+//		StartCoroutine(CheckObjectsHaveStopped());
 	}
 
 	/// <summary>
