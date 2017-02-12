@@ -50,7 +50,7 @@ public class MiniMapControl : MonoBehaviour {
 					panelImage.color = playerColor;
 				} else {
 					switch (gc.map.getTileAt(x, y).type) {
-					case TileType.outerWall:
+					case TileType.wallTop:
 						panelImage.color = wallColor; 
 						break;
 					case TileType.floor:
@@ -86,7 +86,7 @@ public class MiniMapControl : MonoBehaviour {
 			panelImage.color = playerColor;
 		} else {
 			switch (tile.type) {
-			case TileType.outerWall:
+			case TileType.wallTop:
 				panelImage.color = wallColor; 
 				return;
 			case TileType.floor:

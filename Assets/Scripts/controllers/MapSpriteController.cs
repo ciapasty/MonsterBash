@@ -62,7 +62,7 @@ public class MapSpriteController : MonoBehaviour {
 					fog_go.transform.position = go.transform.position;
 					go_fogMap.Add(go, fog_go);
 				}
-				if (tile.type == TileType.outerWall) {
+				if (tile.type == TileType.wallBottom || tile.type == TileType.wallMiddle || tile.type == TileType.wallTop) {
 					// Wall tile GameObject
 					GameObject go = (GameObject)Instantiate(wallPrefab, transform.position, Quaternion.identity);
 					go.transform.SetParent(this.transform);
@@ -104,39 +104,62 @@ public class MapSpriteController : MonoBehaviour {
 			}
 
 			int tileIndex;
-			if (tile.type == TileType.outerWall) {
+			if (tile.type == TileType.wallBottom || tile.type == TileType.wallMiddle) {
+				tileIndex = getSideTileIndex( // left, right
+					tile.type, TileType.wallTop, 
+					gc.map.getTileAt(tile.x+1, tile.y),
+					gc.map.getTileAt(tile.x-1, tile.y));
+			} else {
+				TileType neighbourType1;
+				TileType neighbourType2;
+				TileType neighbourType3;
+
+				switch(tile.type) {
+				case TileType.floor:
+					neighbourType1 = TileType.wallBottom;
+					neighbourType2 = TileType.wallMiddle;
+					neighbourType3 = TileType.wallTop;
+
+					break;
+				case TileType.wallTop:
+					neighbourType1 = TileType.floor;
+					neighbourType2 = TileType.wallMiddle;
+					neighbourType3 = TileType.wallBottom;
+					break;
+				default:
+					neighbourType1 = TileType.empty;
+					neighbourType2 = TileType.empty;
+					neighbourType3 = TileType.empty;
+					break;
+				}
+
 				tileIndex = getCrossTileIndex( // Above, left, below, right
-					TileType.floor, 
+					neighbourType1, neighbourType2, neighbourType3,
 					gc.map.getTileAt(tile.x, tile.y+1),
 					gc.map.getTileAt(tile.x-1, tile.y),
 					gc.map.getTileAt(tile.x, tile.y-1), 
 					gc.map.getTileAt(tile.x+1, tile.y));
 
-				// Adjust bounding box for bottom outer walls
-				if (tileIndex%2 == 1) {
-					BoxCollider2D box = go_tileMap[tile].GetComponent<BoxCollider2D>();
-					Vector2 boxOffset = box.offset;
-					Vector2 boxSize = box.size;
-					boxOffset.y = -0.125f;
-					boxSize.y = 0.75f;
-					box.size = boxSize;
-					box.offset = boxOffset;
-				}
+				// Adjust bounding box for top walls
+				//				if (tile.type == TileType.wallTop) {
+				//					if (tileIndex%2 == 1) {
+				//						BoxCollider2D box = go_tileMap[tile].GetComponent<BoxCollider2D>();
+				//						Vector2 boxOffset = box.offset;
+				//						Vector2 boxSize = box.size;
+				//						boxOffset.y = -0.125f;
+				//						boxSize.y = 0.75f;
+				//						box.size = boxSize;
+				//						box.offset = boxOffset;
+				//					}
+				//				}
 				if (tileIndex == 0)
 					// Diagonal tiles check
 					tileIndex = 16+getCrossTileIndex( // AboveLeft, BelowLeft, BelowRight, AboveRight
-						TileType.floor,
+						neighbourType1, neighbourType2, neighbourType3,
 						gc.map.getTileAt(tile.x-1, tile.y+1),
 						gc.map.getTileAt(tile.x-1, tile.y-1),
 						gc.map.getTileAt(tile.x+1, tile.y-1),
 						gc.map.getTileAt(tile.x+1, tile.y+1));
-			} else {
-				tileIndex = getCrossTileIndex( // Above, left, below, right
-					tile.type, 
-					gc.map.getTileAt(tile.x, tile.y+1),
-					gc.map.getTileAt(tile.x-1, tile.y),
-					gc.map.getTileAt(tile.x, tile.y-1), 
-					gc.map.getTileAt(tile.x+1, tile.y));
 			}
 
 			string spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
@@ -149,12 +172,23 @@ public class MapSpriteController : MonoBehaviour {
 		}
 	}
 
-	int getCrossTileIndex(TileType type, Tile above, Tile left, Tile below, Tile right) {
+	int getCrossTileIndex(TileType type1, TileType type2, TileType type3, Tile above, Tile left, Tile below, Tile right) {
 		var sum = 0;
-		if (above != null && above.type == type) sum += 1;
-		if (left != null && left.type == type)  sum += 2;
-		if (below != null && below.type == type) sum += 4;
-		if (right != null && right.type == type) sum += 8;
+		if (above != null && (above.type == type1 || above.type == type2 || above.type == type3))
+			sum += 1;
+		if (left != null && (left.type == type1 || left.type == type2 || left.type == type3))
+			sum += 2;
+		if (below != null && (below.type == type1 || below.type == type2 || below.type == type3))
+			sum += 4;
+		if (right != null && (right.type == type1 || right.type == type2 || right.type == type3))
+			sum += 8;
+		return sum;
+	}
+
+	int getSideTileIndex(TileType type1, TileType type2, Tile left, Tile right) {
+		var sum = 0;
+		if (left != null && (left.type == type1 || left.type == type2))  sum += 1;
+		if (right != null && (right.type == type1 || right.type == type2)) sum += 2;
 		return sum;
 	}
 

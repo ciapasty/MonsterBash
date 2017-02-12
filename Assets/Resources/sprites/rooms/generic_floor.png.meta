@@ -1,64 +1,41 @@
 fileFormatVersion: 2
-guid: 0e6f74dc7e1e04e2581a07fa1363970d
-timeCreated: 1486282027
+guid: 05ab418726cc34ebd939fd99ef44c713
+timeCreated: 1486828058
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: generic_floor_NW_NeSwNw
-    21300002: generic_floor_NE_NeSeNw
-    21300004: generic_floor_NW_NeSeSwNw
-    21300006: generic_floor_NE_NeSeSwNw
-    21300008: generic_floor__Se
-    21300010: generic_floor__Sw
-    21300012: generic_floor_SW_SeSwNw
-    21300014: generic_floor_ES_NeSeSw
-    21300016: generic_floor_SW_NeSeSwNw
-    21300018: generic_floor_ES_NeSeSwNw
-    21300020: generic_floor__Ne
-    21300022: generic_floor_Nw
-    21300024: generic_floor__NeNw
-    21300026: generic_floor__NeSe
-    21300028: generic_floor_N_NeNw
-    21300030: generic_floor_E_NeSe
-    21300032: generic_floor_EW_NeSeSwNw
-    21300034: generic_floor_NS_NeSeSwNw
-    21300036: generic_floor__SwNw
-    21300038: generic_floor__SeSw
-    21300040: generic_floor_W_SwNw
-    21300042: generic_floor_S_SeSw
-    21300044: generic_floor_EW_SeSwNw
-    21300046: generic_floor_EW_NeSeSw
-    21300048: generic_floor_E_Se
-    21300050: generic_floor_W_Sw
-    21300052: generic_floor_NEW_NeSeSwNw
-    21300054: generic_floor_NES_NeSeSwNw
-    21300056: generic_floor__NeSwNw
-    21300058: generic_floor__NeSeNw
-    21300060: generic_floor_2
-    21300062: generic_floor_3
-    21300064: generic_floor_NSW_NeSeSwNw
-    21300066: generic_floor_ESW_NeSeSwNw
-    21300068: generic_floor__SeSwNw
-    21300070: generic_floor__NeSeSw
-    21300072: generic_floor_1
-    21300074: generic_floor_37
-    21300076: generic_floor_38
-    21300078: generic_floor_39
-    21300080: generic_floor_40
-    21300082: generic_floor_41
-    21300084: generic_floor_0
-    21300086: generic_floor_4
-    21300088: generic_floor_5
-    21300090: generic_floor_6
-    21300092: generic_floor_7
-    21300094: generic_floor_8
-    21300096: generic_floor_9
-    21300098: generic_floor_10
-    21300100: generic_floor_11
-    21300102: generic_floor_12
-    21300104: generic_floor_13
-    21300106: generic_floor_14
-    21300108: generic_floor_15
+    21300000: generic_floor_0
+    21300002: generic_floor_1
+    21300004: generic_floor_2
+    21300006: generic_floor_3
+    21300008: generic_floor_4
+    21300010: generic_floor_5
+    21300012: generic_floor_6
+    21300014: generic_floor_7
+    21300016: generic_floor_8
+    21300018: generic_floor_9
+    21300020: generic_floor_10
+    21300022: generic_floor_11
+    21300024: generic_floor_12
+    21300026: generic_floor_13
+    21300028: generic_floor_14
+    21300030: generic_floor_15
+    21300032: generic_floor_16
+    21300034: generic_floor_17
+    21300036: generic_floor_18
+    21300038: generic_floor_19
+    21300040: generic_floor_20
+    21300042: generic_floor_21
+    21300044: generic_floor_22
+    21300046: generic_floor_23
+    21300048: generic_floor_24
+    21300050: generic_floor_25
+    21300052: generic_floor_26
+    21300054: generic_floor_27
+    21300056: generic_floor_28
+    21300058: generic_floor_29
+    21300060: generic_floor_30
+    21300062: generic_floor_31
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -95,7 +72,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 24
+  spritePixelsToUnits: 16
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -137,9 +114,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 24
-        height: 24
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,10 +126,10 @@ TextureImporter:
       name: generic_floor_1
       rect:
         serializedVersion: 2
-        x: 24
-        y: 0
-        width: 24
-        height: 24
+        x: 16
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,10 +139,10 @@ TextureImporter:
       name: generic_floor_2
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
-        width: 24
-        height: 24
+        x: 32
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -175,12 +152,12 @@ TextureImporter:
       name: generic_floor_3
       rect:
         serializedVersion: 2
-        x: 72
-        y: 0
-        width: 24
-        height: 24
+        x: 48
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -188,10 +165,10 @@ TextureImporter:
       name: generic_floor_4
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
-        width: 24
-        height: 24
+        x: 64
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -201,10 +178,10 @@ TextureImporter:
       name: generic_floor_5
       rect:
         serializedVersion: 2
-        x: 120
-        y: 0
-        width: 24
-        height: 24
+        x: 80
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,10 +191,10 @@ TextureImporter:
       name: generic_floor_6
       rect:
         serializedVersion: 2
-        x: 144
-        y: 0
-        width: 24
-        height: 24
+        x: 96
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,10 +204,10 @@ TextureImporter:
       name: generic_floor_7
       rect:
         serializedVersion: 2
-        x: 168
-        y: 0
-        width: 24
-        height: 24
+        x: 112
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,10 +217,10 @@ TextureImporter:
       name: generic_floor_8
       rect:
         serializedVersion: 2
-        x: 192
-        y: 0
-        width: 24
-        height: 24
+        x: 128
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -253,10 +230,10 @@ TextureImporter:
       name: generic_floor_9
       rect:
         serializedVersion: 2
-        x: 216
-        y: 0
-        width: 24
-        height: 24
+        x: 144
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -266,10 +243,10 @@ TextureImporter:
       name: generic_floor_10
       rect:
         serializedVersion: 2
-        x: 240
-        y: 0
-        width: 24
-        height: 24
+        x: 160
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -279,10 +256,10 @@ TextureImporter:
       name: generic_floor_11
       rect:
         serializedVersion: 2
-        x: 264
-        y: 0
-        width: 24
-        height: 24
+        x: 176
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,10 +269,10 @@ TextureImporter:
       name: generic_floor_12
       rect:
         serializedVersion: 2
-        x: 288
-        y: 0
-        width: 24
-        height: 24
+        x: 192
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -305,10 +282,10 @@ TextureImporter:
       name: generic_floor_13
       rect:
         serializedVersion: 2
-        x: 312
-        y: 0
-        width: 24
-        height: 24
+        x: 208
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -318,10 +295,10 @@ TextureImporter:
       name: generic_floor_14
       rect:
         serializedVersion: 2
-        x: 336
-        y: 0
-        width: 24
-        height: 24
+        x: 224
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -331,10 +308,218 @@ TextureImporter:
       name: generic_floor_15
       rect:
         serializedVersion: 2
-        x: 360
+        x: 240
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_16
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_17
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_18
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_19
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_20
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_21
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_22
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_23
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_24
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_25
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_26
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_27
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_28
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_29
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_30
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_floor_31
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

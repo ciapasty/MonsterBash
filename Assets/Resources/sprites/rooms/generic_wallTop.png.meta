@@ -1,93 +1,41 @@
 fileFormatVersion: 2
-guid: 3fbe6848b21a7478dae06da96bf3416f
-timeCreated: 1486282075
+guid: 7531647483c5440dcbe8880a0f94a5b1
+timeCreated: 1486828454
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: generic_wall_NW_NeSwNw
-    21300002: generic_wall_N_NeNw
-    21300004: generic_wall_NE_NeSeNw
-    21300006: generic_wall_3
-    21300008: generic_wall_4
-    21300010: generic_wall_5
-    21300012: generic_wall_6
-    21300014: generic_wall_W_SwNw
-    21300016: generic_wall_8
-    21300018: generic_wall_E_NeSe
-    21300020: generic_wall_10
-    21300022: generic_wall_11
-    21300024: generic_wall_12
-    21300026: generic_wall_13
-    21300028: generic_wall_SW_SeSwNw
-    21300030: generic_wall_S_SeSw
-    21300032: generic_wall_ES_NeSeSw
-    21300034: generic_wall_17
-    21300036: generic_wall_18
-    21300038: generic_wall_19
-    21300040: generic_wall_20
-    21300042: generic_wall__Se
-    21300044: generic_wall__Sw
-    21300046: generic_wall__Ne
-    21300048: generic_wall__Nw
-    21300050: generic_wall_25
-    21300052: generic_wall_26
-    21300054: generic_wall_27
-    21300056: generic_wall_E_Ne
-    21300058: generic_wall_E_Se
-    21300060: generic_wall_S_Se
-    21300062: generic_wall_S_Sw
-    21300064: generic_wall_N_Ne
-    21300066: generic_wall_N_Nw
-    21300068: generic_wall_W_Sw
-    21300070: generic_wall_W_Nw
-    21300072: generic_wall_0
-    21300074: generic_wall_1
-    21300076: generic_wall_2
-    21300078: generic_wall_7
-    21300080: generic_wall_9
-    21300082: generic_wall_14
-    21300084: generic_wall_15
-    21300086: generic_wall_16
-    21300088: generic_wall_21
-    21300090: generic_wall_22
-    21300092: generic_wall_23
-    21300094: generic_wall_24
-    21300096: generic_wall_28
-    21300098: generic_wall_29
-    21300100: generic_wall_30
-    21300102: generic_wall_31
-    21300104: generic_outerWall_0
-    21300106: generic_outerWall_1
-    21300108: generic_outerWall_2
-    21300110: generic_outerWall_3
-    21300112: generic_outerWall_4
-    21300114: generic_outerWall_5
-    21300116: generic_outerWall_6
-    21300118: generic_outerWall_7
-    21300120: generic_outerWall_8
-    21300122: generic_outerWall_9
-    21300124: generic_outerWall_10
-    21300126: generic_outerWall_11
-    21300128: generic_outerWall_12
-    21300130: generic_outerWall_13
-    21300132: generic_outerWall_14
-    21300134: generic_outerWall_15
-    21300136: generic_outerWall_16
-    21300138: generic_outerWall_17
-    21300140: generic_outerWall_18
-    21300142: generic_outerWall_19
-    21300144: generic_outerWall_20
-    21300146: generic_outerWall_21
-    21300148: generic_outerWall_22
-    21300150: generic_outerWall_23
-    21300152: generic_outerWall_24
-    21300154: generic_outerWall_25
-    21300156: generic_outerWall_26
-    21300158: generic_outerWall_27
-    21300160: generic_outerWall_28
-    21300162: generic_outerWall_29
-    21300164: generic_outerWall_30
-    21300166: generic_outerWall_31
+    21300000: generic_wallTop_0
+    21300002: generic_wallTop_1
+    21300004: generic_wallTop_2
+    21300006: generic_wallTop_3
+    21300008: generic_wallTop_4
+    21300010: generic_wallTop_5
+    21300012: generic_wallTop_6
+    21300014: generic_wallTop_7
+    21300016: generic_wallTop_8
+    21300018: generic_wallTop_9
+    21300020: generic_wallTop_10
+    21300022: generic_wallTop_11
+    21300024: generic_wallTop_12
+    21300026: generic_wallTop_13
+    21300028: generic_wallTop_14
+    21300030: generic_wallTop_15
+    21300032: generic_wallTop_16
+    21300034: generic_wallTop_17
+    21300036: generic_wallTop_18
+    21300038: generic_wallTop_19
+    21300040: generic_wallTop_20
+    21300042: generic_wallTop_21
+    21300044: generic_wallTop_22
+    21300046: generic_wallTop_23
+    21300048: generic_wallTop_24
+    21300050: generic_wallTop_25
+    21300052: generic_wallTop_26
+    21300054: generic_wallTop_27
+    21300056: generic_wallTop_28
+    21300058: generic_wallTop_29
+    21300060: generic_wallTop_30
+    21300062: generic_wallTop_31
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -124,7 +72,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 24
+  spritePixelsToUnits: 16
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -162,418 +110,418 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: generic_outerWall_0
+      name: generic_wallTop_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 24
-        width: 24
-        height: 24
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_1
+      name: generic_wallTop_1
       rect:
         serializedVersion: 2
-        x: 24
-        y: 24
-        width: 24
-        height: 24
+        x: 16
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_2
+      name: generic_wallTop_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_wallTop_3
       rect:
         serializedVersion: 2
         x: 48
-        y: 24
-        width: 24
-        height: 24
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_3
+      name: generic_wallTop_4
       rect:
         serializedVersion: 2
-        x: 72
-        y: 24
-        width: 24
-        height: 24
+        x: 64
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_4
+      name: generic_wallTop_5
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_wallTop_6
       rect:
         serializedVersion: 2
         x: 96
-        y: 24
-        width: 24
-        height: 24
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_5
+      name: generic_wallTop_7
       rect:
         serializedVersion: 2
-        x: 120
-        y: 24
-        width: 24
-        height: 24
+        x: 112
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_6
+      name: generic_wallTop_8
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_wallTop_9
       rect:
         serializedVersion: 2
         x: 144
-        y: 24
-        width: 24
-        height: 24
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_7
+      name: generic_wallTop_10
       rect:
         serializedVersion: 2
-        x: 168
-        y: 24
-        width: 24
-        height: 24
+        x: 160
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_8
+      name: generic_wallTop_11
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_wallTop_12
       rect:
         serializedVersion: 2
         x: 192
-        y: 24
-        width: 24
-        height: 24
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_9
+      name: generic_wallTop_13
       rect:
         serializedVersion: 2
-        x: 216
-        y: 24
-        width: 24
-        height: 24
+        x: 208
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_10
+      name: generic_wallTop_14
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_wallTop_15
       rect:
         serializedVersion: 2
         x: 240
-        y: 24
-        width: 24
-        height: 24
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_11
-      rect:
-        serializedVersion: 2
-        x: 264
-        y: 24
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: generic_outerWall_12
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 24
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: generic_outerWall_13
-      rect:
-        serializedVersion: 2
-        x: 312
-        y: 24
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: generic_outerWall_14
-      rect:
-        serializedVersion: 2
-        x: 336
-        y: 24
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: generic_outerWall_15
-      rect:
-        serializedVersion: 2
-        x: 360
-        y: 24
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: generic_outerWall_16
+      name: generic_wallTop_16
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_17
+      name: generic_wallTop_17
       rect:
         serializedVersion: 2
-        x: 24
+        x: 16
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_18
+      name: generic_wallTop_18
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_wallTop_19
       rect:
         serializedVersion: 2
         x: 48
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_19
+      name: generic_wallTop_20
       rect:
         serializedVersion: 2
-        x: 72
+        x: 64
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_20
+      name: generic_wallTop_21
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_wallTop_22
       rect:
         serializedVersion: 2
         x: 96
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_21
+      name: generic_wallTop_23
       rect:
         serializedVersion: 2
-        x: 120
+        x: 112
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_22
+      name: generic_wallTop_24
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_wallTop_25
       rect:
         serializedVersion: 2
         x: 144
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_23
+      name: generic_wallTop_26
       rect:
         serializedVersion: 2
-        x: 168
+        x: 160
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_24
+      name: generic_wallTop_27
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_wallTop_28
       rect:
         serializedVersion: 2
         x: 192
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_25
+      name: generic_wallTop_29
       rect:
         serializedVersion: 2
-        x: 216
+        x: 208
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_outerWall_26
+      name: generic_wallTop_30
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: generic_wallTop_31
       rect:
         serializedVersion: 2
         x: 240
         y: 0
-        width: 24
-        height: 24
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: generic_outerWall_27
-      rect:
-        serializedVersion: 2
-        x: 264
-        y: 0
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: generic_outerWall_28
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 0
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: generic_outerWall_29
-      rect:
-        serializedVersion: 2
-        x: 312
-        y: 0
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: generic_outerWall_30
-      rect:
-        serializedVersion: 2
-        x: 336
-        y: 0
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: generic_outerWall_31
-      rect:
-        serializedVersion: 2
-        x: 360
-        y: 0
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

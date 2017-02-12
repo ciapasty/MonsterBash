@@ -11,6 +11,9 @@ public class FirstRenderCamera : MonoBehaviour {
 	public int rTexHeight { get; protected set; }
 	public int rTexWidth { get; protected set; }
 
+	public int pixelsPerUnit = 16;
+	public int roundingFactor = 2;
+
 	public Camera playerCamera { get; protected set; }
 
 	void Start() {
@@ -35,7 +38,7 @@ public class FirstRenderCamera : MonoBehaviour {
 
 	void setScreenRenderSizes() {
 		scale = getScale();
-		playerCamera.orthographicSize = playerCamera.pixelHeight/24f/2f/(float)scale;
+		playerCamera.orthographicSize = playerCamera.pixelHeight/(float)pixelsPerUnit/2f/(float)scale;
 		rTexHeight = getRenderTextureHeight();
 		rTexWidth = getRenderTextureWidth();
 	}
@@ -44,7 +47,7 @@ public class FirstRenderCamera : MonoBehaviour {
 		int scale = 1;
 		float x = 20f;
 		while(x > 9f) {
-			x = playerCamera.pixelHeight/24f/(float)scale;
+			x = playerCamera.pixelHeight/(float)pixelsPerUnit/(float)scale;
 			scale++;
 		}
 		return scale-1;
@@ -52,11 +55,11 @@ public class FirstRenderCamera : MonoBehaviour {
 
 	int getRenderTextureHeight() {
 		float height = playerCamera.pixelHeight/scale;
-		return (2*Mathf.CeilToInt(height/2f));
+		return (roundingFactor*Mathf.CeilToInt(height/(float)roundingFactor));
 	}
 
 	int getRenderTextureWidth() {
 		float width = rTexHeight*playerCamera.aspect;
-		return (2*Mathf.CeilToInt(width/2f));
+		return (roundingFactor*Mathf.CeilToInt(width/(float)roundingFactor));
 	}
 }

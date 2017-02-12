@@ -254,6 +254,7 @@ public class MapGenerator : MonoBehaviour {
 		layOutRooms();
 		generateCorridors();
 		addCorridorWalls();
+		updateWallTiles();
 		assignRooms();
 		placeObjects();
 		placeEnemies();
@@ -280,7 +281,7 @@ public class MapGenerator : MonoBehaviour {
 					Tile tile = map.getTileAt(room.roomBase.x+x,room.roomBase.y+y);
 					tile.setRoom(room);
 					if (x == 0 || x == room.width-1 || y == 0 || y == room.height-1) {
-						tile.type = TileType.outerWall;
+						tile.type = TileType.wallBottom;
 					} else {
 						tile.type = TileType.floor;
 					}
@@ -409,9 +410,10 @@ public class MapGenerator : MonoBehaviour {
 		max = (t1.x > t2.x) ? t1.x : t2.x;
 
 		for (int i = min+1; i < max; i++) {
-			if (map.getTileAt(i, t1.y).type == TileType.floor || map.getTileAt(i, t1.y).type == TileType.outerWall ||
-				map.getTileAt(i, t1.y+1).type == TileType.floor || map.getTileAt(i, t1.y+1).type == TileType.outerWall ||
-				map.getTileAt(i, t1.y-1).type == TileType.floor || map.getTileAt(i, t1.y-1).type == TileType.outerWall )
+			if (map.getTileAt(i, t1.y).type == TileType.floor || map.getTileAt(i, t1.y).type == TileType.wallBottom ||
+				map.getTileAt(i, t1.y+1).type == TileType.floor || map.getTileAt(i, t1.y+1).type == TileType.wallBottom ||
+				map.getTileAt(i, t1.y-1).type == TileType.floor || map.getTileAt(i, t1.y-1).type == TileType.wallBottom ||
+				map.getTileAt(i, t1.y-2).type == TileType.floor || map.getTileAt(i, t1.y-2).type == TileType.wallBottom )
 				return true;
 		}
 		return false;
@@ -429,9 +431,10 @@ public class MapGenerator : MonoBehaviour {
 		max = (t1.y > t2.y) ? t1.y : t2.y;
 
 		for (int i = min+1; i < max; i++) {
-			if (map.getTileAt(t1.x, i).type == TileType.floor || map.getTileAt(t1.x, i).type == TileType.outerWall ||
-				map.getTileAt(t1.x+1, i).type == TileType.floor || map.getTileAt(t1.x+1, i).type == TileType.outerWall ||
-				map.getTileAt(t1.x-1, i).type == TileType.floor || map.getTileAt(t1.x-1, i).type == TileType.outerWall )
+			if (map.getTileAt(t1.x, i).type == TileType.floor || map.getTileAt(t1.x, i).type == TileType.wallBottom ||
+				map.getTileAt(t1.x+1, i).type == TileType.floor || map.getTileAt(t1.x+1, i).type == TileType.wallBottom ||
+				map.getTileAt(t1.x-1, i).type == TileType.floor || map.getTileAt(t1.x-1, i).type == TileType.wallBottom ||
+				map.getTileAt(t1.x-2, i).type == TileType.floor || map.getTileAt(t1.x-2, i).type == TileType.wallBottom )
 				return true;
 		}
 		return false;
@@ -451,6 +454,7 @@ public class MapGenerator : MonoBehaviour {
 			r.addDoor(new Door(t1, DoorOrientation.NS));
 			map.getTileAt(t1.x, t1.y+1).setCorridor(corridor);
 			map.getTileAt(t1.x, t1.y-1).setCorridor(corridor);
+			map.getTileAt(t1.x, t1.y-2).setCorridor(corridor);
 		}
 
 		if (t2.room != null) {
@@ -460,6 +464,7 @@ public class MapGenerator : MonoBehaviour {
 			r.addDoor(new Door(t2, DoorOrientation.NS));
 			map.getTileAt(t2.x, t2.y+1).setCorridor(corridor);
 			map.getTileAt(t2.x, t2.y-1).setCorridor(corridor);
+			map.getTileAt(t2.x, t2.y-2).setCorridor(corridor);
 		}
 
 		map.addCorridor(corridor);
@@ -474,6 +479,10 @@ public class MapGenerator : MonoBehaviour {
 			t.type = TileType.floor;
 			if (t.corridor == null)
 				t.setCorridor(corridor);
+			t2 = map.getTileAt(i, t1.y-1);
+			t2.type = TileType.floor;
+			if (t2.corridor == null)
+				t2.setCorridor(corridor);
 		}
 	}
 
@@ -491,6 +500,7 @@ public class MapGenerator : MonoBehaviour {
 			r.addDoor(new Door(t1, DoorOrientation.WE));
 			map.getTileAt(t1.x+1, t1.y).setCorridor(corridor);
 			map.getTileAt(t1.x-1, t1.y).setCorridor(corridor);
+			map.getTileAt(t1.x-2, t1.y).setCorridor(corridor);
 		}
 
 		if (t2.room != null) {
@@ -500,6 +510,7 @@ public class MapGenerator : MonoBehaviour {
 			r.addDoor(new Door(t2, DoorOrientation.WE));
 			map.getTileAt(t2.x+1, t2.y).setCorridor(corridor);
 			map.getTileAt(t2.x-1, t2.y).setCorridor(corridor);
+			map.getTileAt(t2.x-2, t2.y).setCorridor(corridor);
 		}
 
 		map.addCorridor(corridor);
@@ -514,6 +525,10 @@ public class MapGenerator : MonoBehaviour {
 			t.type = TileType.floor;
 			if (t.corridor == null)
 				t.setCorridor(corridor);
+			t2 = map.getTileAt(t1.x-1, i);
+			t2.type = TileType.floor;
+			if (t2.corridor == null)
+				t2.setCorridor(corridor);
 		}
 	}
 
@@ -545,7 +560,44 @@ public class MapGenerator : MonoBehaviour {
 	void setCorridorWall(Tile tile, Corridor corridor) {
 		if (tile.type == TileType.empty) {
 			tile.setCorridor(corridor);
-			tile.type = TileType.outerWall;
+			tile.type = TileType.wallBottom;
+		}
+	}
+
+	void updateWallTiles() {
+		for (int y = map.height-1; y >= 0; y--) {
+			for (int x = 0; x < map.width; x++) {
+				Tile tile = map.getTileAt(x, y);
+				Tile tileUp = map.getTileAt(x, y+1);
+				Tile tileUpUp = map.getTileAt(x, y+2);
+				if (tile.type == TileType.wallBottom) {
+					if (map.getTileAt(x, y-1) == null || map.getTileAt(x, y-1).type == TileType.empty) {
+						tile.type = TileType.wallTop;
+						if (tileUp.type != TileType.floor) {
+							tileUp.type = TileType.wallTop;
+							tileUp.setRoom(tile.room);
+							tileUp.setCorridor(tile.corridor);
+							if (tileUpUp.type != TileType.floor) {
+								tileUpUp.type = TileType.wallTop;
+								tileUpUp.setRoom(tile.room);
+								tileUpUp.setCorridor(tile.corridor);
+							}
+						}
+						continue;
+					} else {
+						if (tileUp.type != TileType.floor) {
+							tileUp.type = TileType.wallMiddle;
+							tileUp.setRoom(tile.room);
+							tileUp.setCorridor(tile.corridor);
+						}
+						if (tileUpUp.type != TileType.floor) {
+							tileUpUp.type = TileType.wallTop;
+							tileUpUp.setRoom(tile.room);
+							tileUpUp.setCorridor(tile.corridor);
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -584,18 +636,20 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	void placeObjects() {
-		foreach (var room in map.rooms) {
-			int objectsCount = Random.Range(8,12);
-			while (objectsCount > 0) {
-				int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.width-1);
-				int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.height-1);
-				Tile tile = map.getTileAt(randX, randY);
-				if (tile.hasContent)
-					continue;
+		if (objectsPrefabs.Length > 0) {
+			foreach (var room in map.rooms) {
+				int objectsCount = Random.Range(8, 12);
+				while (objectsCount > 0) {
+					int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.width-1);
+					int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.height-1);
+					Tile tile = map.getTileAt(randX, randY);
+					if (tile.hasContent || tile.type != TileType.floor)
+						continue;
 
-				room.addObject(new Blueprint(objectsPrefabs[Random.Range(0,objectsPrefabs.Length)], tile));
-				tile.hasContent = true;
-				objectsCount--;
+					room.addObject(new Blueprint(objectsPrefabs[Random.Range(0, objectsPrefabs.Length)], tile));
+					tile.hasContent = true;
+					objectsCount--;
+				}
 			}
 		}	
 	}
@@ -604,20 +658,22 @@ public class MapGenerator : MonoBehaviour {
 	/// Places random number of enemies on random floor tiles
 	/// </summary>
 	void placeEnemies() {
-		foreach (var room in map.rooms) {
-			if (room.type != RoomType.bonfire && room.type != RoomType.exit) {
-				int enemiesCount = Random.Range(3,5);
+		if (enemyPrefabs.Length > 0) {
+			foreach (var room in map.rooms) {
+				if (room.type != RoomType.bonfire && room.type != RoomType.exit) {
+					int enemiesCount = Random.Range(3, 5);
 
-				while (enemiesCount > 0) {
-					int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.width-1);
-					int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.height-1);
-					Tile tile = map.getTileAt(randX, randY);
-					if (tile.hasContent)
-						continue;
+					while (enemiesCount > 0) {
+						int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.width-1);
+						int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.height-1);
+						Tile tile = map.getTileAt(randX, randY);
+						if (tile.hasContent || tile.type != TileType.floor)
+							continue;
 
-					room.addEnemy(new Blueprint(enemyPrefabs[Random.Range(0,enemyPrefabs.Length)], tile));
-					tile.hasContent = true;
-					enemiesCount--;
+						room.addEnemy(new Blueprint(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], tile));
+						tile.hasContent = true;
+						enemiesCount--;
+					}
 				}
 			}
 		}

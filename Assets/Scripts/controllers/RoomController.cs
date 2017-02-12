@@ -117,10 +117,12 @@ public class RoomController : MonoBehaviour {
 	void removeEnemies() {
 		if (enemyGoMap.Count > 0) {
 			foreach (var enemy in room.enemies) {
-				enemyGoMap[enemy].GetComponent<EnemyController>().unregisterOnChangedCallback(enemyDiedCallback);
-				enemyGoMap[enemy].GetComponent<EnemyController>().enemy = null;
-				Destroy(enemyGoMap[enemy]);
-				enemyGoMap.Remove(enemy);
+				if (enemyGoMap.ContainsKey(enemy)) {
+					enemyGoMap[enemy].GetComponent<EnemyController>().unregisterOnChangedCallback(enemyDiedCallback);
+					enemyGoMap[enemy].GetComponent<EnemyController>().enemy = null;
+					Destroy(enemyGoMap[enemy]);
+					enemyGoMap.Remove(enemy);
+				}
 			}
 		}
 		enemyGoMap = null;

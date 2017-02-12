@@ -18,6 +18,10 @@ public class ObjectSmashed : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter2D(Collision2D col) {
+		onHit(null);
+	}
+
+	void onHit(Attack attk) {
 		int parts = Random.Range(averageParts-1, averageParts+2);
 		for (int i = 0; i < parts; i++) {
 			GameObject scrap = (GameObject)Instantiate(scrapPrefab, transform.position, Quaternion.Euler(new Vector3(0f,0f,Random.Range(0f, 90f))));

@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 
 // To be extended
-public enum TileType {empty, floor, outerWall, wall}
+public enum TileType {empty, floor, wallBottom, wallMiddle, wallTop}
 // ??
 public enum TileClass {room, corridor, door}
 
