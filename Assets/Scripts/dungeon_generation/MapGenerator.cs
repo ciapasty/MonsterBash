@@ -6,8 +6,10 @@ using System.Collections.Generic;
 
 public class MapGenerator : MonoBehaviour {
 
+	public string baseTemplatesFile = "base_room_templates.xml";
 	public string roomTemplatesFile = "room_templates.xml";
 	private RoomXMLParser xmlParser;
+	private List<RoomTemplate> baseRoomTemplates;
 	private List<RoomTemplate> roomTemplates;
 
 	// Rooms paramteres
@@ -38,8 +40,7 @@ public class MapGenerator : MonoBehaviour {
 	float minX = 0f;
 	float minY = 0f;
 
-	private Room[] rooms;
-	private List<Room> mainRooms;
+	private List<Room> rooms;
 	private Dictionary<Room, GameObject> roomGoMap;
 
 	private int iterationCount = 1;
@@ -70,45 +71,34 @@ public class MapGenerator : MonoBehaviour {
 	/// </summary>
 	public void startMapCreation() {
 
+		baseRoomTemplates = xmlParser.getRoomTemplatesDictFrom(baseTemplatesFile);
 		roomTemplates = xmlParser.getRoomTemplatesDictFrom(roomTemplatesFile);
 
-//		generateInitialRooms();
-//		createRoomGOs();
-//
-//		Time.timeScale = 5f;
-//		StartCoroutine(CheckObjectsHaveStopped());
+		generateRooms();
+		createRoomGOs();
+
+		Time.timeScale = 5f;
+		StartCoroutine(CheckObjectsHaveStopped());
 	}
 
 	/// <summary>
 	/// Generates all rooms (main and fill).
 	/// </summary>
-	void generateInitialRooms() {
-		rooms = new Room[roomCount];
-		mainRooms = new List<Room>();
+	void generateRooms() {
+		rooms = new List<Room>();
+
+		// Bonfire
+		rooms.Add(new Room(0, baseRoomTemplates[0], getRandomPointInElipse(elipseWidth, elipseHeight)));
+		// Exit
+		rooms.Add(new Room(1, baseRoomTemplates[1], getRandomPointInElipse(elipseWidth, elipseHeight)));
 
 		for (int i = 0; i < roomCount; i++) {
-			int roomWidth = getRoomDimention(maxRoomWidth);
-			int roomHeight = getRoomDimention(maxRoomHeight);
-
-			rooms[i] = new Room(i, roomWidth, roomHeight, getRandomPointInElipse(elipseWidth, elipseHeight));
-
-			meanRoomWidth += roomWidth;
-			meanRoomHeight += roomHeight;
+			rooms.Add(new Room(i+2, roomTemplates[Random.Range(0,roomTemplates.Count)], getRandomPointInElipse(elipseWidth, elipseHeight)));
 		}
 		meanRoomWidth = meanRoomWidth/roomCount;
 		meanRoomHeight = meanRoomHeight/roomCount;
 
-		print(roomCount+" rooms created");
-
-		foreach (var room in rooms) {
-			if (room.width > meanRoomWidth*0.8f && room.height > meanRoomHeight*0.8f) {
-				mainRooms.Add(room);
-			}
-		}
-
-		if (mainRooms.Count < mainRoomCount) {
-			generateInitialRooms();
-		}
+		print(roomCount+2+" rooms created");
 	}
 
 	int getRoomDimention(int max) {
@@ -139,15 +129,15 @@ public class MapGenerator : MonoBehaviour {
 
 		updateMainRoomsPosition();
 		// Move everything to positive coords
-		foreach (var room in mainRooms) {
-			float bottom = room.center.y-room.height/2;
-			float left = room.center.x-room.width/2;
+		foreach (var room in rooms) {
+			float bottom = room.center.y-room.template.height/2;
+			float left = room.center.x-room.template.width/2;
 
 			if (bottom < minY) { minY = bottom; }
 			if (left < minX) { minX = left; }
 		}
 
-		foreach (var room in mainRooms) {
+		foreach (var room in rooms) {
 			room.center.x += -minX;
 			room.center.y += -minY;
 
@@ -164,7 +154,7 @@ public class MapGenerator : MonoBehaviour {
 	/// Restarts CheckObjectsHaveStopped().
 	/// </summary>
 	void updateMainRoomsPosition() {
-		foreach (var room in mainRooms) {
+		foreach (var room in rooms) {
 			GameObject go = roomGoMap[room];
 			room.center = go.transform.position;
 		}
@@ -177,9 +167,9 @@ public class MapGenerator : MonoBehaviour {
 		List<uint> colors = new List<uint> ();
 		m_points = new List<Vector2> ();
 
-		for (int i = 0; i < mainRooms.Count; i++) {
+		for (int i = 0; i < rooms.Count; i++) {
 			colors.Add(0);
-			m_points.Add(mainRooms[i].center);
+			m_points.Add(rooms[i].center);
 		}
 
 		Delaunay.Voronoi v = new Delaunay.Voronoi(m_points, null, new Rect());
@@ -210,16 +200,16 @@ public class MapGenerator : MonoBehaviour {
 		foreach (var edge in m_extendedTree) {
 			Vector2 left = (Vector2)edge.p0;
 			Vector2 right = (Vector2)edge.p1;
-			foreach (var room in mainRooms) {
+			foreach (var room in rooms) {
 				if (room.center == left) {
-					foreach (var connRoom in mainRooms) {
+					foreach (var connRoom in rooms) {
 						if (connRoom.center == right) {
 							if (!room.connectedRooms.Contains(connRoom))
 								room.connectedRooms.Add(connRoom);
 						}
 					}
 				} else if (room.center == right) {
-					foreach (var connRoom in mainRooms) {
+					foreach (var connRoom in rooms) {
 						if (connRoom.center == left) {
 							if (!room.connectedRooms.Contains(connRoom))
 								room.connectedRooms.Add(connRoom);
@@ -236,9 +226,9 @@ public class MapGenerator : MonoBehaviour {
 
 		List<Room> singleEntranceRooms = new List<Room>();
 
-		foreach (var room in mainRooms) {
-			float top = (room.center.y+room.height/2)+mainRoomsBuffer*10;
-			float right = (room.center.x+room.width/2)+mainRoomsBuffer*10;
+		foreach (var room in rooms) {
+			float top = (room.center.y+room.template.height/2)+mainRoomsBuffer*10;
+			float right = (room.center.x+room.template.width/2)+mainRoomsBuffer*10;
 
 			if (room.connectedRooms.Count == 1) {
 				singleEntranceRooms.Add(room);
@@ -250,11 +240,11 @@ public class MapGenerator : MonoBehaviour {
 
 		removeRoomGOs();
 		// Regenerate map if there are not enough single entrance rooms for bonfire and exit
-		if (singleEntranceRooms.Count < 2) {
-			Debug.Log("Not enough single entrance rooms! Regenerating!");
-			startMapCreation();
-			return;
-		}
+//		if (singleEntranceRooms.Count < 2) {
+//			Debug.Log("Not enough single entrance rooms! Regenerating!");
+//			startMapCreation();
+//			return;
+//		}
 
 		// Layout rooms in newly created tile map.
 		map = new Map(Mathf.CeilToInt(maxX)+1, Mathf.CeilToInt(maxY)+1);
@@ -264,8 +254,12 @@ public class MapGenerator : MonoBehaviour {
 		layOutRooms();
 		generateCorridors();
 		addCorridorWalls();
-		updateWallTiles();
-		assignRooms();
+		//assignRooms();
+		Room bonfireRoom = map.getRoomWithID(0);
+		map.setSpawnTileTo(map.getTileAt(bonfireRoom.roomBase.x+bonfireRoom.template.width/2, bonfireRoom.roomBase.y+bonfireRoom.template.height/2));
+		Room exitRoom = map.getRoomWithID(1);
+		map.setExitTileTo(map.getTileAt(exitRoom.roomBase.x+exitRoom.template.width/2, exitRoom.roomBase.y+exitRoom.template.height/2));
+
 		placeObjects();
 		placeEnemies();
 
@@ -278,23 +272,25 @@ public class MapGenerator : MonoBehaviour {
 	/// Lays out main rooms on tile map
 	/// </summary>
 	void layOutRooms() {
-		foreach (var room in mainRooms) {
+		foreach (var room in rooms) {
 			map.addRoom(room);
-			int roomBaseX = Mathf.CeilToInt(room.center.x)-(room.width/2);
-			int roomBaseY = Mathf.CeilToInt(room.center.y)-(room.height/2);
+			int roomBaseX = Mathf.CeilToInt(room.center.x)-(room.template.width/2);
+			int roomBaseY = Mathf.CeilToInt(room.center.y)-(room.template.height/2);
 			room.setBaseTileTo(map.getTileAt(roomBaseX,roomBaseY));
-			for (int x = 0; x < room.width; x++) {
-				for (int y = 0; y < room.height; y++) {
+			for (int x = 0; x < room.template.width; x++) {
+				for (int y = 0; y < room.template.height; y++) {
 					if (roomBaseX+x >= map.width || roomBaseX+x < 0 || roomBaseY+y >= map.height || roomBaseY+y < 0){
 						Debug.LogError("Tile ("+(roomBaseX+x)+", "+(roomBaseY+y)+") is out of map bounds ("+map.width+". "+map.height+")");
 					}
 					Tile tile = map.getTileAt(room.roomBase.x+x,room.roomBase.y+y);
 					tile.setRoom(room);
-					if (x == 0 || x == room.width-1 || y == 0 || y == room.height-1) {
-						tile.type = TileType.wallBottom;
-					} else {
-						tile.type = TileType.floor;
-					}
+
+					tile.type = room.template.tileMap[x,y].type;
+//					if (x == 0 || x == room.width-1 || y == 0 || y == room.height-1) {
+//						tile.type = TileType.wallBottom;
+//					} else {
+//						tile.type = TileType.floor;
+//					}
 				}
 			}
 		}
@@ -316,26 +312,26 @@ public class MapGenerator : MonoBehaviour {
 				if (!done.Contains(r2)) {
 					corridor = new Corridor(corridorID);
 
-					int midY = ((r1.roomBase.y+(r1.height/2))+(r2.roomBase.y+(r2.height/2)))/2;
-					int midX = ((r1.roomBase.x+(r1.width/2))+(r2.roomBase.x+(r2.width/2)))/2;
+					int midY = ((r1.roomBase.y+(r1.template.height/2))+(r2.roomBase.y+(r2.template.height/2)))/2;
+					int midX = ((r1.roomBase.x+(r1.template.width/2))+(r2.roomBase.x+(r2.template.width/2)))/2;
 
 					if(isHorizontalCorridor(r1, r2, midY)) {
-						if (midX < r1.roomBase.x+r1.width/2) {
+						if (midX < r1.roomBase.x+r1.template.width/2) {
 							tile2 = map.getTileAt(r1.roomBase.x, midY);
-							tile1 = map.getTileAt(r2.roomBase.x+r2.width-1, midY);
+							tile1 = map.getTileAt(r2.roomBase.x+r2.template.width-1, midY);
 						} else {
-							tile1 = map.getTileAt(r1.roomBase.x+r1.width-1, midY);
+							tile1 = map.getTileAt(r1.roomBase.x+r1.template.width-1, midY);
 							tile2 = map.getTileAt(r2.roomBase.x, midY);
 						}
 						if (!crossesRoomHorizontally(tile1, tile2))
 							layOutHorizontalCorridor(tile1, tile2, corridor);
 
 					} else if (isVerticalCorridor(r1, r2, midX)) {
-						if (midY < r1.roomBase.y+r1.height/2) {
+						if (midY < r1.roomBase.y+r1.template.height/2) {
 							tile2 = map.getTileAt(midX, r1.roomBase.y);
-							tile1 = map.getTileAt(midX, r2.roomBase.y+r2.height-1);
+							tile1 = map.getTileAt(midX, r2.roomBase.y+r2.template.height-1);
 						} else {
-							tile1 = map.getTileAt(midX, r1.roomBase.y+r1.height-1);
+							tile1 = map.getTileAt(midX, r1.roomBase.y+r1.template.height-1);
 							tile2 = map.getTileAt(midX, r2.roomBase.y);
 						}
 						if (!crossesRoomVertically(tile1, tile2))
@@ -344,29 +340,29 @@ public class MapGenerator : MonoBehaviour {
 					} else {
 						// TODO: Double segment corridors
 
-						tile2 = map.getTileAt(r1.roomBase.x+r1.width/2, r2.roomBase.y+r2.height/2);
+						tile2 = map.getTileAt(r1.roomBase.x+r1.template.width/2, r2.roomBase.y+r2.template.height/2);
 						if (r1.roomBase.y > r2.roomBase.y) {
-							tile1 = map.getTileAt(r1.roomBase.x+r1.width/2, r1.roomBase.y);
+							tile1 = map.getTileAt(r1.roomBase.x+r1.template.width/2, r1.roomBase.y);
 						} else {
-							tile1 = map.getTileAt(r1.roomBase.x+r1.width/2, r1.roomBase.y+r1.height-1);
+							tile1 = map.getTileAt(r1.roomBase.x+r1.template.width/2, r1.roomBase.y+r1.template.height-1);
 						}
 						if (r1.roomBase.x > r2.roomBase.x) {
-							tile3 = map.getTileAt(r2.roomBase.x+r2.width-1, r2.roomBase.y+r2.height/2);
+							tile3 = map.getTileAt(r2.roomBase.x+r2.template.width-1, r2.roomBase.y+r2.template.height/2);
 						} else {
-							tile3 = map.getTileAt(r2.roomBase.x, r2.roomBase.y+r2.height/2);
+							tile3 = map.getTileAt(r2.roomBase.x, r2.roomBase.y+r2.template.height/2);
 						}
 
 						if (crossesRoomVertically(tile1, tile2) || crossesRoomHorizontally(tile2, tile3)) {
-							tile2 = map.getTileAt(r2.roomBase.x+r2.width/2, r1.roomBase.y+r1.height/2);
+							tile2 = map.getTileAt(r2.roomBase.x+r2.template.width/2, r1.roomBase.y+r1.template.height/2);
 							if (r1.roomBase.y > r2.roomBase.y) {
-								tile1 = map.getTileAt(r2.roomBase.x+r2.width/2, r2.roomBase.y+r2.height-1);
+								tile1 = map.getTileAt(r2.roomBase.x+r2.template.width/2, r2.roomBase.y+r2.template.height-1);
 							} else {
-								tile1 = map.getTileAt(r2.roomBase.x+r2.width/2, r2.roomBase.y);
+								tile1 = map.getTileAt(r2.roomBase.x+r2.template.width/2, r2.roomBase.y);
 							}
 							if (r1.roomBase.x > r2.roomBase.x) {
-								tile3 = map.getTileAt(r1.roomBase.x, r1.roomBase.y+r1.height/2);
+								tile3 = map.getTileAt(r1.roomBase.x, r1.roomBase.y+r1.template.height/2);
 							} else {
-								tile3 = map.getTileAt(r1.roomBase.x+r1.width-1, r1.roomBase.y+r1.height/2);
+								tile3 = map.getTileAt(r1.roomBase.x+r1.template.width-1, r1.roomBase.y+r1.template.height/2);
 							}
 							if (!(crossesRoomVertically(tile1, tile2) || crossesRoomHorizontally(tile2, tile3))) {
 								layOutHorizontalCorridor(tile3, tile2, corridor);
@@ -392,8 +388,8 @@ public class MapGenerator : MonoBehaviour {
 	/// <param name="r2">Room 2.</param>
 	/// <param name="midY">Middle point Y.</param>
 	bool isHorizontalCorridor(Room r1, Room r2, int midY) {
-		return ((midY-r1.roomBase.y-roomWallMargin) >= 0 && (midY-r1.roomBase.y-roomWallMargin) < r1.height-roomWallMargin*2) 
-			&& ((midY-r2.roomBase.y-roomWallMargin) >= 0 && (midY-r2.roomBase.y-roomWallMargin) < r2.height-roomWallMargin*2);
+		return ((midY-r1.roomBase.y-roomWallMargin) >= 0 && (midY-r1.roomBase.y-roomWallMargin) < r1.template.height-roomWallMargin*2) 
+			&& ((midY-r2.roomBase.y-roomWallMargin) >= 0 && (midY-r2.roomBase.y-roomWallMargin) < r2.template.height-roomWallMargin*2);
 	}
 
 	/// <summary>
@@ -404,8 +400,8 @@ public class MapGenerator : MonoBehaviour {
 	/// <param name="r2">Room 2.</param>
 	/// <param name="midY">Middle point X.</param>
 	bool isVerticalCorridor(Room r1, Room r2, int midX) {
-		return ((midX-r1.roomBase.x-roomWallMargin) >= 0 && (midX-r1.roomBase.x-roomWallMargin) < r1.width-roomWallMargin*2) 
-			&& ((midX-r2.roomBase.x-roomWallMargin) >= 0 && (midX-r2.roomBase.x-roomWallMargin) < r2.width-roomWallMargin*2);
+		return ((midX-r1.roomBase.x-roomWallMargin) >= 0 && (midX-r1.roomBase.x-roomWallMargin) < r1.template.width-roomWallMargin*2) 
+			&& ((midX-r2.roomBase.x-roomWallMargin) >= 0 && (midX-r2.roomBase.x-roomWallMargin) < r2.template.width-roomWallMargin*2);
 	}
 
 	/// <summary>
@@ -574,46 +570,6 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
-	void updateWallTiles() {
-		for (int y = map.height-1; y >= 0; y--) {
-			for (int x = 0; x < map.width; x++) {
-				Tile tile = map.getTileAt(x, y);
-				Tile tileUp = map.getTileAt(x, y+1);
-				Tile tileUpUp = map.getTileAt(x, y+2);
-				if (tile.type == TileType.wallBottom) {
-					if (map.getTileAt(x, y-1) == null || map.getTileAt(x, y-1).type == TileType.empty) {
-						tile.type = TileType.wallTop;
-						if (tileUp.type != TileType.floor) {
-							tileUp.type = TileType.wallTop;
-							updateTileAreas(tile, tileUp);
-							if (tileUpUp.type != TileType.floor) {
-								tileUpUp.type = TileType.wallTop;
-								updateTileAreas(tile, tileUpUp);
-							}
-						}
-						continue;
-					} else {
-						if (tileUp.type != TileType.floor) {
-							tileUp.type = TileType.wallMiddle;
-							updateTileAreas(tile, tileUp);
-						}
-						if (tileUpUp.type != TileType.floor) {
-							tileUpUp.type = TileType.wallTop;
-							updateTileAreas(tile, tileUpUp);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	void updateTileAreas(Tile sourceTile, Tile tile) {
-		if (tile.room == null)
-			tile.setRoom(sourceTile.room);
-		if (tile.corridor == null)
-			tile.setCorridor(sourceTile.corridor);
-	}
-
 	/// <summary>
 	/// Assigns start and exit zones to rooms with one entrance.
 	/// </summary>
@@ -629,14 +585,14 @@ public class MapGenerator : MonoBehaviour {
 				if (room.doors.Count == 1) {
 					if (!hasExit) {
 						room.setRoomType(RoomType.exit);
-						map.setExitTileTo(map.getTileAt(room.roomBase.x+room.width/2, room.roomBase.y+room.height/2));
+						map.setExitTileTo(map.getTileAt(room.roomBase.x+room.template.width/2, room.roomBase.y+room.template.height/2));
 						hasExit = true;
 						done.Add(room);
 						continue;
 					} 
 					if (!hasBonfire) {
 						room.setRoomType(RoomType.bonfire);
-						map.setSpawnTileTo(map.getTileAt(room.roomBase.x+room.width/2, room.roomBase.y+room.height/2));
+						map.setSpawnTileTo(map.getTileAt(room.roomBase.x+room.template.width/2, room.roomBase.y+room.template.height/2));
 						hasBonfire = true;
 						done.Add(room);
 						continue;
@@ -653,8 +609,8 @@ public class MapGenerator : MonoBehaviour {
 			foreach (var room in map.rooms) {
 				int objectsCount = Random.Range(8, 12);
 				while (objectsCount > 0) {
-					int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.width-1);
-					int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.height-1);
+					int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.template.width-1);
+					int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.template.height-1);
 					Tile tile = map.getTileAt(randX, randY);
 					if (tile.hasContent || tile.type != TileType.floor)
 						continue;
@@ -677,8 +633,8 @@ public class MapGenerator : MonoBehaviour {
 					int enemiesCount = Random.Range(3, 5);
 
 					while (enemiesCount > 0) {
-						int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.width-1);
-						int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.height-1);
+						int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.template.width-1);
+						int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.template.height-1);
 						Tile tile = map.getTileAt(randX, randY);
 						if (tile.hasContent || tile.type != TileType.floor)
 							continue;
@@ -695,35 +651,14 @@ public class MapGenerator : MonoBehaviour {
 	/// <summary>
 	/// Creates GameObjects with box colliders for all rooms.
 	/// </summary>
-	void createRoomGOs() {
+	void createRoomGOs () {
 		roomGoMap = new Dictionary<Room, GameObject>();
 
 		foreach (var room in rooms) {
 			GameObject go = (GameObject)Instantiate(room_go, transform.position, Quaternion.identity);
 			go.transform.SetParent(this.transform);
 			go.transform.position = room.center;
-			go.GetComponent<BoxCollider2D>().size = new Vector2(room.width+mainRoomsBuffer, room.height+mainRoomsBuffer);
-			roomGoMap.Add(room, go);
-
-			if (mainRooms.Contains(room)) {
-				go.GetComponent<DrawBorders>().color = Color.red;
-			}
-		}
-
-		Debug.Log(mainRooms.Count+" main rooms");
-	}
-
-	/// <summary>
-	/// Creates GameObjects with box colliders for main rooms only.
-	/// </summary>
-	void createMainRoomGOs () {
-		roomGoMap = new Dictionary<Room, GameObject>();
-
-		foreach (var room in mainRooms) {
-			GameObject go = (GameObject)Instantiate(room_go, transform.position, Quaternion.identity);
-			go.transform.SetParent(this.transform);
-			go.transform.position = room.center;
-			go.GetComponent<BoxCollider2D>().size = new Vector2(room.width+mainRoomsBuffer, room.height+mainRoomsBuffer);
+			go.GetComponent<BoxCollider2D>().size = new Vector2(room.template.width+mainRoomsBuffer, room.template.height+mainRoomsBuffer);
 			roomGoMap.Add(room, go);
 
 			go.GetComponent<DrawBorders>().color = Color.red;

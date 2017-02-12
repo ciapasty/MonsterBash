@@ -27,8 +27,11 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 	public void setupSprites() {
-		createTileGOs();
-		updateTileSprites();
+		createFloorTileGOs();
+		updateFloorTileSprites();
+		updateWallTiles();
+		createWallTileGOs();
+		updateWallTileSprites();
 		placeBonfireAndExit();
 	}
 
@@ -44,7 +47,7 @@ public class MapSpriteController : MonoBehaviour {
 		go_tileMap = null;
 	}
 
-	void createTileGOs() {
+	void createFloorTileGOs() {
 		go_tileMap = new Dictionary<Tile, GameObject>();
 		go_fogMap = new Dictionary<GameObject, GameObject>();
 		for (int x = 0; x < gc.map.width; x++) {
@@ -57,11 +60,20 @@ public class MapSpriteController : MonoBehaviour {
 					go.transform.position = new Vector2(x+0.5f, y+0.5f);
 					go_tileMap.Add(tile, go);
 					// Fog of war GameObject
-					GameObject fog_go = (GameObject)Instantiate(fogPrefab, transform.position, Quaternion.identity);
-					fog_go.transform.SetParent(go.transform);
-					fog_go.transform.position = go.transform.position;
-					go_fogMap.Add(go, fog_go);
+//					GameObject fog_go = (GameObject)Instantiate(fogPrefab, transform.position, Quaternion.identity);
+//					fog_go.transform.SetParent(go.transform);
+//					fog_go.transform.position = go.transform.position;
+//					go_fogMap.Add(go, fog_go);
 				}
+				tile.registerBeenDiscoveredCallback(revealTile);
+			}
+		}
+	}
+
+	void createWallTileGOs() {
+		for (int x = 0; x < gc.map.width; x++) {
+			for (int y = 0; y < gc.map.height; y++) {
+				Tile tile = gc.map.getTileAt(x, y);
 				if (tile.type == TileType.wallBottom || tile.type == TileType.wallMiddle || tile.type == TileType.wallTop) {
 					// Wall tile GameObject
 					GameObject go = (GameObject)Instantiate(wallPrefab, transform.position, Quaternion.identity);
@@ -69,105 +81,181 @@ public class MapSpriteController : MonoBehaviour {
 					go.transform.position = new Vector2(x+0.5f, y+0.5f);
 					go_tileMap.Add(tile, go);
 					// Fog of war GameObject
-					GameObject fog_go = (GameObject)Instantiate(fogPrefab, transform.position, Quaternion.identity);
-					fog_go.transform.SetParent(go.transform);
-					fog_go.transform.position = go.transform.position;
-					go_fogMap.Add(go, fog_go);
+//					GameObject fog_go = (GameObject)Instantiate(fogPrefab, transform.position, Quaternion.identity);
+//					fog_go.transform.SetParent(go.transform);
+//					fog_go.transform.position = go.transform.position;
+//					if (!go_fogMap.ContainsKey(go)) {
+//						go_fogMap.Add(go, fog_go);
+//					}
 				}
 				tile.registerBeenDiscoveredCallback(revealTile);
 			}
 		}
 	}
 
-	void updateTileSprites() {
+	/// <summary>
+	/// Updates wall tiles type.
+	/// </summary>
+	void updateWallTiles() {
+		for (int y = gc.map.height-1; y >= 0; y--) {
+			for (int x = 0; x < gc.map.width; x++) {
+				Tile tile = gc.map.getTileAt(x, y);
+				if (tile.type == TileType.wallBottom) {
+					Tile tileUp = gc.map.getTileAt(x, y+1);
+					Tile tileUpUp = gc.map.getTileAt(x, y+2);
+					if (gc.map.getTileAt(x, y-1) == null || gc.map.getTileAt(x, y-1).type == TileType.empty) {
+						tile.type = TileType.empty;
+						tileUp.type = TileType.empty;
+						tileUpUp.type = TileType.wallTop;
+
+//						if (tileUp.type != TileType.floor) {
+//							
+//							updateTileAreas(tile, tileUp);
+//							if (tileUpUp.type != TileType.floor) {
+//								updateTileAreas(tile, tileUpUp);
+//							}
+//						}
+					} else {
+						tileUp.type = TileType.wallMiddle;
+						updateTileAreas(tile, tileUp);
+						tileUpUp.type = TileType.wallTop;
+						updateTileAreas(tile, tileUpUp);
+
+//						if (tileUp.type != TileType.floor) {
+//							tileUp.type = TileType.wallMiddle;
+//							updateTileAreas(tile, tileUp);
+//						} 
+////						else if (tileUp.type == TileType.floor && map.getTileAt(x, y-1).type == TileType.floor){
+////							tileUp.type = TileType.wallMiddle;
+////							tileUpUp.type = TileType.wallTop;
+////						}
+//						if (tileUpUp.type != TileType.floor) {
+//							tileUpUp.type = TileType.wallTop;
+//							updateTileAreas(tile, tileUpUp);
+//						}
+					}
+					removeFloorGOsUnderWall(tile);
+					removeFloorGOsUnderWall(tileUp);
+					removeFloorGOsUnderWall(tileUpUp);
+				}
+			}
+		}
+	}
+
+	void removeFloorGOsUnderWall(Tile tile) {
+		if (go_tileMap.ContainsKey(tile)) {
+			Destroy(go_tileMap[tile]);
+			go_tileMap.Remove(tile);
+		}
+	}
+
+	void updateTileAreas(Tile sourceTile, Tile tile) {
+		if (tile.room == null)
+			tile.setRoom(sourceTile.room);
+		if (tile.corridor == null)
+			tile.setCorridor(sourceTile.corridor);
+	}
+
+	void updateFloorTileSprites() {
 		Dictionary<string, Sprite> roomSprites = new Dictionary<string, Sprite>();
 		foreach (var sprite in Resources.LoadAll<Sprite>("sprites/rooms/")) {
 			roomSprites.Add(sprite.name, sprite);
 		}
 
 		foreach (var tile in go_tileMap.Keys) {
-			SpriteRenderer go_sr = go_tileMap[tile].GetComponent<SpriteRenderer>();
+			if (tile.type == TileType.floor) {
+				SpriteRenderer go_sr = go_tileMap[tile].GetComponent<SpriteRenderer>();
 
-			if (tile.room != null) {
-				switch (gc.map.getRoomWithID(tile.room.ID).type) {
-				case RoomType.exit:
-					go_sr.color = exitRoomColor;
-					break;
-				case RoomType.bonfire:
-					go_sr.color = bonfireRoomColor;
-					break;
-				case RoomType.generic:
-					break;
-				}
-			} else {
-				go_sr.color = corridorColor;
-			}
+				TileType neighbourType1 = TileType.wallBottom;
+				TileType neighbourType2 = TileType.wallMiddle;
+				TileType neighbourType3 = TileType.wallTop;
 
-			int tileIndex;
-			if (tile.type == TileType.wallBottom || tile.type == TileType.wallMiddle) {
-				tileIndex = getSideTileIndex( // left, right
-					tile.type, TileType.wallTop, 
-					gc.map.getTileAt(tile.x+1, tile.y),
-					gc.map.getTileAt(tile.x-1, tile.y));
-			} else {
-				TileType neighbourType1;
-				TileType neighbourType2;
-				TileType neighbourType3;
+				int tileIndex = getCrossTileIndex(// Above, left, below, right
+					                neighbourType1, neighbourType2, neighbourType3,
+					                gc.map.getTileAt(tile.x, tile.y+1),
+					                gc.map.getTileAt(tile.x-1, tile.y),
+					                gc.map.getTileAt(tile.x, tile.y-1), 
+					                gc.map.getTileAt(tile.x+1, tile.y));
 
-				switch(tile.type) {
-				case TileType.floor:
-					neighbourType1 = TileType.wallBottom;
-					neighbourType2 = TileType.wallMiddle;
-					neighbourType3 = TileType.wallTop;
-
-					break;
-				case TileType.wallTop:
-					neighbourType1 = TileType.floor;
-					neighbourType2 = TileType.wallMiddle;
-					neighbourType3 = TileType.wallBottom;
-					break;
-				default:
-					neighbourType1 = TileType.empty;
-					neighbourType2 = TileType.empty;
-					neighbourType3 = TileType.empty;
-					break;
-				}
-
-				tileIndex = getCrossTileIndex( // Above, left, below, right
-					neighbourType1, neighbourType2, neighbourType3,
-					gc.map.getTileAt(tile.x, tile.y+1),
-					gc.map.getTileAt(tile.x-1, tile.y),
-					gc.map.getTileAt(tile.x, tile.y-1), 
-					gc.map.getTileAt(tile.x+1, tile.y));
-
-				// Adjust bounding box for top walls
-				//				if (tile.type == TileType.wallTop) {
-				//					if (tileIndex%2 == 1) {
-				//						BoxCollider2D box = go_tileMap[tile].GetComponent<BoxCollider2D>();
-				//						Vector2 boxOffset = box.offset;
-				//						Vector2 boxSize = box.size;
-				//						boxOffset.y = -0.125f;
-				//						boxSize.y = 0.75f;
-				//						box.size = boxSize;
-				//						box.offset = boxOffset;
-				//					}
-				//				}
-				if (tileIndex == 0)
+				if (tileIndex == 0) {
 					// Diagonal tiles check
-					tileIndex = 16+getCrossTileIndex( // AboveLeft, BelowLeft, BelowRight, AboveRight
+					tileIndex = 16+getCrossTileIndex(// AboveLeft, BelowLeft, BelowRight, AboveRight
 						neighbourType1, neighbourType2, neighbourType3,
 						gc.map.getTileAt(tile.x-1, tile.y+1),
 						gc.map.getTileAt(tile.x-1, tile.y-1),
 						gc.map.getTileAt(tile.x+1, tile.y-1),
 						gc.map.getTileAt(tile.x+1, tile.y+1));
-			}
+				}
 
-			string spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
-			// Temporary, for testing
-			if (!roomSprites.ContainsKey(spriteName)) {
-				Debug.LogError("No sprite with name: "+spriteName);
-			} else {
-				go_sr.sprite = roomSprites[spriteName];
+				string spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
+				// Temporary, for testing
+				if (!roomSprites.ContainsKey(spriteName)) {
+					Debug.LogError("No sprite with name: "+spriteName);
+				} else {
+					go_sr.sprite = roomSprites[spriteName];
+				}
+			}
+		}
+	}
+
+	void updateWallTileSprites() {
+		Dictionary<string, Sprite> roomSprites = new Dictionary<string, Sprite>();
+		foreach (var sprite in Resources.LoadAll<Sprite>("sprites/rooms/")) {
+			roomSprites.Add(sprite.name, sprite);
+		}
+
+		foreach (var tile in go_tileMap.Keys) {
+			if (tile.type == TileType.wallBottom || tile.type == TileType.wallMiddle || tile.type == TileType.wallTop) {
+
+				SpriteRenderer go_sr = go_tileMap[tile].GetComponent<SpriteRenderer>();
+				int tileIndex;
+
+				if (tile.type == TileType.wallBottom || tile.type == TileType.wallMiddle) {
+					tileIndex = getSideTileIndex( // left, right
+						tile.type, TileType.wallTop, 
+						gc.map.getTileAt(tile.x+1, tile.y),
+						gc.map.getTileAt(tile.x-1, tile.y));
+				} else {
+					TileType neighbourType1 = TileType.floor;
+					TileType neighbourType2 = TileType.wallMiddle;
+					TileType neighbourType3 = TileType.wallBottom;
+
+					tileIndex = getCrossTileIndex( // Above, left, below, right
+						neighbourType1, neighbourType2, neighbourType3,
+						gc.map.getTileAt(tile.x, tile.y+1),
+						gc.map.getTileAt(tile.x-1, tile.y),
+						gc.map.getTileAt(tile.x, tile.y-1), 
+						gc.map.getTileAt(tile.x+1, tile.y));
+					if (tileIndex == 0)
+						// Diagonal tiles check
+						tileIndex = 16+getCrossTileIndex( // AboveLeft, BelowLeft, BelowRight, AboveRight
+							neighbourType1, neighbourType2, neighbourType3,
+							gc.map.getTileAt(tile.x-1, tile.y+1),
+							gc.map.getTileAt(tile.x-1, tile.y-1),
+							gc.map.getTileAt(tile.x+1, tile.y-1),
+							gc.map.getTileAt(tile.x+1, tile.y+1));
+				}
+
+				// Adjust bounding box for top walls
+				if (tile.type == TileType.wallTop) {
+					if (tileIndex%2 == 1) {
+						BoxCollider2D box = go_tileMap[tile].GetComponent<BoxCollider2D>();
+						Vector2 boxOffset = box.offset;
+						Vector2 boxSize = box.size;
+						boxOffset.y = -0.375f;
+						boxSize.y = 0.25f;
+						box.size = boxSize;
+						box.offset = boxOffset;
+					}
+				}
+
+				string spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
+				// Temporary, for testing
+				if (!roomSprites.ContainsKey(spriteName)) {
+					Debug.LogError("No sprite with name: "+spriteName);
+				} else {
+					go_sr.sprite = roomSprites[spriteName];
+				}
 			}
 		}
 	}
