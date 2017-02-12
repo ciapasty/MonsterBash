@@ -575,30 +575,33 @@ public class MapGenerator : MonoBehaviour {
 						tile.type = TileType.wallTop;
 						if (tileUp.type != TileType.floor) {
 							tileUp.type = TileType.wallTop;
-							tileUp.setRoom(tile.room);
-							tileUp.setCorridor(tile.corridor);
+							updateTileAreas(tile, tileUp);
 							if (tileUpUp.type != TileType.floor) {
 								tileUpUp.type = TileType.wallTop;
-								tileUpUp.setRoom(tile.room);
-								tileUpUp.setCorridor(tile.corridor);
+								updateTileAreas(tile, tileUpUp);
 							}
 						}
 						continue;
 					} else {
 						if (tileUp.type != TileType.floor) {
 							tileUp.type = TileType.wallMiddle;
-							tileUp.setRoom(tile.room);
-							tileUp.setCorridor(tile.corridor);
+							updateTileAreas(tile, tileUp);
 						}
 						if (tileUpUp.type != TileType.floor) {
 							tileUpUp.type = TileType.wallTop;
-							tileUpUp.setRoom(tile.room);
-							tileUpUp.setCorridor(tile.corridor);
+							updateTileAreas(tile, tileUpUp);
 						}
 					}
 				}
 			}
 		}
+	}
+
+	void updateTileAreas(Tile sourceTile, Tile tile) {
+		if (tile.room == null)
+			tile.setRoom(sourceTile.room);
+		if (tile.corridor == null)
+			tile.setCorridor(sourceTile.corridor);
 	}
 
 	/// <summary>
