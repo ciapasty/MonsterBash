@@ -5,8 +5,6 @@ public enum RoomType { bonfire, generic, exit }
 
 public class Room : Area {
 
-	public int width { get; protected set; }
-	public int height { get; protected set; }
 	public Vector2 center;
 
 	public Tile roomBase { get; protected set; }
@@ -15,13 +13,12 @@ public class Room : Area {
 	public List<Blueprint> enemies { get; protected set; }
 	public List<Blueprint> objects { get; protected set; }
 
-	public RoomType? type { get; protected set; }
+	public RoomTemplate template { get; protected set; }
+	public RoomType type { get; protected set; }
 
-	public Room(int ID, int width, int height, Vector2 center) : base(ID) {
-		this.width = width;
-		this.height = height;
+	public Room(int ID, RoomTemplate template, Vector2 center) : base(ID) {
+		this.template = template;
 		this.center = center;
-		this.type = null;
 
 		doors = new List<Door>();
 		connectedRooms = new List<Room>();
@@ -39,7 +36,7 @@ public class Room : Area {
 		roomBase = tile;
 	}
 
-	public void setRoomType(RoomType? type) {
+	public void setRoomType(RoomType type) {
 		this.type = type;
 	}
 

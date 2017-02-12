@@ -55,11 +55,11 @@ public class RoomXMLParser {
 			lines.Add(line);
 		}
 
-		for (int x = 0; x < width; x++) {
-			char[] chars = lines[x].ToCharArray();
-			for (int y = 0; y < height; y++) {
+		for (int y = 0; y < height; y++) {
+			char[] chars = lines[y].ToCharArray();
+			for (int x = 0; x < width; x++) {
 				tileMap[x,y] = new Tile(x, y);
-				tileMap[x,y].type = getTileTypeFor(chars[y]);
+				tileMap[x,y].type = getTileTypeFor(chars[x]);
 			}
 		}
 
