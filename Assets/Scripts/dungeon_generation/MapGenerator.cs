@@ -285,12 +285,7 @@ public class MapGenerator : MonoBehaviour {
 					Tile tile = map.getTileAt(room.roomBase.x+x,room.roomBase.y+y);
 					tile.setRoom(room);
 
-					tile.type = room.template.tileMap[x,y].type;
-//					if (x == 0 || x == room.width-1 || y == 0 || y == room.height-1) {
-//						tile.type = TileType.wallBottom;
-//					} else {
-//						tile.type = TileType.floor;
-//					}
+					tile.type = room.template.tileTypeMap[x,y];
 				}
 			}
 		}
@@ -458,6 +453,7 @@ public class MapGenerator : MonoBehaviour {
 			t1.tClass = TileClass.door;
 			Room r = map.getRoomWithID(t1.room.ID);
 			r.addDoor(new Door(t1, DoorOrientation.NS));
+			map.getTileAt(t1.x, t1.y+2).setCorridor(corridor);
 			map.getTileAt(t1.x, t1.y+1).setCorridor(corridor);
 			map.getTileAt(t1.x, t1.y-1).setCorridor(corridor);
 			map.getTileAt(t1.x, t1.y-2).setCorridor(corridor);
@@ -468,6 +464,7 @@ public class MapGenerator : MonoBehaviour {
 			t2.tClass = TileClass.door;
 			Room r = map.getRoomWithID(t2.room.ID);
 			r.addDoor(new Door(t2, DoorOrientation.NS));
+			map.getTileAt(t2.x, t2.y+2).setCorridor(corridor);
 			map.getTileAt(t2.x, t2.y+1).setCorridor(corridor);
 			map.getTileAt(t2.x, t2.y-1).setCorridor(corridor);
 			map.getTileAt(t2.x, t2.y-2).setCorridor(corridor);
@@ -485,10 +482,14 @@ public class MapGenerator : MonoBehaviour {
 			t.type = TileType.floor;
 			if (t.corridor == null)
 				t.setCorridor(corridor);
-			t2 = map.getTileAt(i, t1.y-1);
-			t2.type = TileType.floor;
-			if (t2.corridor == null)
-				t2.setCorridor(corridor);
+			t = map.getTileAt(i, t1.y+1);
+			t.type = TileType.floor;
+			if (t.corridor == null)
+				t.setCorridor(corridor);
+			t = map.getTileAt(i, t1.y-1);
+			t.type = TileType.floor;
+			if (t.corridor == null)
+				t.setCorridor(corridor);
 		}
 	}
 
@@ -550,10 +551,6 @@ public class MapGenerator : MonoBehaviour {
 					setCorridorWall(map.getTileAt(x-1, y), t.corridor);
 					setCorridorWall(map.getTileAt(x, y+1), t.corridor);
 					setCorridorWall(map.getTileAt(x, y-1), t.corridor);
-					setCorridorWall(map.getTileAt(x+1, y+1), t.corridor);
-					setCorridorWall(map.getTileAt(x+1, y-1), t.corridor);
-					setCorridorWall(map.getTileAt(x-1, y+1), t.corridor);
-					setCorridorWall(map.getTileAt(x-1, y-1), t.corridor);
 				}
 			}
 		}

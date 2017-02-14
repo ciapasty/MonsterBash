@@ -37,15 +37,15 @@ public class RoomXMLParser {
 			string type = node.SelectSingleNode("type").InnerText;
 			string template = node.SelectSingleNode("template").InnerText;
 
-			Tile[,] tileMap = getTileMapFrom(template, width, height);
+			TileType[,] tileTypeMap = getTileMapFrom(template, width, height);
 
-			RoomTemplate roomTp = new RoomTemplate(width, height, type, tileMap);
+			RoomTemplate roomTp = new RoomTemplate(width, height, type, tileTypeMap);
 			roomTemplates.Add(roomTp);
 		}
 	}
 
-	private Tile[,] getTileMapFrom(string template, int width, int height) {
-		Tile[,] tileMap = new Tile[width,height];
+	private TileType[,] getTileMapFrom(string template, int width, int height) {
+		TileType[,] tileTypeMap = new TileType[width,height];
 		string[] linesTemp = template.Split(new char[]{});
 		List<string> lines = new List<string>();
 		// Remove empty lines
@@ -58,12 +58,11 @@ public class RoomXMLParser {
 		for (int y = 0; y < height; y++) {
 			char[] chars = lines[y].ToCharArray();
 			for (int x = 0; x < width; x++) {
-				tileMap[x,y] = new Tile(x, y);
-				tileMap[x,y].type = getTileTypeFor(chars[x]);
+				tileTypeMap[x,y] = getTileTypeFor(chars[x]);
 			}
 		}
 
-		return tileMap;
+		return tileTypeMap;
 	}
 
 	private TileType getTileTypeFor(char symbol) {

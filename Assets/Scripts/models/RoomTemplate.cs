@@ -8,12 +8,12 @@ public class RoomTemplate {
 	public int width { get; protected set; }
 	public int height { get; protected set; }
 	public RoomType type { get; protected set; }
-	public Tile[,] tileMap { get; protected set; }
+	public TileType[,] tileTypeMap { get; protected set; }
 
-	public RoomTemplate(int width, int height, string type, Tile[,] tileMap) {
+	public RoomTemplate(int width, int height, string type, TileType[,] tileTypeMap) {
 		this.width = width;
 		this.height = height;
 		this.type = (RoomType)Enum.Parse(this.type.GetType(), type);
-		this.tileMap = tileMap;
+		this.tileTypeMap = tileTypeMap;
 	}
 }
