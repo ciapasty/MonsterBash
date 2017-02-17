@@ -107,42 +107,21 @@ public class MapSpriteController : MonoBehaviour {
 						tile.type = TileType.empty;
 						tileUp.type = TileType.empty;
 						tileUpUp.type = TileType.wallTop;
-
-//						if (tileUp.type != TileType.floor) {
-//							
-//							updateTileAreas(tile, tileUp);
-//							if (tileUpUp.type != TileType.floor) {
-//								updateTileAreas(tile, tileUpUp);
-//							}
-//						}
 					} else {
 						tileUp.type = TileType.wallMiddle;
 						updateTileAreas(tile, tileUp);
 						tileUpUp.type = TileType.wallTop;
 						updateTileAreas(tile, tileUpUp);
-
-//						if (tileUp.type != TileType.floor) {
-//							tileUp.type = TileType.wallMiddle;
-//							updateTileAreas(tile, tileUp);
-//						} 
-////						else if (tileUp.type == TileType.floor && map.getTileAt(x, y-1).type == TileType.floor){
-////							tileUp.type = TileType.wallMiddle;
-////							tileUpUp.type = TileType.wallTop;
-////						}
-//						if (tileUpUp.type != TileType.floor) {
-//							tileUpUp.type = TileType.wallTop;
-//							updateTileAreas(tile, tileUpUp);
-//						}
 					}
-					removeFloorGOsUnderWall(tile);
-					removeFloorGOsUnderWall(tileUp);
-					removeFloorGOsUnderWall(tileUpUp);
+					removeFloorGOUnderWall(tile);
+					removeFloorGOUnderWall(tileUp);
+					removeFloorGOUnderWall(tileUpUp);
 				}
 			}
 		}
 	}
 
-	void removeFloorGOsUnderWall(Tile tile) {
+	void removeFloorGOUnderWall(Tile tile) {
 		if (go_tileMap.ContainsKey(tile)) {
 			Destroy(go_tileMap[tile]);
 			go_tileMap.Remove(tile);

@@ -313,16 +313,16 @@ public class MapGenerator : MonoBehaviour {
 					if(isHorizontalCorridor(r1, r2, midY)) {
 						if (midX < r1.roomBase.x+r1.tp.width/2) {
 							// room 1 West wall, room 2 East wall
-							tile1 = getDoorAnchorTileClosestToMidpoint(r1.tp.doorAnchorsWest, midX, midY-2, r1);
+							tile1 = getDoorAnchorTileClosestToXY(r1.tp.doorAnchorsWest, new Vector2(midX, midY-2), r1);
 							tile2 = getNextRoomsOppositeDoorAnchorTile(r2, r2.tp.doorAnchorsEast, tile1, true);
 							if (tile2 == null)
-								tile2 = getDoorAnchorTileClosestToMidpoint(r2.tp.doorAnchorsEast, midX, midY-2, r2);
+								tile2 = getDoorAnchorTileClosestToXY(r2.tp.doorAnchorsEast, new Vector2(midX, midY-2), r2);
 						} else {
 							// room 1 East wall, room 2 West wall
-							tile1 = getDoorAnchorTileClosestToMidpoint(r1.tp.doorAnchorsEast, midX, midY-2, r1);
+							tile1 = getDoorAnchorTileClosestToXY(r1.tp.doorAnchorsEast, new Vector2(midX, midY-2), r1);
 							tile2 = getNextRoomsOppositeDoorAnchorTile(r2, r2.tp.doorAnchorsWest, tile1, true);
 							if (tile2 == null)
-								tile2 = getDoorAnchorTileClosestToMidpoint(r2.tp.doorAnchorsWest, midX, midY-2, r2);
+								tile2 = getDoorAnchorTileClosestToXY(r2.tp.doorAnchorsWest, new Vector2(midX, midY-2), r2);
 						}
 						if (!crossesRoomHorizontally(tile1, tile2)) {
 							if (tile1.y == tile2.y) {
@@ -340,18 +340,17 @@ public class MapGenerator : MonoBehaviour {
 								}
 							}
 						}
-
 					} else if (isVerticalCorridor(r1, r2, midX)) {
 						if (midY < r1.roomBase.y+r1.tp.height/2) {
-							tile1 = getDoorAnchorTileClosestToMidpoint(r1.tp.doorAnchorsSouth, midX-1, midY, r1);
+							tile1 = getDoorAnchorTileClosestToXY(r1.tp.doorAnchorsSouth, new Vector2(midX-1, midY), r1);
 							tile2 = getNextRoomsOppositeDoorAnchorTile(r2, r2.tp.doorAnchorsNorth, tile1, false);
 							if (tile2 == null)
-								tile2 = getDoorAnchorTileClosestToMidpoint(r2.tp.doorAnchorsNorth, midX-1, midY, r2);
+								tile2 = getDoorAnchorTileClosestToXY(r2.tp.doorAnchorsNorth, new Vector2(midX-1, midY), r2);
 						} else {
-							tile1 = getDoorAnchorTileClosestToMidpoint(r1.tp.doorAnchorsNorth, midX-1, midY, r1);
+							tile1 = getDoorAnchorTileClosestToXY(r1.tp.doorAnchorsNorth, new Vector2(midX-1, midY), r1);
 							tile2 = getNextRoomsOppositeDoorAnchorTile(r2, r2.tp.doorAnchorsSouth, tile1, false);
 							if (tile2 == null)
-								tile2 = getDoorAnchorTileClosestToMidpoint(r2.tp.doorAnchorsSouth, midX-1, midY, r2);
+								tile2 = getDoorAnchorTileClosestToXY(r2.tp.doorAnchorsSouth, new Vector2(midX-1, midY), r2);
 						}
 						if (!crossesRoomVertically(tile1, tile2)) {
 							if (tile1.x == tile2.x) {
@@ -361,6 +360,7 @@ public class MapGenerator : MonoBehaviour {
 								int vertMid = (tile1.y+tile2.y)/2;
 								layOutVerticalCorridor(tile1, map.getTileAt(tile1.x, vertMid), corridor);
 								layOutVerticalCorridor(tile2, map.getTileAt(tile2.x, vertMid), corridor);
+								// horizontal segment
 								if (tile1.x > tile2.x) {
 									layOutHorizontalCorridor(map.getTileAt(tile2.x+1, vertMid-1), map.getTileAt(tile1.x+2, vertMid-1), corridor);
 								} else {
@@ -368,44 +368,60 @@ public class MapGenerator : MonoBehaviour {
 								}
 							}
 						}
-						
-					} 
-//					else {
-//						// TODO: Double segment corridors
-//
-//						tile2 = map.getTileAt(r1.roomBase.x+r1.tp.width/2, r2.roomBase.y+r2.tp.height/2);
-//						if (r1.roomBase.y > r2.roomBase.y) {
-//							tile1 = map.getTileAt(r1.roomBase.x+r1.tp.width/2, r1.roomBase.y);
-//						} else {
-//							tile1 = map.getTileAt(r1.roomBase.x+r1.tp.width/2, r1.roomBase.y+r1.tp.height-1);
-//						}
-//						if (r1.roomBase.x > r2.roomBase.x) {
-//							tile3 = map.getTileAt(r2.roomBase.x+r2.tp.width-1, r2.roomBase.y+r2.tp.height/2);
-//						} else {
-//							tile3 = map.getTileAt(r2.roomBase.x, r2.roomBase.y+r2.tp.height/2);
-//						}
-//
-//						if (crossesRoomVertically(tile1, tile2) || crossesRoomHorizontally(tile2, tile3)) {
-//							tile2 = map.getTileAt(r2.roomBase.x+r2.tp.width/2, r1.roomBase.y+r1.tp.height/2);
-//							if (r1.roomBase.y > r2.roomBase.y) {
-//								tile1 = map.getTileAt(r2.roomBase.x+r2.tp.width/2, r2.roomBase.y+r2.tp.height-1);
-//							} else {
-//								tile1 = map.getTileAt(r2.roomBase.x+r2.tp.width/2, r2.roomBase.y);
-//							}
-//							if (r1.roomBase.x > r2.roomBase.x) {
-//								tile3 = map.getTileAt(r1.roomBase.x, r1.roomBase.y+r1.tp.height/2);
-//							} else {
-//								tile3 = map.getTileAt(r1.roomBase.x+r1.tp.width-1, r1.roomBase.y+r1.tp.height/2);
-//							}
-//							if (!(crossesRoomVertically(tile1, tile2) || crossesRoomHorizontally(tile2, tile3))) {
-//								layOutHorizontalCorridor(tile3, tile2, corridor);
-//								layOutVerticallCorridor(tile2, tile1, corridor);
-//							}
-//						} else {
-//							layOutHorizontalCorridor(tile3, tile2, corridor);
-//							layOutVerticallCorridor(tile2, tile1, corridor);
-//						}
-//					}
+					} else {
+						// Double segment corridors
+
+						if (r1.roomBase.x < r2.roomBase.x) {
+							tile1 = getDoorAnchorTileClosestToXY(r1.tp.doorAnchorsEast, new Vector2(r2.roomBase.x, r2.roomBase.y), r1);
+						} else {
+							tile1 = getDoorAnchorTileClosestToXY(r1.tp.doorAnchorsWest, new Vector2(r2.roomBase.x, r2.roomBase.y), r1);
+						}
+						if (r1.roomBase.y < r2.roomBase.y) {
+							tile2 = getDoorAnchorTileClosestToXY(r2.tp.doorAnchorsSouth, new Vector2(r1.roomBase.x, r1.roomBase.y), r2);
+						} else {
+							tile2 = getDoorAnchorTileClosestToXY(r2.tp.doorAnchorsNorth, new Vector2(r1.roomBase.x, r1.roomBase.y), r2);
+						}
+						tile3 = map.getTileAt(tile2.x, tile1.y);
+
+						if (crossesRoomHorizontally(tile1, tile3) || crossesRoomVertically(tile2, tile3)) {
+							
+							if (r1.roomBase.x < r2.roomBase.x) {
+								tile2 = getDoorAnchorTileClosestToXY(r2.tp.doorAnchorsWest, new Vector2(r1.roomBase.x, r1.roomBase.y), r2);
+							} else {
+								tile2 = getDoorAnchorTileClosestToXY(r2.tp.doorAnchorsEast, new Vector2(r1.roomBase.x, r1.roomBase.y), r2);
+							}
+							if (r1.roomBase.y < r2.roomBase.y) {
+								tile1 = getDoorAnchorTileClosestToXY(r1.tp.doorAnchorsNorth, new Vector2(r2.roomBase.x, r2.roomBase.y), r1);
+							} else {
+								tile1 = getDoorAnchorTileClosestToXY(r1.tp.doorAnchorsSouth, new Vector2(r2.roomBase.x, r2.roomBase.y), r1);
+							}
+							tile3 = map.getTileAt(tile1.x, tile2.y);
+
+							if (!crossesRoomHorizontally(tile2, tile3) && !crossesRoomVertically(tile1, tile3)) {
+								if (tile1.x < tile2.x) {
+									layOutHorizontalCorridor(tile2, map.getTileAt(tile3.x+1, tile3.y), corridor);
+								} else {
+									layOutHorizontalCorridor(tile2, map.getTileAt(tile3.x+1, tile3.y), corridor);
+								}
+								if (tile1.y < tile2.y) {
+									layOutVerticalCorridor(tile1, map.getTileAt(tile3.x, tile3.y+3), corridor);
+								} else {
+									layOutVerticalCorridor(tile1, map.getTileAt(tile3.x, tile3.y+1), corridor);
+								}
+							}
+						} else {
+							if (tile1.x < tile2.x) {
+								layOutHorizontalCorridor(tile1, map.getTileAt(tile3.x+1, tile3.y), corridor);
+							} else {
+								layOutHorizontalCorridor(tile1, map.getTileAt(tile3.x+1, tile3.y), corridor);
+							}
+							if (tile1.y < tile2.y) {
+								layOutVerticalCorridor(tile2, map.getTileAt(tile3.x, tile3.y+1), corridor);
+							} else {
+								layOutVerticalCorridor(tile2, map.getTileAt(tile3.x, tile3.y+3), corridor);
+							}
+						}
+					}
 					corridorID += 1;
 				}
 			}
@@ -413,24 +429,39 @@ public class MapGenerator : MonoBehaviour {
 		}
 	}
 
-	Tile getDoorAnchorTileClosestToMidpoint(List<Tuple<int, int>> anchors, int midX, int midY, Room room) {
-		Vector2 middlePoint = new Vector2(midX, midY);
-		float distance = Vector2.Distance(middlePoint, Vector2.zero);
+	/// <summary>
+	/// Returns door anchor tile closest to point x,y
+	/// </summary>
+	/// <returns>Door anchor tile closest to x,y.</returns>
+	/// <param name="anchors">Anchors.</param>
+	/// <param name="X">Point x coord.</param>
+	/// <param name="Y">Point y coord.</param>
+	/// <param name="room">Anchors room.</param>
+	Tile getDoorAnchorTileClosestToXY(List<Tuple<int, int>> anchors, Vector2 point, Room room) {
+		float distance = Vector2.Distance(point, new Vector2(Mathf.Infinity, Mathf.Infinity));
 		Tuple<int, int> anchor = null;
 		foreach (var ac in anchors) {
 			Vector2 anchorPoint = new Vector2(room.roomBase.x+ac.first, room.roomBase.y+ac.second);
-			float acDistance = Vector2.Distance(middlePoint, anchorPoint);
+			float acDistance = Vector2.Distance(point, anchorPoint);
 			if (acDistance < distance) {
 				distance = acDistance;
 				anchor = ac;
 			}
 		}
 		if (anchor == null)
-			Debug.LogError("No anchor closer than point (0,0)!");
+			Debug.LogError("No anchor closer than point (inf,inf)!");
 		
 		return map.getTileAt(room.roomBase.x+anchor.first, room.roomBase.y+anchor.second);
 	}
 
+	/// <summary>
+	/// Returns next rooms door anchor tile if it's opossite the door anchor tile. Returns null otherwise.
+	/// </summary>
+	/// <returns>The next rooms opposite door anchor tile.</returns>
+	/// <param name="nextRoom">Next room.</param>
+	/// <param name="nextRoomAnchors">Next room anchors.</param>
+	/// <param name="doorAnchor">Door anchor.</param>
+	/// <param name="horizontal">If set to <c>true</c> horizontal.</param>
 	Tile getNextRoomsOppositeDoorAnchorTile(Room nextRoom, List<Tuple<int, int>> nextRoomAnchors, Tile doorAnchor, bool horizontal) {
 		foreach (var ac in nextRoomAnchors) {
 			if (horizontal) {
@@ -484,9 +515,9 @@ public class MapGenerator : MonoBehaviour {
 		for (int i = min+1; i < max; i++) {
 			if (map.getTileAt(i, t1.y).type == TileType.floor || map.getTileAt(i, t1.y).type == TileType.wallBottom ||
 				map.getTileAt(i, t1.y+1).type == TileType.floor || map.getTileAt(i, t1.y+1).type == TileType.wallBottom ||
-				map.getTileAt(i, t1.y+2).type == TileType.floor || map.getTileAt(i, t1.y-1).type == TileType.wallBottom ||
-				map.getTileAt(i, t1.y+3).type == TileType.floor || map.getTileAt(i, t1.y-1).type == TileType.wallBottom ||
-				map.getTileAt(i, t1.y+4).type == TileType.floor || map.getTileAt(i, t1.y-2).type == TileType.wallBottom )
+				map.getTileAt(i, t1.y+2).type == TileType.floor || map.getTileAt(i, t1.y+2).type == TileType.wallBottom ||
+				map.getTileAt(i, t1.y+3).type == TileType.floor || map.getTileAt(i, t1.y+3).type == TileType.wallBottom ||
+				map.getTileAt(i, t1.y+4).type == TileType.floor || map.getTileAt(i, t1.y+4).type == TileType.wallBottom )
 				return true;
 		}
 		return false;
@@ -506,8 +537,8 @@ public class MapGenerator : MonoBehaviour {
 		for (int i = min+1; i < max; i++) {
 			if (map.getTileAt(t1.x, i).type == TileType.floor || map.getTileAt(t1.x, i).type == TileType.wallBottom ||
 				map.getTileAt(t1.x+1, i).type == TileType.floor || map.getTileAt(t1.x+1, i).type == TileType.wallBottom ||
-				map.getTileAt(t1.x+2, i).type == TileType.floor || map.getTileAt(t1.x-1, i).type == TileType.wallBottom ||
-				map.getTileAt(t1.x+3, i).type == TileType.floor || map.getTileAt(t1.x-2, i).type == TileType.wallBottom )
+				map.getTileAt(t1.x+2, i).type == TileType.floor || map.getTileAt(t1.x+2, i).type == TileType.wallBottom ||
+				map.getTileAt(t1.x+3, i).type == TileType.floor || map.getTileAt(t1.x+3, i).type == TileType.wallBottom )
 				return true;
 		}
 		return false;
