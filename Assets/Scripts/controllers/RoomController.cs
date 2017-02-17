@@ -36,7 +36,7 @@ public class RoomController : MonoBehaviour {
 
 	public void createGOs() {
 		createDoors();
-		//createObjects();
+		createObjects();
 		spawnEnemies();
 	}
 
