@@ -51,8 +51,9 @@ public class RoomController : MonoBehaviour {
 		foreach (var door in room.doors) {
 			GameObject door_go = (GameObject)Instantiate(Resources.Load<GameObject>("prefabs/door"), transform.position, Quaternion.identity);
 			door_go.transform.SetParent(this.transform);
-			door_go.transform.position = new Vector2(door.tile.x+0.5f, door.tile.y+0.5f);
+			door_go.transform.position = new Vector2(door.tile.x, door.tile.y);
 			door_go.GetComponent<DoorController>().door = door;
+			door_go.GetComponent<DoorController>().setupBoxCollider();
 			doorGoMap.Add(door, door_go);
 			door.registerOnChangedCallback(door_go.GetComponent<DoorController>().onStateChanged);
 			door.cbOnChanged(door);

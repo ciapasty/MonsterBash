@@ -559,9 +559,8 @@ public class MapGenerator : MonoBehaviour {
 	void layOutHorizontalCorridor(Tile t1, Tile t2, Corridor corridor) {
 		if (t1.room != null) {
 			// TODO: change door status
-//			t1.tClass = TileClass.door;
-//			Room r = map.getRoomWithID(t1.room.ID);
-//			r.addDoor(new Door(t1, DoorOrientation.NS));
+			Room r = map.getRoomWithID(t1.room.ID);
+			r.addDoor(new Door(map.getTileAt(t1.x, t1.y+3), DoorOrientation.NS));
 			map.getTileAt(t1.x, t1.y+1).setCorridor(corridor);
 			map.getTileAt(t1.x, t1.y+2).setCorridor(corridor);
 			map.getTileAt(t1.x, t1.y+3).setCorridor(corridor);
@@ -570,9 +569,8 @@ public class MapGenerator : MonoBehaviour {
 
 		if (t2.room != null) {
 			// TODO: change door status
-//			t2.tClass = TileClass.door;
-//			Room r = map.getRoomWithID(t2.room.ID);
-//			r.addDoor(new Door(t2, DoorOrientation.NS));
+			Room r = map.getRoomWithID(t2.room.ID);
+			r.addDoor(new Door(map.getTileAt(t2.x, t2.y+3), DoorOrientation.NS));
 			map.getTileAt(t2.x, t2.y+1).setCorridor(corridor);
 			map.getTileAt(t2.x, t2.y+2).setCorridor(corridor);
 			map.getTileAt(t2.x, t2.y+3).setCorridor(corridor);
@@ -611,9 +609,8 @@ public class MapGenerator : MonoBehaviour {
 	void layOutVerticalCorridor(Tile t1, Tile t2, Corridor corridor) {
 		if (t1.room != null) {
 			// TODO: change door status
-//			t1.tClass = TileClass.door;
-//			Room r = map.getRoomWithID(t1.room.ID);
-//			r.addDoor(new Door(t1, DoorOrientation.WE));
+			Room r = map.getRoomWithID(t1.room.ID);
+			r.addDoor(new Door(map.getTileAt(t1.x+1, t1.y), DoorOrientation.WE));
 			map.getTileAt(t1.x+1, t1.y).setCorridor(corridor);
 			map.getTileAt(t1.x+2, t1.y).setCorridor(corridor);
 			map.getTileAt(t1.x+3, t1.y).setCorridor(corridor);
@@ -621,9 +618,8 @@ public class MapGenerator : MonoBehaviour {
 
 		if (t2.room != null) {
 			// TODO: change door status
-//			t2.tClass = TileClass.door;
-//			Room r = map.getRoomWithID(t2.room.ID);
-//			r.addDoor(new Door(t2, DoorOrientation.WE));
+			Room r = map.getRoomWithID(t2.room.ID);
+			r.addDoor(new Door(map.getTileAt(t2.x+1, t2.y), DoorOrientation.WE));
 			map.getTileAt(t2.x+1, t2.y).setCorridor(corridor);
 			map.getTileAt(t2.x+2, t2.y).setCorridor(corridor);
 			map.getTileAt(t2.x+3, t2.y).setCorridor(corridor);
