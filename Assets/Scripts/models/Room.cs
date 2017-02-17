@@ -13,11 +13,11 @@ public class Room : Area {
 	public List<Blueprint> enemies { get; protected set; }
 	public List<Blueprint> objects { get; protected set; }
 
-	public RoomTemplate template { get; protected set; }
+	public RoomTemplate tp { get; protected set; }
 	public RoomType type { get; protected set; }
 
 	public Room(int ID, RoomTemplate template, Vector2 center) : base(ID) {
-		this.template = template;
+		this.tp = template;
 		this.center = center;
 
 		doors = new List<Door>();

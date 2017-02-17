@@ -62,25 +62,25 @@ public class CameraFollowPlayer : MonoBehaviour {
 
 		if (snap && room != null) {
 			// The target x and y coordinates should not be larger than the maximum or smaller than the minimum.
-			if (room.template.width <= halfCameraView.x*2) {
-				maxX = minX = room.roomBase.x+room.template.width/2;
+			if (room.tp.width <= halfCameraView.x*2) {
+				maxX = minX = room.roomBase.x+room.tp.width/2;
 			} else {
 				minX = room.roomBase.x+halfCameraView.x;
-				maxX = room.roomBase.x+room.template.width-halfCameraView.x;
+				maxX = room.roomBase.x+room.tp.width-halfCameraView.x;
 			}
-			if (transform.position.x < room.roomBase.x+halfCameraView.x || transform.position.x > room.roomBase.x+room.template.width-halfCameraView.x) {
+			if (transform.position.x < room.roomBase.x+halfCameraView.x || transform.position.x > room.roomBase.x+room.tp.width-halfCameraView.x) {
 				targetX = Mathf.Lerp(transform.position.x, Mathf.Clamp(targetX, minX, maxX), 2.5f*xSmooth * Time.deltaTime);
 			} else {
 				targetX = Mathf.Clamp(targetX, minX, maxX);
 			}
 				
-			if (room.template.height <= halfCameraView.y*2) {
-				maxY = minY = room.roomBase.y+room.template.width/2;
+			if (room.tp.height <= halfCameraView.y*2) {
+				maxY = minY = room.roomBase.y+room.tp.width/2;
 			} else {
 				minY = room.roomBase.y+halfCameraView.y;
-				maxY = room.roomBase.y+room.template.height-halfCameraView.y;
+				maxY = room.roomBase.y+room.tp.height-halfCameraView.y;
 			}
-			if (transform.position.y < room.roomBase.y+halfCameraView.y || transform.position.y > room.roomBase.y+room.template.height-halfCameraView.y) {
+			if (transform.position.y < room.roomBase.y+halfCameraView.y || transform.position.y > room.roomBase.y+room.tp.height-halfCameraView.y) {
 				targetY = Mathf.Lerp(transform.position.y, Mathf.Clamp(targetY, minY, maxY), 2.5f*ySmooth * Time.deltaTime);
 			} else {
 				targetY = Mathf.Clamp(targetY, minY, maxY);

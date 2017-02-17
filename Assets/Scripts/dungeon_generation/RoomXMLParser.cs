@@ -10,6 +10,11 @@ public class RoomXMLParser {
 	private TextAsset textXml;
 	private List<RoomTemplate> roomTemplates;
 
+	private List<Tuple<int, int>> doorAnchorsNorth;
+	private List<Tuple<int, int>> doorAnchorsEast;
+	private List<Tuple<int, int>> doorAnchorsSouth;
+	private List<Tuple<int, int>> doorAnchorsWest;
+
 	public List<RoomTemplate> getRoomTemplatesDictFrom(string filename) {
 		if (filename != null && filename != "") {
 			loadXMLFromAssest(filename);
@@ -39,12 +44,23 @@ public class RoomXMLParser {
 
 			TileType[,] tileTypeMap = getTileMapFrom(template, width, height);
 
-			RoomTemplate roomTp = new RoomTemplate(width, height, type, tileTypeMap);
+			RoomTemplate roomTp = new RoomTemplate(width, height, type, tileTypeMap, doorAnchorsNorth, doorAnchorsEast, doorAnchorsSouth, doorAnchorsWest);
 			roomTemplates.Add(roomTp);
+
+			Debug.Log(roomTp.type + 
+				" North: "+doorAnchorsNorth.Count+
+				" East: "+doorAnchorsEast.Count+
+				" South: "+doorAnchorsSouth.Count+
+				" West: "+doorAnchorsWest.Count);
 		}
 	}
 
 	private TileType[,] getTileMapFrom(string template, int width, int height) {
+		doorAnchorsNorth = new List<Tuple<int, int>>();
+		doorAnchorsEast = new List<Tuple<int, int>>();
+		doorAnchorsSouth = new List<Tuple<int, int>>();
+		doorAnchorsWest = new List<Tuple<int, int>>();
+
 		TileType[,] tileTypeMap = new TileType[width,height];
 		string[] linesTemp = template.Split(new char[]{});
 		List<string> lines = new List<string>();
@@ -55,10 +71,24 @@ public class RoomXMLParser {
 			lines.Add(line);
 		}
 
-		for (int y = 0; y < height; y++) {
-			char[] chars = lines[y].ToCharArray();
+		for (int y = height-1; y >= 0; y--) {
+			int trueY = height-1-y;
+			char[] chars = lines[trueY].ToCharArray();
 			for (int x = 0; x < width; x++) {
 				tileTypeMap[x,y] = getTileTypeFor(chars[x]);
+				if (chars[x].ToString() == "D") {
+					if(x < 2) {
+						doorAnchorsWest.Add(new Tuple<int, int>(x, y));
+					} else if (x < width-2) {
+						if (y < 2) {
+							doorAnchorsSouth.Add(new Tuple<int, int>(x, y));
+						} else if (y >= height-2) {
+							doorAnchorsNorth.Add(new Tuple<int, int>(x, y));
+						}
+					} else {
+						doorAnchorsEast.Add(new Tuple<int, int>(x, y));
+					}
+				}
 			}
 		}
 
@@ -68,6 +98,8 @@ public class RoomXMLParser {
 	private TileType getTileTypeFor(char symbol) {
 		TileType type;
 		switch (symbol.ToString()) {
+		case "D": // Door anchor flag
+		case "d": // door flag
 		case "#": // Wall
 			type = TileType.wallBottom;
 			break;
