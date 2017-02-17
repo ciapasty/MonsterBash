@@ -50,8 +50,8 @@ public class DoorController : MonoBehaviour {
 	public void setupBoxCollider() {
 		if(door.orientation == DoorOrientation.NS) {
 			BoxCollider2D coll = GetComponent<BoxCollider2D>();
-			Vector2 offset = new Vector2(0f, 1.45f);
-			Vector2 size = new Vector2(0.5f, 2.87f);
+			Vector2 offset = new Vector2(0f, 1f);
+			Vector2 size = new Vector2(0.25f, 4f);
 			coll.offset = offset;
 			coll.size = size;
 		}

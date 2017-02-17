@@ -14,7 +14,7 @@ public class MapSpriteController : MonoBehaviour {
 	public Color corridorColor;
 
 	GameController gc;
-	//MiniMapControl miniMapControl;
+	MiniMapControl miniMapControl;
 
 	Dictionary<Tile, GameObject> go_tileMap;
 	Dictionary<GameObject, GameObject> go_fogMap;
@@ -23,7 +23,7 @@ public class MapSpriteController : MonoBehaviour {
 
 	void Start() {
 		gc = GameController.Instance;
-		//miniMapControl = FindObjectOfType<MiniMapControl>();
+		miniMapControl = FindObjectOfType<MiniMapControl>();
 	}
 
 	public void setupSprites() {
@@ -100,23 +100,23 @@ public class MapSpriteController : MonoBehaviour {
 		for (int y = gc.map.height-1; y >= 0; y--) {
 			for (int x = 0; x < gc.map.width; x++) {
 				Tile tile = gc.map.getTileAt(x, y);
+				Tile tileUp = gc.map.getTileAt(x, y+1);
+				Tile tileUpUp = gc.map.getTileAt(x, y+2);
 				if (tile.type == TileType.wallBottom) {
-					Tile tileUp = gc.map.getTileAt(x, y+1);
-					Tile tileUpUp = gc.map.getTileAt(x, y+2);
 					if (gc.map.getTileAt(x, y-1) == null || gc.map.getTileAt(x, y-1).type == TileType.empty) {
 						tile.type = TileType.empty;
 						tileUp.type = TileType.empty;
 						tileUpUp.type = TileType.wallTop;
 					} else {
 						tileUp.type = TileType.wallMiddle;
-						updateTileAreas(tile, tileUp);
 						tileUpUp.type = TileType.wallTop;
-						updateTileAreas(tile, tileUpUp);
 					}
 					removeFloorGOUnderWall(tile);
 					removeFloorGOUnderWall(tileUp);
 					removeFloorGOUnderWall(tileUpUp);
 				}
+				updateTileAreas(tile, tileUp);
+				updateTileAreas(tile, tileUpUp);
 			}
 		}
 	}
@@ -129,10 +129,12 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 	void updateTileAreas(Tile sourceTile, Tile tile) {
-		if (tile.room == null)
-			tile.setRoom(sourceTile.room);
-		if (tile.corridor == null)
-			tile.setCorridor(sourceTile.corridor);
+		if (tile != null) {
+			if (tile.room == null)
+				tile.setRoom(sourceTile.room);
+			if (tile.corridor == null)
+				tile.setCorridor(sourceTile.corridor);
+		}
 	}
 
 	void updateFloorTileSprites() {
@@ -315,6 +317,6 @@ public class MapSpriteController : MonoBehaviour {
 
 	public void revealTile(Tile tile) {
 		go_fogMap[go_tileMap[tile]].GetComponent<SpriteRenderer>().enabled = false;
-		//miniMapControl.updateTile(tile);
+		miniMapControl.updateTile(tile);
 	}
 }

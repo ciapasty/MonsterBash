@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour {
 	}
 
 	void Start() {
-		//miniMapControl = FindObjectOfType<MiniMapControl>();
+		miniMapControl = FindObjectOfType<MiniMapControl>();
 		mapGenerator.startMapCreation();
 	}
 
@@ -60,7 +60,7 @@ public class GameController : MonoBehaviour {
 			roomControllersMap.Add(room, rc);
 			rc.createGOs();
 		}
-		//miniMapControl.setupMiniMap();
+		miniMapControl.setupMiniMap();
 		if (player == null) {
 			spawnPlayer();
 		} else {
@@ -119,6 +119,7 @@ public class GameController : MonoBehaviour {
 		player = p_go;
 		currTile = prevTile = map.getTileAt((int)(player.transform.position.x), (int)(player.transform.position.y));
 		currArea = prevArea = currTile.room;
+		miniMapControl.movePlayerTile(currTile);
 		logRoomInfo();
 	}
 
@@ -162,8 +163,7 @@ public class GameController : MonoBehaviour {
 			if (currTile.room == null && currTile.corridor == null) {
 				Debug.LogError("Player outside room or corridor??");
 			}
-			//miniMapControl.updateTile(currTile);
-			//miniMapControl.updateTile(prevTile);
+			miniMapControl.movePlayerTile(currTile);
 			prevTile = currTile;
 		}
 	}
