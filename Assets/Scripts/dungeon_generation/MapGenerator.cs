@@ -34,12 +34,10 @@ public class MapGenerator : MonoBehaviour {
 	public bool drawSpanningTree = false;
 	public bool drawExtendedTree = false;
 
-	float meanRoomWidth = 0f;
-	float meanRoomHeight = 0f;
-
 	float minX = 0f;
 	float minY = 0f;
 
+	private Room bonfireRoom;
 	private List<Room> rooms;
 	private Dictionary<Room, GameObject> roomGoMap;
 
@@ -88,15 +86,12 @@ public class MapGenerator : MonoBehaviour {
 		rooms = new List<Room>();
 
 		// Bonfire
-		rooms.Add(new Room(0, baseRoomTemplates[0], getRandomPointInElipse(elipseWidth, elipseHeight)));
-		// Exit
-		rooms.Add(new Room(1, baseRoomTemplates[1], getRandomPointInElipse(elipseWidth, elipseHeight)));
+		bonfireRoom = new Room(0, baseRoomTemplates[0], getRandomPointInElipse(elipseWidth, elipseHeight));
+		rooms.Add(bonfireRoom);
 
 		for (int i = 0; i < roomCount; i++) {
-			rooms.Add(new Room(i+2, roomTemplates[Random.Range(0,roomTemplates.Count)], getRandomPointInElipse(elipseWidth, elipseHeight)));
+			rooms.Add(new Room(i+1, roomTemplates[Random.Range(0,roomTemplates.Count)], getRandomPointInElipse(elipseWidth, elipseHeight)));
 		}
-		meanRoomWidth = meanRoomWidth/roomCount;
-		meanRoomHeight = meanRoomHeight/roomCount;
 
 		print(roomCount+2+" rooms created");
 	}
@@ -239,12 +234,25 @@ public class MapGenerator : MonoBehaviour {
 		}
 
 		removeRoomGOs();
-		// Regenerate map if there are not enough single entrance rooms for bonfire and exit
-//		if (singleEntranceRooms.Count < 2) {
-//			Debug.Log("Not enough single entrance rooms! Regenerating!");
-//			startMapCreation();
-//			return;
-//		}
+		// Regenerate map if there is no single entrance room exit
+		Room exitRoom;
+		if (singleEntranceRooms.Count < 1) {
+			Debug.Log("Not enough single entrance rooms! Regenerating!");
+			startMapCreation();
+			return;
+		}
+
+		exitRoom = singleEntranceRooms[0];
+		foreach (var room in singleEntranceRooms) {
+			if (Vector2.Distance(exitRoom.center, bonfireRoom.center) < Vector2.Distance(room.center, bonfireRoom.center))
+				exitRoom = room;
+		}
+		int index = rooms.IndexOf(exitRoom);
+		rooms[index] = new Room(exitRoom.ID, baseRoomTemplates[1], exitRoom.center);
+		rooms[index].connectedRooms = exitRoom.connectedRooms;
+		int index2 = rooms[index].connectedRooms[0].connectedRooms.IndexOf(exitRoom);
+		exitRoom.connectedRooms[0].connectedRooms[index2] = rooms[index];
+		exitRoom = rooms[index];
 
 		// Layout rooms in newly created tile map.
 		map = new Map(Mathf.CeilToInt(maxX)+1, Mathf.CeilToInt(maxY)+1);
@@ -255,9 +263,7 @@ public class MapGenerator : MonoBehaviour {
 		generateCorridors();
 		addCorridorWalls();
 		//assignRooms();
-		Room bonfireRoom = map.getRoomWithID(0);
 		map.setSpawnTileTo(map.getTileAt(bonfireRoom.roomBase.x+bonfireRoom.tp.width/2, bonfireRoom.roomBase.y+bonfireRoom.tp.height/2));
-		Room exitRoom = map.getRoomWithID(1);
 		map.setExitTileTo(map.getTileAt(exitRoom.roomBase.x+exitRoom.tp.width/2, exitRoom.roomBase.y+exitRoom.tp.height/2));
 
 		placeObjects();
