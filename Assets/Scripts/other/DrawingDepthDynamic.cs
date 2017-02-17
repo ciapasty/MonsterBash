@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DrawingDepth : MonoBehaviour {
+public class DrawingDepthDynamic : MonoBehaviour {
 
 	private SpriteRenderer render;
 

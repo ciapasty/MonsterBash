@@ -60,10 +60,10 @@ public class MapSpriteController : MonoBehaviour {
 					go.transform.position = new Vector2(x+0.5f, y+0.5f);
 					go_tileMap.Add(tile, go);
 					// Fog of war GameObject
-//					GameObject fog_go = (GameObject)Instantiate(fogPrefab, transform.position, Quaternion.identity);
-//					fog_go.transform.SetParent(go.transform);
-//					fog_go.transform.position = go.transform.position;
-//					go_fogMap.Add(go, fog_go);
+					GameObject fog_go = (GameObject)Instantiate(fogPrefab, transform.position, Quaternion.identity);
+					fog_go.transform.SetParent(go.transform);
+					fog_go.transform.position = go.transform.position;
+					go_fogMap.Add(go, fog_go);
 				}
 				tile.registerBeenDiscoveredCallback(revealTile);
 			}
@@ -81,12 +81,12 @@ public class MapSpriteController : MonoBehaviour {
 					go.transform.position = new Vector2(x+0.5f, y+0.5f);
 					go_tileMap.Add(tile, go);
 					// Fog of war GameObject
-//					GameObject fog_go = (GameObject)Instantiate(fogPrefab, transform.position, Quaternion.identity);
-//					fog_go.transform.SetParent(go.transform);
-//					fog_go.transform.position = go.transform.position;
-//					if (!go_fogMap.ContainsKey(go)) {
-//						go_fogMap.Add(go, fog_go);
-//					}
+					GameObject fog_go = (GameObject)Instantiate(fogPrefab, transform.position, Quaternion.identity);
+					fog_go.transform.SetParent(go.transform);
+					fog_go.transform.position = go.transform.position;
+					if (!go_fogMap.ContainsKey(go)) {
+						go_fogMap.Add(go, fog_go);
+					}
 				}
 				tile.registerBeenDiscoveredCallback(revealTile);
 			}

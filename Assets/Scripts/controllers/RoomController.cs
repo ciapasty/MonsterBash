@@ -36,7 +36,7 @@ public class RoomController : MonoBehaviour {
 
 	public void createGOs() {
 		createDoors();
-		createObjects();
+		//createObjects();
 		spawnEnemies();
 	}
 
@@ -129,9 +129,11 @@ public class RoomController : MonoBehaviour {
 	}
 
 	public void lockDoors(bool locked) {
-		Debug.Log("Locking doors in room: "+room.ID);
-		foreach (var door in room.doors) {
-			door.isLocked = locked;
+		if (room.doors.Count > 0) {
+			Debug.Log("Locking doors in room: "+room.ID);
+			foreach (var door in room.doors) {
+				door.isLocked = locked;
+			}
 		}
 	}
 
