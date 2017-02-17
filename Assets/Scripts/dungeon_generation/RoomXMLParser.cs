@@ -47,11 +47,11 @@ public class RoomXMLParser {
 			RoomTemplate roomTp = new RoomTemplate(width, height, type, tileTypeMap, doorAnchorsNorth, doorAnchorsEast, doorAnchorsSouth, doorAnchorsWest);
 			roomTemplates.Add(roomTp);
 
-			Debug.Log(roomTp.type + 
-				" North: "+doorAnchorsNorth.Count+
-				" East: "+doorAnchorsEast.Count+
-				" South: "+doorAnchorsSouth.Count+
-				" West: "+doorAnchorsWest.Count);
+//			Debug.Log(roomTp.type + 
+//				" North: "+doorAnchorsNorth.Count+
+//				" East: "+doorAnchorsEast.Count+
+//				" South: "+doorAnchorsSouth.Count+
+//				" West: "+doorAnchorsWest.Count);
 		}
 	}
 

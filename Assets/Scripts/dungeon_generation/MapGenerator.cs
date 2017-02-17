@@ -678,12 +678,11 @@ public class MapGenerator : MonoBehaviour {
 			foreach (var room in map.rooms) {
 				int objectsCount = Random.Range(8, 12);
 				while (objectsCount > 0) {
-					int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.tp.width-1);
-					int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.tp.height-1);
+					int randX = Random.Range(room.roomBase.x, room.roomBase.x+room.tp.width);
+					int randY = Random.Range(room.roomBase.y, room.roomBase.y+room.tp.height);
 					Tile tile = map.getTileAt(randX, randY);
-					if (tile.hasContent || tile.type != TileType.floor || !isAdjacentToWalls(tile))
+					if (tile.hasContent || tile.type != TileType.floor) //|| !isAdjacentToWalls(tile))
 						continue;
-					Debug.Log(isAdjacentToWalls(tile));
 					room.addObject(new Blueprint(objectsPrefabs[Random.Range(0, objectsPrefabs.Length)], tile));
 					tile.hasContent = true;
 					objectsCount--;
@@ -693,15 +692,15 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	bool isAdjacentToWalls(Tile tile) {
-		if (map.getTileAt(tile.x, tile.y-1).type == TileType.wallBottom ||
-		    map.getTileAt(tile.x, tile.y-2).type == TileType.wallBottom ||
-		    map.getTileAt(tile.x, tile.y-3).type == TileType.wallBottom) {
+		if ((map.getTileAt(tile.x, tile.y-1) != null && map.getTileAt(tile.x, tile.y-1).type == TileType.wallBottom) ||
+			(map.getTileAt(tile.x, tile.y-2) != null && map.getTileAt(tile.x, tile.y-2).type == TileType.wallBottom) ||
+			(map.getTileAt(tile.x, tile.y-3) != null && map.getTileAt(tile.x, tile.y-3).type == TileType.wallBottom)) {
 			return false;
 		}
 		
-		if (map.getTileAt(tile.x+1, tile.y).type == TileType.wallBottom ||
-		    map.getTileAt(tile.x-1, tile.y).type == TileType.wallBottom ||
-		    map.getTileAt(tile.x, tile.y+1).type == TileType.wallBottom) {
+		if ((map.getTileAt(tile.x+1, tile.y) != null && map.getTileAt(tile.x+1, tile.y).type == TileType.wallBottom) ||
+			(map.getTileAt(tile.x-1, tile.y) != null && map.getTileAt(tile.x-1, tile.y).type == TileType.wallBottom) ||
+			(map.getTileAt(tile.x, tile.y+1) != null && map.getTileAt(tile.x, tile.y+1).type == TileType.wallBottom)) {
 			return true;
 		}
 
@@ -716,7 +715,6 @@ public class MapGenerator : MonoBehaviour {
 			foreach (var room in map.rooms) {
 				if (room.type != RoomType.bonfire && room.type != RoomType.exit) {
 					int enemiesCount = Random.Range(3, 5);
-
 					while (enemiesCount > 0) {
 						int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.tp.width-1);
 						int randY = Random.Range(room.roomBase.y+1, room.roomBase.y+room.tp.height-1);
