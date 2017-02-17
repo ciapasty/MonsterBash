@@ -676,16 +676,16 @@ public class MapGenerator : MonoBehaviour {
 		// TODO: Place objects only adjacent to North, East, West walls
 		if (objectsPrefabs.Length > 0) {
 			foreach (var room in map.rooms) {
-				int objectsCount = Random.Range(8, 12);
-				while (objectsCount > 0) {
-					int randX = Random.Range(room.roomBase.x, room.roomBase.x+room.tp.width);
-					int randY = Random.Range(room.roomBase.y, room.roomBase.y+room.tp.height);
-					Tile tile = map.getTileAt(randX, randY);
-					if (tile.hasContent || tile.type != TileType.floor) //|| !isAdjacentToWalls(tile))
-						continue;
-					room.addObject(new Blueprint(objectsPrefabs[Random.Range(0, objectsPrefabs.Length)], tile));
-					tile.hasContent = true;
-					objectsCount--;
+				for (int x = 0; x < room.roomBase.x+room.tp.width; x++) {
+					for (int y = 0; y < room.roomBase.y+room.tp.height; y++) {
+						Tile tile = map.getTileAt(x, y);
+						if (!tile.hasContent && tile.type == TileType.floor && isAdjacentToWalls(tile)) {
+							if (Random.value < 0.6f) {
+								room.addObject(new Blueprint(objectsPrefabs[Random.Range(0, objectsPrefabs.Length)], tile));
+								tile.hasContent = true;
+							}
+						}
+					}
 				}
 			}
 		}	
