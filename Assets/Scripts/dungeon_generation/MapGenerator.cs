@@ -14,9 +14,6 @@ public class MapGenerator : MonoBehaviour {
 
 	// Rooms paramteres
 	public int roomCount = 30;
-	public int mainRoomCount = 6;
-	public int maxRoomWidth = 10;
-	public int maxRoomHeight = 12;
 	public int elipseWidth = 10;
 	public int elipseHeight = 10;
 
@@ -24,10 +21,7 @@ public class MapGenerator : MonoBehaviour {
 
 	public int alignmentIterations = 3;
 	public int mainRoomsBuffer = 2;
-	public int roomWallMargin = 1;
 	public float connectionsAdded = 0.1f;
-
-	public float mainRoomMeanValueMod = 0.8f;
 
 	// Debug drawing
 	public bool drawTriangulation = false;
@@ -133,8 +127,8 @@ public class MapGenerator : MonoBehaviour {
 		}
 
 		foreach (var room in rooms) {
-			room.center.x += -minX;
-			room.center.y += -minY;
+			room.center.x += -minX+mainRoomsBuffer;
+			room.center.y += -minY+mainRoomsBuffer;
 
 			Vector2 go_pos = roomGoMap[room].transform.position;
 			go_pos.x += -minX;
@@ -262,7 +256,6 @@ public class MapGenerator : MonoBehaviour {
 		layOutRooms();
 		generateCorridors();
 		addCorridorWalls();
-		//assignRooms();
 		map.setSpawnTileTo(map.getTileAt(bonfireRoom.roomBase.x+bonfireRoom.tp.width/2, bonfireRoom.roomBase.y+bonfireRoom.tp.height/2));
 		map.setExitTileTo(map.getTileAt(exitRoom.roomBase.x+exitRoom.tp.width/2, exitRoom.roomBase.y+exitRoom.tp.height/2));
 
@@ -491,8 +484,8 @@ public class MapGenerator : MonoBehaviour {
 	/// <param name="r2">Room 2.</param>
 	/// <param name="midY">Middle point Y.</param>
 	bool isHorizontalCorridor(Room r1, Room r2, int midY) {
-		return ((midY-r1.roomBase.y-roomWallMargin) >= 0 && (midY-r1.roomBase.y-roomWallMargin) < r1.tp.height-roomWallMargin*2) 
-			&& ((midY-r2.roomBase.y-roomWallMargin) >= 0 && (midY-r2.roomBase.y-roomWallMargin) < r2.tp.height-roomWallMargin*2);
+		return ((midY-r1.roomBase.y) >= 0 && (midY-r1.roomBase.y) < r1.tp.height) 
+			&& ((midY-r2.roomBase.y) >= 0 && (midY-r2.roomBase.y) < r2.tp.height);
 	}
 
 	/// <summary>
@@ -503,8 +496,8 @@ public class MapGenerator : MonoBehaviour {
 	/// <param name="r2">Room 2.</param>
 	/// <param name="midY">Middle point X.</param>
 	bool isVerticalCorridor(Room r1, Room r2, int midX) {
-		return ((midX-r1.roomBase.x-roomWallMargin) >= 0 && (midX-r1.roomBase.x-roomWallMargin) < r1.tp.width-roomWallMargin*2) 
-			&& ((midX-r2.roomBase.x-roomWallMargin) >= 0 && (midX-r2.roomBase.x-roomWallMargin) < r2.tp.width-roomWallMargin*2);
+		return ((midX-r1.roomBase.x) >= 0 && (midX-r1.roomBase.x) < r1.tp.width) 
+			&& ((midX-r2.roomBase.x) >= 0 && (midX-r2.roomBase.x) < r2.tp.width);
 	}
 
 	/// <summary>
@@ -677,40 +670,10 @@ public class MapGenerator : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Assigns start and exit zones to rooms with one entrance.
+	/// Places random number of destructible objects on random floor tiles
 	/// </summary>
-	void assignRooms() {
-		bool hasBonfire = false;
-		bool hasExit = false;
-
-		List<Room> done = new List<Room>();
-
-		while (done.Count < map.rooms.Count) {
-			Room room = map.rooms[Random.Range(0, map.rooms.Count)];
-			if (!done.Contains(room)) {
-				if (room.doors.Count == 1) {
-					if (!hasExit) {
-						room.setRoomType(RoomType.exit);
-						map.setExitTileTo(map.getTileAt(room.roomBase.x+room.tp.width/2, room.roomBase.y+room.tp.height/2));
-						hasExit = true;
-						done.Add(room);
-						continue;
-					} 
-					if (!hasBonfire) {
-						room.setRoomType(RoomType.bonfire);
-						map.setSpawnTileTo(map.getTileAt(room.roomBase.x+room.tp.width/2, room.roomBase.y+room.tp.height/2));
-						hasBonfire = true;
-						done.Add(room);
-						continue;
-					}
-				}
-				room.setRoomType(RoomType.generic);
-				done.Add(room);
-			}
-		}
-	}
-
 	void placeObjects() {
+		// TODO: Place objects only adjacent to North, East, West walls
 		if (objectsPrefabs.Length > 0) {
 			foreach (var room in map.rooms) {
 				int objectsCount = Random.Range(8, 12);

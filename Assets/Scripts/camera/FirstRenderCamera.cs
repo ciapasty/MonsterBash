@@ -46,7 +46,7 @@ public class FirstRenderCamera : MonoBehaviour {
 	int getScale() {
 		int scale = 1;
 		float x = 20f;
-		while(x > 9f) {
+		while(x > 12f) {
 			x = playerCamera.pixelHeight/(float)pixelsPerUnit/(float)scale;
 			scale++;
 		}
