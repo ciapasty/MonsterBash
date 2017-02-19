@@ -680,7 +680,7 @@ public class MapGenerator : MonoBehaviour {
 					for (int y = 0; y < room.roomBase.y+room.tp.height; y++) {
 						Tile tile = map.getTileAt(x, y);
 						if (!tile.hasContent && tile.type == TileType.floor && isAdjacentToWalls(tile)) {
-							if (Random.value < 0.5f) {
+							if (Random.value < 0.2f) {
 								room.addObject(new Blueprint(objectsPrefabs[Random.Range(0, objectsPrefabs.Length)], tile));
 								tile.hasContent = true;
 							}

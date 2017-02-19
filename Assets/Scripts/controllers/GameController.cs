@@ -68,7 +68,7 @@ public class GameController : MonoBehaviour {
 			currTile = prevTile = map.getTileAt((int)(player.transform.position.x), (int)(player.transform.position.y));
 			currArea = prevArea = currTile.room;
 		}
-		miniMapControl.updateMiniMap();
+		//miniMapControl.updateMiniMap();
 		StartCoroutine(mapSpriteController.revealTilesForAreaWithID(map.bonfire.room.ID, map.bonfire));
 	}
 
@@ -119,7 +119,7 @@ public class GameController : MonoBehaviour {
 		player = p_go;
 		currTile = prevTile = map.getTileAt((int)(player.transform.position.x), (int)(player.transform.position.y));
 		currArea = prevArea = currTile.room;
-		miniMapControl.movePlayerTile(currTile);
+		miniMapControl.updateTile(currTile);
 		logRoomInfo();
 	}
 
@@ -163,7 +163,8 @@ public class GameController : MonoBehaviour {
 			if (currTile.room == null && currTile.corridor == null) {
 				Debug.LogError("Player outside room or corridor??");
 			}
-			miniMapControl.movePlayerTile(currTile);
+			miniMapControl.updateTile(currTile);
+			miniMapControl.updateTile(prevTile);
 			prevTile = currTile;
 		}
 	}
