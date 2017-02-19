@@ -713,7 +713,7 @@ public class MapGenerator : MonoBehaviour {
 	void placeEnemies() {
 		if (enemyPrefabs.Length > 0) {
 			foreach (var room in map.rooms) {
-				if (room.type != RoomType.bonfire && room.type != RoomType.exit) {
+				if (room.tp.type != RoomType.bonfire && room.tp.type != RoomType.exit) {
 					int enemiesCount = Random.Range(3, 5);
 					while (enemiesCount > 0) {
 						int randX = Random.Range(room.roomBase.x+1, room.roomBase.x+room.tp.width-1);

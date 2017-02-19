@@ -14,7 +14,6 @@ public class Room : Area {
 	public List<Blueprint> objects { get; protected set; }
 
 	public RoomTemplate tp { get; protected set; }
-	public RoomType type { get; protected set; }
 
 	public Room(int ID, RoomTemplate template, Vector2 center) : base(ID) {
 		this.tp = template;
@@ -36,9 +35,9 @@ public class Room : Area {
 		roomBase = tile;
 	}
 
-	public void setRoomType(RoomType type) {
-		this.type = type;
-	}
+//	public void setRoomType(RoomType type) {
+//		this.tp.type = type;
+//	}
 
 	public void addDoor(Door door) {
 		doors.Add(door);

@@ -54,7 +54,7 @@ public class MiniMapControl : MonoBehaviour {
 		updateMiniMap();
 	}
 
-	void updateMiniMap() {
+	public void updateMiniMap() {
 		foreach (var tile in tile_PanelMap.Keys) {
 			GameObject panel = tile_PanelMap[tile];
 			UnityEngine.UI.Image panelImage = panel.GetComponent<UnityEngine.UI.Image>();

@@ -68,7 +68,7 @@ public class GameController : MonoBehaviour {
 			currTile = prevTile = map.getTileAt((int)(player.transform.position.x), (int)(player.transform.position.y));
 			currArea = prevArea = currTile.room;
 		}
-		
+		miniMapControl.updateMiniMap();
 		StartCoroutine(mapSpriteController.revealTilesForAreaWithID(map.bonfire.room.ID, map.bonfire));
 	}
 
@@ -172,7 +172,7 @@ public class GameController : MonoBehaviour {
 		if (currArea is Corridor) {
 			Debug.Log("Corridor: id "+currArea.ID+"; Discovered: "+currArea.isDiscovered);
 		} else {
-			Debug.Log("Room: id "+currArea.ID+", room type "+map.getRoomWithID(currArea.ID).type+"; Discovered: "+currArea.isDiscovered);
+			Debug.Log("Room: id "+currArea.ID+", room type "+map.getRoomWithID(currArea.ID).tp.type+"; Discovered: "+currArea.isDiscovered);
 		}
 	}
 
