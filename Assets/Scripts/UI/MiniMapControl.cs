@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MiniMapControl : MonoBehaviour {
 
@@ -16,14 +17,26 @@ public class MiniMapControl : MonoBehaviour {
 	Texture2D mapTexture;
 	Material mapMateral;
 	CanvasRenderer render;
+	RawImage image;
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
 		gc = GameController.Instance;
 		render = GetComponent<CanvasRenderer>();
+		image = GetComponent<RawImage>();
 
 		seeThrough = Color.white;
 		seeThrough.a = 0.0f;
+	}
+
+	void Update() {
+		if (Input.GetKeyDown(KeyCode.Tab)) {
+			if (image.enabled) {
+				image.enabled = false;
+			} else {
+				image.enabled = true;
+			}
+		}
 	}
 
 	public void updateTile(Tile tile) {
@@ -70,6 +83,6 @@ public class MiniMapControl : MonoBehaviour {
 		}
 
 		mapTexture.Apply();
-		render.SetTexture(mapTexture);
+		image.texture = mapTexture;
 	}
 }
