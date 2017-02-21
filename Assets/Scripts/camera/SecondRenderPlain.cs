@@ -10,7 +10,7 @@ public class SecondRenderPlain : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		frc = Camera.main.GetComponent<FirstRenderCamera>();//GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<FirstRenderCamera>();
+		frc = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<FirstRenderCamera>();
 		mat = new Material(Shader.Find("Mobile/Unlit (Supports Lightmap)"));
 	}
 	

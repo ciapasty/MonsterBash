@@ -35,6 +35,7 @@ public class MoveIdle : MonoBehaviour {
 	}
 
 	void clampMovement() {
+		// TODO: This should be clamped to Room, not camera view
 		Vector2 maxXY = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<Camera>().ViewportToWorldPoint(new Vector2(1, 1));
 		maxXY.x = maxXY.x-GetComponent<SpriteRenderer>().bounds.extents.x;
 		maxXY.y = maxXY.y-GetComponent<SpriteRenderer>().bounds.extents.y*2;
