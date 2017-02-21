@@ -4,49 +4,40 @@ using UnityEngine;
 
 public class MapSpriteController : MonoBehaviour {
 
-	public GameObject wallPrefab;
-	public GameObject floorPrefab;
-	public GameObject doorPrefab;
-	public GameObject fogPrefab;
-
 	GameController gc;
 	MiniMapControl miniMapControl;
 
-	Dictionary<Tile, GameObject> go_tileMap;
-	Dictionary<GameObject, GameObject> go_fogMap;
 	GameObject bonfireGO;
 	GameObject exitGO;
-
-	// Testing
-	public Material spriteDiffuseMaterial;
+	 
 	public int pixelsPerUnit;
+	public Material spriteDiffuseMaterial;
 	public Sprite emptyTile;
 	public Sprite transparentTile;
 
-	GameObject floorTextureGO;
-	GameObject wallBotTextureGO;
-	GameObject wallMidTextureGO;
-	GameObject wallTopTextureGO;
-
-	Dictionary<string, Sprite> roomSprites;
+	List<GameObject> mapTextureGOs;
+	List<GameObject> wallBoxCollidersGOs;
+	Dictionary<string, Sprite> floorWallSprites;
 
 	void Start() {
 		gc = GameController.Instance;
 		miniMapControl = FindObjectOfType<MiniMapControl>();
 
-		roomSprites = new Dictionary<string, Sprite>();
+		floorWallSprites = new Dictionary<string, Sprite>();
 		foreach (var sprite in Resources.LoadAll<Sprite>("sprites/rooms/")) {
-			roomSprites.Add(sprite.name, sprite);
+			floorWallSprites.Add(sprite.name, sprite);
 		}
 	}
 
 	public void setupSprites() {
-		floorTextureGO = createSpritesTextureForType("floorTexture", TileType.floor, TileType.wallBottom, TileType.wallMiddle, TileType.wallTop, "Background", -2);
+		mapTextureGOs = new List<GameObject>();
+
+		createSpritesTextureForType("floorTexture", TileType.floor, TileType.wallBottom, TileType.wallMiddle, TileType.wallTop, "Background", -2);
 		createWallBoxColliders();
 		updateWallTiles();
-		wallBotTextureGO = createSpritesTextureForType("wallBottomTexture", TileType.wallBottom, TileType.wallBottom, TileType.wallBottom, TileType.wallBottom, "Background", -1);
-		wallMidTextureGO = createSpritesTextureForType("wallMiddleTexture", TileType.wallMiddle, TileType.wallMiddle, TileType.wallMiddle, TileType.wallMiddle, "Background", 0);
-		wallTopTextureGO = createSpritesTextureForType("wallTopTexture", TileType.wallTop, TileType.wallBottom, TileType.wallMiddle, TileType.floor, "Wall Top", 0);
+		createSpritesTextureForType("wallBottomTexture", TileType.wallBottom, TileType.wallBottom, TileType.wallBottom, TileType.wallBottom, "Background", -1);
+		createSpritesTextureForType("wallMiddleTexture", TileType.wallMiddle, TileType.wallMiddle, TileType.wallMiddle, TileType.wallMiddle, "Background", 0);
+		createSpritesTextureForType("wallTopTexture", TileType.wallTop, TileType.wallBottom, TileType.wallMiddle, TileType.floor, "Wall Top", 0);
 		placeBonfireAndExit();
 	}
 
@@ -58,7 +49,7 @@ public class MapSpriteController : MonoBehaviour {
 		exitGO.transform.position = new Vector3(gc.map.exit.x+0.5f, gc.map.exit.y+0.5f, 0);
 	}
 
-	GameObject createSpritesTextureForType(string name, TileType type, TileType neighbour1, TileType neighbour2, TileType neighbour3, string layerName, int depth) {
+	void createSpritesTextureForType(string name, TileType type, TileType neighbour1, TileType neighbour2, TileType neighbour3, string layerName, int depth) {
 		GameObject go = new GameObject(name);
 		go.transform.SetParent(this.transform);
 		go.transform.position = new Vector3(gc.map.width/2, gc.map.height/2, 0);
@@ -75,7 +66,7 @@ public class MapSpriteController : MonoBehaviour {
 		sr.sortingLayerName = layerName;
 		sr.sortingOrder = depth;
 
-		return go;
+		mapTextureGOs.Add(go);
 	}
 
 	Texture2D addSpritesForType(Texture2D tex, TileType type, TileType neighbour1, TileType neighbour2, TileType neighbour3) {
@@ -102,7 +93,6 @@ public class MapSpriteController : MonoBehaviour {
 		return tex;
 	}
 
-
 	Sprite getSpriteForTileWithNeighbourTypes(Tile tile, TileType t1, TileType t2, TileType t3) {
 		
 		int tileIndex = getCrossTileIndex(// Above, left, below, right
@@ -124,11 +114,11 @@ public class MapSpriteController : MonoBehaviour {
 
 		string spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
 		// Temporary, for testing
-		if (!roomSprites.ContainsKey(spriteName)) {
+		if (!floorWallSprites.ContainsKey(spriteName)) {
 			Debug.LogError("No sprite with name: "+spriteName);
 			return null;
 		} else {
-			return roomSprites[spriteName];
+			return floorWallSprites[spriteName];
 		}
 	}
 
@@ -146,6 +136,8 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 	void createWallBoxColliders() {
+		wallBoxCollidersGOs = new List<GameObject>();
+
 		for (int x = 0; x < gc.map.width; x++) {
 			Tile currTile;
 			Tile nextTile;
@@ -203,7 +195,16 @@ public class MapSpriteController : MonoBehaviour {
 					
 					if (nextTile != null && nextTile.type != TileType.wallBottom) {
 						int length = currTile.x-startTile.x+1;
-						if (length > 1) {
+						if (length == 1 && (nextTile.type == TileType.floor &&
+						    				gc.map.getTileAt(x-1, y).type == TileType.floor &&
+											gc.map.getTileAt(x, y+1).type == TileType.floor &&
+						    				gc.map.getTileAt(x, y-1).type == TileType.floor)) {
+							createBoxCollider(
+								new Vector2(startTile.x+0.5f, startTile.y+0.5f),
+								new Vector2(1f, height),
+								new Vector2(0f, 0.5f)
+							);
+						} else if (length > 1) {
 							if (height == 2) {
 								createBoxCollider(
 									new Vector2((((startTile.x+currTile.x)/2f)+0.5f), startTile.y+0.5f),
@@ -228,10 +229,13 @@ public class MapSpriteController : MonoBehaviour {
 	void createBoxCollider(Vector2 position, Vector2 size, Vector2 offset) {
 		GameObject go = new GameObject("BoxCollider");
 		go.transform.position = position;
+		go.transform.SetParent(this.transform);
 
 		BoxCollider2D box = go.AddComponent<BoxCollider2D>();
 		box.size = size;
 		box.offset = offset;
+
+		wallBoxCollidersGOs.Add(go);
 	}
 
 	void updateWallTiles() {
@@ -265,20 +269,19 @@ public class MapSpriteController : MonoBehaviour {
 		}
 	}
 
-	// ====================
-	// ======= Deprecated??
-	// ====================
-
 	public void removeSprites() {
-		foreach (var tile in go_tileMap.Keys) {
-			Destroy(go_fogMap[go_tileMap[tile]]);
-			Destroy(go_tileMap[tile]);
-		}
 		Destroy(bonfireGO);
 		Destroy(exitGO);
 
-		go_fogMap = null;
-		go_tileMap = null;
+		foreach (var go in mapTextureGOs) {
+			Destroy(go);
+		}
+		mapTextureGOs = null;
+
+		foreach (var go in wallBoxCollidersGOs) {
+			Destroy(go);
+		}
+		wallBoxCollidersGOs = null;
 	}
 
 	// ======================
@@ -332,7 +335,7 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 	public void revealTile(Tile tile) {
-		go_fogMap[go_tileMap[tile]].GetComponent<SpriteRenderer>().enabled = false;
+		//go_fogMap[go_tileMap[tile]].GetComponent<SpriteRenderer>().enabled = false;
 		//miniMapControl.updateTile(tile);
 	}
 }
