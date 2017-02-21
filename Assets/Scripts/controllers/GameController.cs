@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour {
 	void Awake() {
 		mapGenerator = GetComponentInChildren<MapGenerator>();
 		mapSpriteController = GetComponentInChildren<MapSpriteController>();
-		cameraFollowPlayer = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CameraFollowPlayer>();
+		cameraFollowPlayer = Camera.main.GetComponent<CameraFollowPlayer>();//GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CameraFollowPlayer>();
 	}
 
 	void Start() {
@@ -60,7 +60,7 @@ public class GameController : MonoBehaviour {
 			roomControllersMap.Add(room, rc);
 			rc.createGOs();
 		}
-		miniMapControl.setupMiniMap();
+		//miniMapControl.setupMiniMap();
 		if (player == null) {
 			spawnPlayer();
 		} else {
@@ -119,7 +119,7 @@ public class GameController : MonoBehaviour {
 		player = p_go;
 		currTile = prevTile = map.getTileAt((int)(player.transform.position.x), (int)(player.transform.position.y));
 		currArea = prevArea = currTile.room;
-		miniMapControl.updateTile(currTile);
+		//miniMapControl.updateTile(currTile);
 		logRoomInfo();
 	}
 
@@ -163,8 +163,8 @@ public class GameController : MonoBehaviour {
 			if (currTile.room == null && currTile.corridor == null) {
 				Debug.LogError("Player outside room or corridor??");
 			}
-			miniMapControl.updateTile(currTile);
-			miniMapControl.updateTile(prevTile);
+			//miniMapControl.updateTile(currTile);
+			//miniMapControl.updateTile(prevTile);
 			prevTile = currTile;
 		}
 	}
