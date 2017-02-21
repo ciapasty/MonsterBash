@@ -52,7 +52,7 @@ public class GrassSpawner : MonoBehaviour {
 		go_sr.material = (Material)Resources.Load("materials/Lighting_Sprite");
 		go_sr.sortingLayerName = "Foreground";
 
-		go.AddComponent<DrawingDepthStatic>();
+		go.AddComponent<DrawingDepth>();
 
 		DestroyMe go_td = go.AddComponent<DestroyMe>();
 		go_td.time = 1f;

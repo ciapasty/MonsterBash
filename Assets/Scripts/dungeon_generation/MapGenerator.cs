@@ -250,7 +250,11 @@ public class MapGenerator : MonoBehaviour {
 		exitRoom = rooms[index];
 
 		// Create map.
-		map = new Map(Mathf.CeilToInt(maxX)+1, Mathf.CeilToInt(maxY)+1);
+		int roundedWidth = Mathf.CeilToInt(maxX);
+		int roundedHeight = Mathf.CeilToInt(maxY);
+		int mapWidth = (roundedWidth%2 == 0) ? roundedWidth : roundedWidth+1;
+		int mapHeight = (roundedHeight%2 == 0) ? roundedHeight : roundedHeight+1;
+		map = new Map(mapWidth+2, mapHeight+2);
 
 		// Final sequence
 
