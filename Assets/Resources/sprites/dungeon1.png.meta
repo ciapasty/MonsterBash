@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: f461791e79ab040ef90523c8010a0719
-timeCreated: 1485968119
+timeCreated: 1487612150
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,7 @@ TextureImporter:
     21300002: dungeon1_1
     21300004: dungeon1_2
     21300006: dungeon1_3
+    21300008: dungeon1_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -23,7 +24,7 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-  isReadable: 0
+  isReadable: 1
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -128,6 +129,19 @@ TextureImporter:
         y: 168
         width: 24
         height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: dungeon1_4
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 89
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -16,13 +16,11 @@ public class MiniMapControl : MonoBehaviour {
 
 	Texture2D mapTexture;
 	Material mapMateral;
-	CanvasRenderer render;
 	RawImage image;
 
 	// Use this for initialization
 	void Start() {
 		gc = GameController.Instance;
-		render = GetComponent<CanvasRenderer>();
 		image = GetComponent<RawImage>();
 
 		seeThrough = Color.white;

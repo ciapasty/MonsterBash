@@ -216,8 +216,8 @@ public class MapGenerator : MonoBehaviour {
 		List<Room> singleEntranceRooms = new List<Room>();
 
 		foreach (var room in rooms) {
-			float top = (room.center.y+room.tp.height/2)+mainRoomsBuffer*10;
-			float right = (room.center.x+room.tp.width/2)+mainRoomsBuffer*10;
+			float top = (room.center.y+room.tp.height/2)+mainRoomsBuffer;
+			float right = (room.center.x+room.tp.width/2);
 
 			if (room.connectedRooms.Count == 1) {
 				singleEntranceRooms.Add(room);
@@ -236,6 +236,7 @@ public class MapGenerator : MonoBehaviour {
 			return;
 		}
 
+		// Replace single entrance room with exit, looks for the furthest one
 		exitRoom = singleEntranceRooms[0];
 		foreach (var room in singleEntranceRooms) {
 			if (Vector2.Distance(exitRoom.center, bonfireRoom.center) < Vector2.Distance(room.center, bonfireRoom.center))
@@ -248,7 +249,7 @@ public class MapGenerator : MonoBehaviour {
 		exitRoom.connectedRooms[0].connectedRooms[index2] = rooms[index];
 		exitRoom = rooms[index];
 
-		// Layout rooms in newly created tile map.
+		// Create map.
 		map = new Map(Mathf.CeilToInt(maxX)+1, Mathf.CeilToInt(maxY)+1);
 
 		// Final sequence
@@ -259,11 +260,10 @@ public class MapGenerator : MonoBehaviour {
 		map.setSpawnTileTo(map.getTileAt(bonfireRoom.roomBase.x+bonfireRoom.tp.width/2, bonfireRoom.roomBase.y+bonfireRoom.tp.height/2));
 		map.setExitTileTo(map.getTileAt(exitRoom.roomBase.x+exitRoom.tp.width/2, exitRoom.roomBase.y+exitRoom.tp.height/2));
 
-		placeObjects();
-		placeEnemies();
+		//placeObjects();
+		//placeEnemies();
 
-		// map is complete
-
+		// map is complete, send message to GameController
 		GameController.Instance.SendMessage("postMapCreationSetup");
 	}
 
