@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public enum RoomType { bonfire, generic, exit }
+public enum RoomType { bonfire, exit, generic, library }
 
 public class Room : Area {
 

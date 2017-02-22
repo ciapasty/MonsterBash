@@ -111,8 +111,12 @@ public class MapSpriteController : MonoBehaviour {
 				gc.map.getTileAt(tile.x+1, tile.y-1),
 				gc.map.getTileAt(tile.x+1, tile.y+1));
 		}
-
-		string spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
+		string spriteName = "";
+		if (tile.room == null || tile.room.tp.type == RoomType.bonfire || tile.room.tp.type == RoomType.exit) {
+			spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
+		} else {
+			spriteName = tile.room.tp.type.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
+		}
 		// Temporary, for testing
 		if (!floorWallSprites.ContainsKey(spriteName)) {
 			Debug.LogError("No sprite with name: "+spriteName);
@@ -262,9 +266,9 @@ public class MapSpriteController : MonoBehaviour {
 
 	void updateTileAreas(Tile sourceTile, Tile tile) {
 		if (tile != null) {
-			if (tile.room == null)
+			//if (tile.room == null)
 				tile.setRoom(sourceTile.room);
-			if (tile.corridor == null)
+			//if (tile.corridor == null)
 				tile.setCorridor(sourceTile.corridor);
 		}
 	}
