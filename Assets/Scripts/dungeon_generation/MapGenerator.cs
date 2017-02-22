@@ -264,8 +264,8 @@ public class MapGenerator : MonoBehaviour {
 		map.setSpawnTileTo(map.getTileAt(bonfireRoom.roomBase.x+bonfireRoom.tp.width/2, bonfireRoom.roomBase.y+bonfireRoom.tp.height/2));
 		map.setExitTileTo(map.getTileAt(exitRoom.roomBase.x+exitRoom.tp.width/2, exitRoom.roomBase.y+exitRoom.tp.height/2));
 
-		placeObjects();
-		placeEnemies();
+		//placeObjects();
+		//placeEnemies();
 
 		// map is complete, send message to GameController
 		GameController.Instance.SendMessage("postMapCreationSetup");
@@ -554,34 +554,30 @@ public class MapGenerator : MonoBehaviour {
 	/// <param name="t2">End tile.</param>
 	/// <param name="corridor">Corridor</param>> 
 	void layOutHorizontalCorridor(Tile t1, Tile t2, Corridor corridor) {
-		if (t1.room != null) {
-			// TODO: change door status
-			Room r = map.getRoomWithID(t1.room.ID);
-			r.addDoor(new Door(map.getTileAt(t1.x, t1.y+3), DoorOrientation.NS));
-			map.getTileAt(t1.x, t1.y+1).setCorridor(corridor);
-			map.getTileAt(t1.x, t1.y+2).setCorridor(corridor);
-			map.getTileAt(t1.x, t1.y+3).setCorridor(corridor);
-			map.getTileAt(t1.x, t1.y+4).setCorridor(corridor);
-		}
-
-		if (t2.room != null) {
-			// TODO: change door status
-			Room r = map.getRoomWithID(t2.room.ID);
-			r.addDoor(new Door(map.getTileAt(t2.x, t2.y+3), DoorOrientation.NS));
-			map.getTileAt(t2.x, t2.y+1).setCorridor(corridor);
-			map.getTileAt(t2.x, t2.y+2).setCorridor(corridor);
-			map.getTileAt(t2.x, t2.y+3).setCorridor(corridor);
-			map.getTileAt(t2.x, t2.y+4).setCorridor(corridor);
-		}
-
 		map.addCorridor(corridor);
 
-		int min, max;
-		min = (t1.x > t2.x) ? t2.x : t1.x;
-		max = (t1.x > t2.x) ? t1.x : t2.x;
+		Tile min, max;
+		min = (t1.x > t2.x) ? t2 : t1;
+		max = (t1.x > t2.x) ? t1 : t2;
+
+		if (min.room != null) {
+			min.room.addDoor(new Door(map.getTileAt(min.x+1, min.y+3), DoorOrientation.NS));
+			map.getTileAt(min.x, min.y+1).setCorridor(corridor);
+			map.getTileAt(min.x, min.y+2).setCorridor(corridor);
+			map.getTileAt(min.x, min.y+3).setCorridor(corridor);
+			map.getTileAt(min.x, min.y+4).setCorridor(corridor);
+		}
+
+		if (max.room != null) {
+			max.room.addDoor(new Door(map.getTileAt(max.x-1, max.y+3), DoorOrientation.NS));
+			map.getTileAt(max.x, max.y+1).setCorridor(corridor);
+			map.getTileAt(max.x, max.y+2).setCorridor(corridor);
+			map.getTileAt(max.x, max.y+3).setCorridor(corridor);
+			map.getTileAt(max.x, max.y+4).setCorridor(corridor);
+		}
 
 		Tile t;
-		for (int i = min; i <= max; i++) {
+		for (int i = min.x; i <= max.x; i++) {
 			t = map.getTileAt(i, t1.y+1);
 			t.type = TileType.floor;
 			if (t.corridor == null)
@@ -604,32 +600,28 @@ public class MapGenerator : MonoBehaviour {
 	/// <param name="t2">End tile.</param>
 	/// <param name="corridor">Corridor</param>
 	void layOutVerticalCorridor(Tile t1, Tile t2, Corridor corridor) {
-		if (t1.room != null) {
-			// TODO: change door status
-			Room r = map.getRoomWithID(t1.room.ID);
-			r.addDoor(new Door(map.getTileAt(t1.x+1, t1.y), DoorOrientation.WE));
-			map.getTileAt(t1.x+1, t1.y).setCorridor(corridor);
-			map.getTileAt(t1.x+2, t1.y).setCorridor(corridor);
-			map.getTileAt(t1.x+3, t1.y).setCorridor(corridor);
-		}
-
-		if (t2.room != null) {
-			// TODO: change door status
-			Room r = map.getRoomWithID(t2.room.ID);
-			r.addDoor(new Door(map.getTileAt(t2.x+1, t2.y), DoorOrientation.WE));
-			map.getTileAt(t2.x+1, t2.y).setCorridor(corridor);
-			map.getTileAt(t2.x+2, t2.y).setCorridor(corridor);
-			map.getTileAt(t2.x+3, t2.y).setCorridor(corridor);
-		}
-
 		map.addCorridor(corridor);
 
-		int min, max;
-		min = (t1.y > t2.y) ? t2.y : t1.y;
-		max = (t1.y > t2.y) ? t1.y : t2.y;
+		Tile min, max;
+		min = (t1.y > t2.y) ? t2 : t1;
+		max = (t1.y > t2.y) ? t1 : t2;
+
+		if (min.room != null) {
+			min.room.addDoor(new Door(map.getTileAt(min.x+1, min.y+1), DoorOrientation.WE));
+			map.getTileAt(min.x+1, min.y).setCorridor(corridor);
+			map.getTileAt(min.x+2, min.y).setCorridor(corridor);
+			map.getTileAt(min.x+3, min.y).setCorridor(corridor);
+		}
+
+		if (max.room != null) {
+			max.room.addDoor(new Door(map.getTileAt(max.x+1, max.y-1), DoorOrientation.WE));
+			map.getTileAt(max.x+1, max.y).setCorridor(corridor);
+			map.getTileAt(max.x+2, max.y).setCorridor(corridor);
+			map.getTileAt(max.x+3, max.y).setCorridor(corridor);
+		}
 
 		Tile t;
-		for (int i = min; i <= max; i++) {
+		for (int i = min.y; i <= max.y; i++) {
 			t = map.getTileAt(t1.x+1, i);
 			t.type = TileType.floor;
 			if (t.corridor == null)
