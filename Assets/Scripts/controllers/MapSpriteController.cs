@@ -82,10 +82,10 @@ public class MapSpriteController : MonoBehaviour {
 						tex.SetPixels(x*pixelsPerUnit, y*pixelsPerUnit, (int)sprite.rect.width, (int)sprite.rect.height, cols);
 					}
 				} else if (tile.type == TileType.empty) {
-					cols = emptyTile.texture.GetPixels(0, 0, 16, 16);
+					cols = emptyTile.texture.GetPixels((int)emptyTile.rect.x, (int)emptyTile.rect.y, 16, 16);
 					tex.SetPixels(x*pixelsPerUnit, y*pixelsPerUnit, 16, 16, cols);
 				} else {
-					cols = transparentTile.texture.GetPixels(0, 0, 16, 16);
+					cols = transparentTile.texture.GetPixels((int)transparentTile.rect.x, (int)transparentTile.rect.y, 16, 16);
 					tex.SetPixels(x*pixelsPerUnit, y*pixelsPerUnit, 16, 16, cols);
 				}
 			}
@@ -111,11 +111,14 @@ public class MapSpriteController : MonoBehaviour {
 				gc.map.getTileAt(tile.x+1, tile.y-1),
 				gc.map.getTileAt(tile.x+1, tile.y+1));
 		}
+
+		tileIndex += ((int)tile.type-1)*32;
+
 		string spriteName = "";
 		if (tile.room == null || tile.room.tp.type == RoomType.bonfire || tile.room.tp.type == RoomType.exit) {
-			spriteName = RoomType.generic.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
+			spriteName = RoomType.generic.ToString()+"_"+tileIndex;
 		} else {
-			spriteName = tile.room.tp.type.ToString()+"_"+tile.type.ToString()+"_"+tileIndex;
+			spriteName = tile.room.tp.type.ToString()+"_"+tileIndex;
 		}
 		// Temporary, for testing
 		if (!floorWallSprites.ContainsKey(spriteName)) {
