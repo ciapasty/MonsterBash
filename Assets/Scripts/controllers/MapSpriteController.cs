@@ -94,25 +94,36 @@ public class MapSpriteController : MonoBehaviour {
 	}
 
 	Sprite getSpriteForTileWithNeighbourTypes(Tile tile, TileType t1, TileType t2, TileType t3) {
-		
-		int tileIndex = getCrossTileIndex(// Above, left, below, right
-			t1, t2, t3,
-			gc.map.getTileAt(tile.x, tile.y+1),
-			gc.map.getTileAt(tile.x-1, tile.y),
-			gc.map.getTileAt(tile.x, tile.y-1), 
-			gc.map.getTileAt(tile.x+1, tile.y));
+		int tileIndex = 0;
 
-		if (tileIndex == 0) {
-			// Diagonal tiles check
-			tileIndex = 16+getCrossTileIndex(// AboveLeft, BelowLeft, BelowRight, AboveRight
+		if (tile.type == TileType.wallBottom || tile.type == TileType.wallMiddle) {
+			tileIndex = getSideTileIndex(
+				t1, t1,
+				gc.map.getTileAt(tile.x-1, tile.y),
+				gc.map.getTileAt(tile.x+1, tile.y)
+			);
+
+			tileIndex += 64+(4*((int)tile.type-3));
+		} else {
+			tileIndex = getCrossTileIndex(// Above, left, below, right
 				t1, t2, t3,
-				gc.map.getTileAt(tile.x-1, tile.y+1),
-				gc.map.getTileAt(tile.x-1, tile.y-1),
-				gc.map.getTileAt(tile.x+1, tile.y-1),
-				gc.map.getTileAt(tile.x+1, tile.y+1));
-		}
+		        gc.map.getTileAt(tile.x, tile.y+1),
+		        gc.map.getTileAt(tile.x-1, tile.y),
+		        gc.map.getTileAt(tile.x, tile.y-1), 
+		        gc.map.getTileAt(tile.x+1, tile.y));
 
-		tileIndex += ((int)tile.type-1)*32;
+			if (tileIndex == 0) {
+				// Diagonal tiles check
+				tileIndex = 16+getCrossTileIndex(// AboveLeft, BelowLeft, BelowRight, AboveRight
+					t1, t2, t3,
+					gc.map.getTileAt(tile.x-1, tile.y+1),
+					gc.map.getTileAt(tile.x-1, tile.y-1),
+					gc.map.getTileAt(tile.x+1, tile.y-1),
+					gc.map.getTileAt(tile.x+1, tile.y+1));
+			}
+
+			tileIndex += ((int)tile.type-1)*32;
+		}
 
 		string spriteName = "";
 		if (tile.room == null || tile.room.tp.type == RoomType.bonfire || tile.room.tp.type == RoomType.exit) {
@@ -127,6 +138,13 @@ public class MapSpriteController : MonoBehaviour {
 		} else {
 			return floorWallSprites[spriteName];
 		}
+	}
+
+	int getSideTileIndex(TileType type1, TileType type2, Tile left, Tile right) {
+		var sum = 0;
+		if (left != null && (left.type == type1 || left.type == type2))  sum += 1;
+		if (right != null && (right.type == type1 || right.type == type2)) sum += 2;
+		return sum;
 	}
 
 	int getCrossTileIndex(TileType type1, TileType type2, TileType type3, Tile above, Tile left, Tile below, Tile right) {
