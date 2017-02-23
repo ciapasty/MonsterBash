@@ -1,137 +1,209 @@
 fileFormatVersion: 2
-guid: eb9c4c297391c41f190ce6d40bbef937
-timeCreated: 1487804797
+guid: 15959cdee52134819aa111cee949e636
+timeCreated: 1487869285
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: library_0
-    21300002: library_1
-    21300004: library_2
-    21300006: library_3
-    21300008: library_4
-    21300010: library_5
-    21300012: library_6
-    21300014: library_7
-    21300016: library_8
-    21300018: library_9
-    21300020: library_10
-    21300022: library_11
-    21300024: library_12
-    21300026: library_13
-    21300028: library_14
-    21300030: library_15
-    21300032: library_16
-    21300034: library_17
-    21300036: library_18
-    21300038: library_19
-    21300040: library_20
-    21300042: library_21
-    21300044: library_22
-    21300046: library_23
-    21300048: library_24
-    21300050: library_25
-    21300052: library_26
-    21300054: library_27
-    21300056: library_28
-    21300058: library_29
-    21300060: library_30
-    21300062: library_31
-    21300064: library_32
-    21300066: library_33
-    21300068: library_34
-    21300070: library_35
-    21300072: library_36
-    21300074: library_37
-    21300076: library_38
-    21300078: library_39
-    21300080: library_40
-    21300082: library_41
-    21300084: library_42
-    21300086: library_43
-    21300088: library_44
-    21300090: library_45
-    21300092: library_46
-    21300094: library_47
-    21300096: library_48
-    21300098: library_49
-    21300100: library_50
-    21300102: library_51
-    21300104: library_52
-    21300106: library_53
-    21300108: library_54
-    21300110: library_55
-    21300112: library_56
-    21300114: library_57
-    21300116: library_58
-    21300118: library_59
-    21300120: library_60
-    21300122: library_61
-    21300124: library_62
-    21300126: library_63
-    21300128: library_64
-    21300130: library_65
-    21300132: library_66
-    21300134: library_67
-    21300136: library_68
-    21300138: library_69
-    21300140: library_70
-    21300142: library_71
-    21300144: library_72
-    21300146: library_73
-    21300148: library_74
-    21300150: library_75
-    21300152: library_76
-    21300154: library_77
-    21300156: library_78
-    21300158: library_79
-    21300160: library_80
-    21300162: library_81
-    21300164: library_82
-    21300166: library_83
-    21300168: library_84
-    21300170: library_85
-    21300172: library_86
-    21300174: library_87
-    21300176: library_88
-    21300178: library_89
-    21300180: library_90
-    21300182: library_91
-    21300184: library_92
-    21300186: library_93
-    21300188: library_94
-    21300190: library_95
-    21300192: library_96
-    21300194: library_97
-    21300196: library_98
-    21300198: library_99
-    21300200: library_100
-    21300202: library_101
-    21300204: library_102
-    21300206: library_103
-    21300208: library_104
-    21300210: library_105
-    21300212: library_106
-    21300214: library_107
-    21300216: library_108
-    21300218: library_109
-    21300220: library_110
-    21300222: library_111
-    21300224: library_112
-    21300226: library_113
-    21300228: library_114
-    21300230: library_115
-    21300232: library_116
-    21300234: library_117
-    21300236: library_118
-    21300238: library_119
-    21300240: library_120
-    21300242: library_121
-    21300244: library_122
-    21300246: library_123
-    21300248: library_124
-    21300250: library_125
-    21300252: library_126
-    21300254: library_127
+    21300000: generic_0
+    21300002: generic_1
+    21300004: generic_2
+    21300006: generic_3
+    21300008: generic_4
+    21300010: generic_5
+    21300012: generic_6
+    21300014: generic_7
+    21300016: generic_8
+    21300018: generic_9
+    21300020: generic_10
+    21300022: generic_11
+    21300024: generic_12
+    21300026: generic_13
+    21300028: generic_14
+    21300030: generic_15
+    21300032: generic_16
+    21300034: generic_17
+    21300036: generic_18
+    21300038: generic_19
+    21300040: generic_20
+    21300042: generic_21
+    21300044: generic_22
+    21300046: generic_23
+    21300048: generic_24
+    21300050: generic_25
+    21300052: generic_26
+    21300054: generic_27
+    21300056: generic_28
+    21300058: generic_29
+    21300060: generic_30
+    21300062: generic_31
+    21300064: generic_32
+    21300066: generic_33
+    21300068: generic_34
+    21300070: generic_35
+    21300072: generic_36
+    21300074: generic_37
+    21300076: generic_38
+    21300078: generic_39
+    21300080: generic_40
+    21300082: generic_41
+    21300084: generic_42
+    21300086: generic_43
+    21300088: generic_44
+    21300090: generic_45
+    21300092: generic_46
+    21300094: generic_47
+    21300096: generic_48
+    21300098: generic_49
+    21300100: generic_50
+    21300102: generic_51
+    21300104: generic_52
+    21300106: generic_53
+    21300108: generic_54
+    21300110: generic_55
+    21300112: generic_56
+    21300114: generic_57
+    21300116: generic_58
+    21300118: generic_59
+    21300120: generic_60
+    21300122: generic_61
+    21300124: generic_62
+    21300126: generic_63
+    21300128: generic_64
+    21300130: generic_65
+    21300132: generic_66
+    21300134: generic_67
+    21300136: generic_68
+    21300138: generic_69
+    21300140: generic_70
+    21300142: generic_71
+    21300144: generic_72
+    21300146: generic_73
+    21300148: generic_74
+    21300150: generic_75
+    21300152: generic_76
+    21300154: generic_77
+    21300156: generic_78
+    21300158: generic_79
+    21300160: generic_80
+    21300162: generic_81
+    21300164: generic_82
+    21300166: generic_83
+    21300168: generic_84
+    21300170: generic_85
+    21300172: generic_86
+    21300174: generic_87
+    21300176: generic_88
+    21300178: generic_89
+    21300180: generic_90
+    21300182: generic_91
+    21300184: generic_92
+    21300186: generic_93
+    21300188: generic_94
+    21300190: generic_95
+    21300192: generic_96
+    21300194: generic_97
+    21300196: generic_98
+    21300198: generic_99
+    21300200: generic_100
+    21300202: generic_101
+    21300204: generic_102
+    21300206: generic_103
+    21300208: generic_104
+    21300210: generic_105
+    21300212: generic_106
+    21300214: generic_107
+    21300216: generic_108
+    21300218: generic_109
+    21300220: generic_110
+    21300222: generic_111
+    21300224: generic_112
+    21300226: generic_113
+    21300228: generic_114
+    21300230: generic_115
+    21300232: generic_116
+    21300234: generic_117
+    21300236: generic_118
+    21300238: generic_119
+    21300240: generic_120
+    21300242: generic_121
+    21300244: generic_122
+    21300246: generic_123
+    21300248: generic_124
+    21300250: generic_125
+    21300252: generic_126
+    21300254: generic_127
+    21300256: room-generic_0
+    21300258: room-generic_1
+    21300260: room-generic_2
+    21300262: room-generic_3
+    21300264: room-generic_4
+    21300266: room-generic_5
+    21300268: room-generic_6
+    21300270: room-generic_7
+    21300272: room-generic_8
+    21300274: room-generic_9
+    21300276: room-generic_10
+    21300278: room-generic_11
+    21300280: room-generic_12
+    21300282: room-generic_13
+    21300284: room-generic_14
+    21300286: room-generic_15
+    21300288: room-generic_16
+    21300290: room-generic_17
+    21300292: room-generic_18
+    21300294: room-generic_19
+    21300296: room-generic_20
+    21300298: room-generic_21
+    21300300: room-generic_22
+    21300302: room-generic_23
+    21300304: room-generic_24
+    21300306: room-generic_25
+    21300308: room-generic_26
+    21300310: room-generic_27
+    21300312: room-generic_28
+    21300314: room-generic_29
+    21300316: room-generic_30
+    21300318: room-generic_31
+    21300320: room-generic_32
+    21300322: room-generic_33
+    21300324: room-generic_34
+    21300326: room-generic_35
+    21300328: room-generic_36
+    21300330: room-generic_37
+    21300332: room-generic_38
+    21300334: room-generic_39
+    21300336: room-generic_40
+    21300338: room-generic_41
+    21300340: room-generic_42
+    21300342: room-generic_43
+    21300344: room-generic_44
+    21300346: room-generic_45
+    21300348: room-generic_46
+    21300350: room-generic_47
+    21300352: room-generic_48
+    21300354: room-generic_49
+    21300356: room-generic_50
+    21300358: room-generic_51
+    21300360: room-generic_52
+    21300362: room-generic_53
+    21300364: room-generic_54
+    21300366: room-generic_55
+    21300368: room-generic_56
+    21300370: room-generic_57
+    21300372: room-generic_58
+    21300374: room-generic_59
+    21300376: room-generic_60
+    21300378: room-generic_61
+    21300380: room-generic_62
+    21300382: room-generic_63
+    21300384: room-generic_64
+    21300386: room-generic_65
+    21300388: room-generic_66
+    21300390: room-generic_67
+    21300392: room-generic_68
+    21300394: room-generic_69
+    21300396: room-generic_70
+    21300398: room-generic_71
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -206,7 +278,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: library_0
+      name: room-generic_0
       rect:
         serializedVersion: 2
         x: 0
@@ -219,7 +291,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_1
+      name: room-generic_1
       rect:
         serializedVersion: 2
         x: 16
@@ -232,7 +304,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_2
+      name: room-generic_2
       rect:
         serializedVersion: 2
         x: 32
@@ -245,7 +317,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_3
+      name: room-generic_3
       rect:
         serializedVersion: 2
         x: 48
@@ -258,7 +330,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_4
+      name: room-generic_4
       rect:
         serializedVersion: 2
         x: 64
@@ -271,7 +343,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_5
+      name: room-generic_5
       rect:
         serializedVersion: 2
         x: 80
@@ -284,7 +356,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_6
+      name: room-generic_6
       rect:
         serializedVersion: 2
         x: 96
@@ -297,7 +369,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_7
+      name: room-generic_7
       rect:
         serializedVersion: 2
         x: 112
@@ -310,7 +382,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_8
+      name: room-generic_8
       rect:
         serializedVersion: 2
         x: 128
@@ -323,7 +395,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_9
+      name: room-generic_9
       rect:
         serializedVersion: 2
         x: 144
@@ -336,7 +408,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_10
+      name: room-generic_10
       rect:
         serializedVersion: 2
         x: 160
@@ -349,7 +421,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_11
+      name: room-generic_11
       rect:
         serializedVersion: 2
         x: 176
@@ -362,7 +434,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_12
+      name: room-generic_12
       rect:
         serializedVersion: 2
         x: 192
@@ -375,7 +447,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_13
+      name: room-generic_13
       rect:
         serializedVersion: 2
         x: 208
@@ -388,7 +460,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_14
+      name: room-generic_14
       rect:
         serializedVersion: 2
         x: 224
@@ -401,7 +473,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_15
+      name: room-generic_15
       rect:
         serializedVersion: 2
         x: 240
@@ -414,7 +486,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_16
+      name: room-generic_16
       rect:
         serializedVersion: 2
         x: 0
@@ -427,7 +499,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_17
+      name: room-generic_17
       rect:
         serializedVersion: 2
         x: 16
@@ -440,7 +512,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_18
+      name: room-generic_18
       rect:
         serializedVersion: 2
         x: 32
@@ -453,7 +525,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_19
+      name: room-generic_19
       rect:
         serializedVersion: 2
         x: 48
@@ -466,7 +538,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_20
+      name: room-generic_20
       rect:
         serializedVersion: 2
         x: 64
@@ -479,7 +551,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_21
+      name: room-generic_21
       rect:
         serializedVersion: 2
         x: 80
@@ -492,7 +564,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_22
+      name: room-generic_22
       rect:
         serializedVersion: 2
         x: 96
@@ -505,7 +577,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_23
+      name: room-generic_23
       rect:
         serializedVersion: 2
         x: 112
@@ -518,7 +590,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_24
+      name: room-generic_24
       rect:
         serializedVersion: 2
         x: 128
@@ -531,7 +603,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_25
+      name: room-generic_25
       rect:
         serializedVersion: 2
         x: 144
@@ -544,7 +616,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_26
+      name: room-generic_26
       rect:
         serializedVersion: 2
         x: 160
@@ -557,7 +629,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_27
+      name: room-generic_27
       rect:
         serializedVersion: 2
         x: 176
@@ -570,518 +642,11 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_28
+      name: room-generic_28
       rect:
         serializedVersion: 2
         x: 192
         y: 64
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_29
-      rect:
-        serializedVersion: 2
-        x: 208
-        y: 64
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_30
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 64
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_31
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 64
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_32
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_33
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_34
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_35
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_36
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_37
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_38
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_39
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_40
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_41
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_42
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_43
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_44
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_45
-      rect:
-        serializedVersion: 2
-        x: 208
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_46
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_47
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 48
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_48
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_49
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_50
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_51
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_52
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_53
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_54
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_55
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_56
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_57
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_58
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_59
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_60
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_61
-      rect:
-        serializedVersion: 2
-        x: 208
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_62
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_63
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_64
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_65
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_66
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: library_67
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 16
         width: 16
         height: 16
       alignment: 0
@@ -1090,7 +655,514 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_68
+      name: room-generic_29
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_30
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_31
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_33
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_34
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_35
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_36
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_37
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_38
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_39
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_40
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_41
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_42
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_43
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_44
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_45
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_46
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_47
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_48
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_49
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_50
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_51
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_52
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_53
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_54
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_55
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_56
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_57
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_58
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_59
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_60
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_61
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_62
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_63
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_64
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_65
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_66
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_67
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: room-generic_68
       rect:
         serializedVersion: 2
         x: 0
@@ -1103,7 +1175,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_69
+      name: room-generic_69
       rect:
         serializedVersion: 2
         x: 16
@@ -1116,7 +1188,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_70
+      name: room-generic_70
       rect:
         serializedVersion: 2
         x: 32
@@ -1129,7 +1201,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: library_71
+      name: room-generic_71
       rect:
         serializedVersion: 2
         x: 48

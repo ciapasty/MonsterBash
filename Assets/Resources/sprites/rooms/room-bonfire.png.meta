@@ -1,137 +1,81 @@
 fileFormatVersion: 2
-guid: 15959cdee52134819aa111cee949e636
-timeCreated: 1487804764
+guid: aa16fa213a9bc4432a6677d44447247a
+timeCreated: 1487869378
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: generic_0
-    21300002: generic_1
-    21300004: generic_2
-    21300006: generic_3
-    21300008: generic_4
-    21300010: generic_5
-    21300012: generic_6
-    21300014: generic_7
-    21300016: generic_8
-    21300018: generic_9
-    21300020: generic_10
-    21300022: generic_11
-    21300024: generic_12
-    21300026: generic_13
-    21300028: generic_14
-    21300030: generic_15
-    21300032: generic_16
-    21300034: generic_17
-    21300036: generic_18
-    21300038: generic_19
-    21300040: generic_20
-    21300042: generic_21
-    21300044: generic_22
-    21300046: generic_23
-    21300048: generic_24
-    21300050: generic_25
-    21300052: generic_26
-    21300054: generic_27
-    21300056: generic_28
-    21300058: generic_29
-    21300060: generic_30
-    21300062: generic_31
-    21300064: generic_32
-    21300066: generic_33
-    21300068: generic_34
-    21300070: generic_35
-    21300072: generic_36
-    21300074: generic_37
-    21300076: generic_38
-    21300078: generic_39
-    21300080: generic_40
-    21300082: generic_41
-    21300084: generic_42
-    21300086: generic_43
-    21300088: generic_44
-    21300090: generic_45
-    21300092: generic_46
-    21300094: generic_47
-    21300096: generic_48
-    21300098: generic_49
-    21300100: generic_50
-    21300102: generic_51
-    21300104: generic_52
-    21300106: generic_53
-    21300108: generic_54
-    21300110: generic_55
-    21300112: generic_56
-    21300114: generic_57
-    21300116: generic_58
-    21300118: generic_59
-    21300120: generic_60
-    21300122: generic_61
-    21300124: generic_62
-    21300126: generic_63
-    21300128: generic_64
-    21300130: generic_65
-    21300132: generic_66
-    21300134: generic_67
-    21300136: generic_68
-    21300138: generic_69
-    21300140: generic_70
-    21300142: generic_71
-    21300144: generic_72
-    21300146: generic_73
-    21300148: generic_74
-    21300150: generic_75
-    21300152: generic_76
-    21300154: generic_77
-    21300156: generic_78
-    21300158: generic_79
-    21300160: generic_80
-    21300162: generic_81
-    21300164: generic_82
-    21300166: generic_83
-    21300168: generic_84
-    21300170: generic_85
-    21300172: generic_86
-    21300174: generic_87
-    21300176: generic_88
-    21300178: generic_89
-    21300180: generic_90
-    21300182: generic_91
-    21300184: generic_92
-    21300186: generic_93
-    21300188: generic_94
-    21300190: generic_95
-    21300192: generic_96
-    21300194: generic_97
-    21300196: generic_98
-    21300198: generic_99
-    21300200: generic_100
-    21300202: generic_101
-    21300204: generic_102
-    21300206: generic_103
-    21300208: generic_104
-    21300210: generic_105
-    21300212: generic_106
-    21300214: generic_107
-    21300216: generic_108
-    21300218: generic_109
-    21300220: generic_110
-    21300222: generic_111
-    21300224: generic_112
-    21300226: generic_113
-    21300228: generic_114
-    21300230: generic_115
-    21300232: generic_116
-    21300234: generic_117
-    21300236: generic_118
-    21300238: generic_119
-    21300240: generic_120
-    21300242: generic_121
-    21300244: generic_122
-    21300246: generic_123
-    21300248: generic_124
-    21300250: generic_125
-    21300252: generic_126
-    21300254: generic_127
+    21300000: room-bonfire_0
+    21300002: room-bonfire_1
+    21300004: room-bonfire_2
+    21300006: room-bonfire_3
+    21300008: room-bonfire_4
+    21300010: room-bonfire_5
+    21300012: room-bonfire_6
+    21300014: room-bonfire_7
+    21300016: room-bonfire_8
+    21300018: room-bonfire_9
+    21300020: room-bonfire_10
+    21300022: room-bonfire_11
+    21300024: room-bonfire_12
+    21300026: room-bonfire_13
+    21300028: room-bonfire_14
+    21300030: room-bonfire_15
+    21300032: room-bonfire_16
+    21300034: room-bonfire_17
+    21300036: room-bonfire_18
+    21300038: room-bonfire_19
+    21300040: room-bonfire_20
+    21300042: room-bonfire_21
+    21300044: room-bonfire_22
+    21300046: room-bonfire_23
+    21300048: room-bonfire_24
+    21300050: room-bonfire_25
+    21300052: room-bonfire_26
+    21300054: room-bonfire_27
+    21300056: room-bonfire_28
+    21300058: room-bonfire_29
+    21300060: room-bonfire_30
+    21300062: room-bonfire_31
+    21300064: room-bonfire_32
+    21300066: room-bonfire_33
+    21300068: room-bonfire_34
+    21300070: room-bonfire_35
+    21300072: room-bonfire_36
+    21300074: room-bonfire_37
+    21300076: room-bonfire_38
+    21300078: room-bonfire_39
+    21300080: room-bonfire_40
+    21300082: room-bonfire_41
+    21300084: room-bonfire_42
+    21300086: room-bonfire_43
+    21300088: room-bonfire_44
+    21300090: room-bonfire_45
+    21300092: room-bonfire_46
+    21300094: room-bonfire_47
+    21300096: room-bonfire_48
+    21300098: room-bonfire_49
+    21300100: room-bonfire_50
+    21300102: room-bonfire_51
+    21300104: room-bonfire_52
+    21300106: room-bonfire_53
+    21300108: room-bonfire_54
+    21300110: room-bonfire_55
+    21300112: room-bonfire_56
+    21300114: room-bonfire_57
+    21300116: room-bonfire_58
+    21300118: room-bonfire_59
+    21300120: room-bonfire_60
+    21300122: room-bonfire_61
+    21300124: room-bonfire_62
+    21300126: room-bonfire_63
+    21300128: room-bonfire_64
+    21300130: room-bonfire_65
+    21300132: room-bonfire_66
+    21300134: room-bonfire_67
+    21300136: room-bonfire_68
+    21300138: room-bonfire_69
+    21300140: room-bonfire_70
+    21300142: room-bonfire_71
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -206,7 +150,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: generic_0
+      name: room-bonfire_0
       rect:
         serializedVersion: 2
         x: 0
@@ -214,12 +158,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_1
+      name: room-bonfire_1
       rect:
         serializedVersion: 2
         x: 16
@@ -227,12 +171,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_2
+      name: room-bonfire_2
       rect:
         serializedVersion: 2
         x: 32
@@ -240,12 +184,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_3
+      name: room-bonfire_3
       rect:
         serializedVersion: 2
         x: 48
@@ -253,12 +197,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_4
+      name: room-bonfire_4
       rect:
         serializedVersion: 2
         x: 64
@@ -266,12 +210,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_5
+      name: room-bonfire_5
       rect:
         serializedVersion: 2
         x: 80
@@ -279,12 +223,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_6
+      name: room-bonfire_6
       rect:
         serializedVersion: 2
         x: 96
@@ -292,12 +236,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_7
+      name: room-bonfire_7
       rect:
         serializedVersion: 2
         x: 112
@@ -305,12 +249,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_8
+      name: room-bonfire_8
       rect:
         serializedVersion: 2
         x: 128
@@ -318,12 +262,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_9
+      name: room-bonfire_9
       rect:
         serializedVersion: 2
         x: 144
@@ -331,12 +275,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_10
+      name: room-bonfire_10
       rect:
         serializedVersion: 2
         x: 160
@@ -344,12 +288,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_11
+      name: room-bonfire_11
       rect:
         serializedVersion: 2
         x: 176
@@ -357,12 +301,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_12
+      name: room-bonfire_12
       rect:
         serializedVersion: 2
         x: 192
@@ -370,12 +314,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_13
+      name: room-bonfire_13
       rect:
         serializedVersion: 2
         x: 208
@@ -383,12 +327,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_14
+      name: room-bonfire_14
       rect:
         serializedVersion: 2
         x: 224
@@ -396,12 +340,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_15
+      name: room-bonfire_15
       rect:
         serializedVersion: 2
         x: 240
@@ -409,12 +353,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_16
+      name: room-bonfire_16
       rect:
         serializedVersion: 2
         x: 0
@@ -422,12 +366,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_17
+      name: room-bonfire_17
       rect:
         serializedVersion: 2
         x: 16
@@ -435,12 +379,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_18
+      name: room-bonfire_18
       rect:
         serializedVersion: 2
         x: 32
@@ -448,12 +392,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_19
+      name: room-bonfire_19
       rect:
         serializedVersion: 2
         x: 48
@@ -461,12 +405,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_20
+      name: room-bonfire_20
       rect:
         serializedVersion: 2
         x: 64
@@ -474,12 +418,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_21
+      name: room-bonfire_21
       rect:
         serializedVersion: 2
         x: 80
@@ -487,12 +431,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_22
+      name: room-bonfire_22
       rect:
         serializedVersion: 2
         x: 96
@@ -500,12 +444,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_23
+      name: room-bonfire_23
       rect:
         serializedVersion: 2
         x: 112
@@ -513,12 +457,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_24
+      name: room-bonfire_24
       rect:
         serializedVersion: 2
         x: 128
@@ -526,12 +470,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_25
+      name: room-bonfire_25
       rect:
         serializedVersion: 2
         x: 144
@@ -539,12 +483,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_26
+      name: room-bonfire_26
       rect:
         serializedVersion: 2
         x: 160
@@ -552,12 +496,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_27
+      name: room-bonfire_27
       rect:
         serializedVersion: 2
         x: 176
@@ -565,12 +509,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_28
+      name: room-bonfire_28
       rect:
         serializedVersion: 2
         x: 192
@@ -578,12 +522,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_29
+      name: room-bonfire_29
       rect:
         serializedVersion: 2
         x: 208
@@ -591,12 +535,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_30
+      name: room-bonfire_30
       rect:
         serializedVersion: 2
         x: 224
@@ -604,12 +548,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_31
+      name: room-bonfire_31
       rect:
         serializedVersion: 2
         x: 240
@@ -617,12 +561,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_32
+      name: room-bonfire_32
       rect:
         serializedVersion: 2
         x: 0
@@ -630,12 +574,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_33
+      name: room-bonfire_33
       rect:
         serializedVersion: 2
         x: 16
@@ -643,12 +587,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_34
+      name: room-bonfire_34
       rect:
         serializedVersion: 2
         x: 32
@@ -656,12 +600,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_35
+      name: room-bonfire_35
       rect:
         serializedVersion: 2
         x: 48
@@ -669,12 +613,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_36
+      name: room-bonfire_36
       rect:
         serializedVersion: 2
         x: 64
@@ -682,12 +626,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_37
+      name: room-bonfire_37
       rect:
         serializedVersion: 2
         x: 80
@@ -695,12 +639,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_38
+      name: room-bonfire_38
       rect:
         serializedVersion: 2
         x: 96
@@ -708,12 +652,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_39
+      name: room-bonfire_39
       rect:
         serializedVersion: 2
         x: 112
@@ -721,12 +665,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_40
+      name: room-bonfire_40
       rect:
         serializedVersion: 2
         x: 128
@@ -734,12 +678,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_41
+      name: room-bonfire_41
       rect:
         serializedVersion: 2
         x: 144
@@ -747,12 +691,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_42
+      name: room-bonfire_42
       rect:
         serializedVersion: 2
         x: 160
@@ -760,12 +704,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_43
+      name: room-bonfire_43
       rect:
         serializedVersion: 2
         x: 176
@@ -773,12 +717,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_44
+      name: room-bonfire_44
       rect:
         serializedVersion: 2
         x: 192
@@ -786,12 +730,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_45
+      name: room-bonfire_45
       rect:
         serializedVersion: 2
         x: 208
@@ -799,12 +743,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_46
+      name: room-bonfire_46
       rect:
         serializedVersion: 2
         x: 224
@@ -812,12 +756,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_47
+      name: room-bonfire_47
       rect:
         serializedVersion: 2
         x: 240
@@ -825,12 +769,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_48
+      name: room-bonfire_48
       rect:
         serializedVersion: 2
         x: 0
@@ -838,12 +782,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_49
+      name: room-bonfire_49
       rect:
         serializedVersion: 2
         x: 16
@@ -851,12 +795,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_50
+      name: room-bonfire_50
       rect:
         serializedVersion: 2
         x: 32
@@ -864,12 +808,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_51
+      name: room-bonfire_51
       rect:
         serializedVersion: 2
         x: 48
@@ -877,12 +821,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_52
+      name: room-bonfire_52
       rect:
         serializedVersion: 2
         x: 64
@@ -890,12 +834,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_53
+      name: room-bonfire_53
       rect:
         serializedVersion: 2
         x: 80
@@ -903,12 +847,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_54
+      name: room-bonfire_54
       rect:
         serializedVersion: 2
         x: 96
@@ -916,12 +860,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_55
+      name: room-bonfire_55
       rect:
         serializedVersion: 2
         x: 112
@@ -929,12 +873,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_56
+      name: room-bonfire_56
       rect:
         serializedVersion: 2
         x: 128
@@ -942,12 +886,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_57
+      name: room-bonfire_57
       rect:
         serializedVersion: 2
         x: 144
@@ -955,12 +899,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_58
+      name: room-bonfire_58
       rect:
         serializedVersion: 2
         x: 160
@@ -968,12 +912,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_59
+      name: room-bonfire_59
       rect:
         serializedVersion: 2
         x: 176
@@ -981,12 +925,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_60
+      name: room-bonfire_60
       rect:
         serializedVersion: 2
         x: 192
@@ -994,12 +938,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_61
+      name: room-bonfire_61
       rect:
         serializedVersion: 2
         x: 208
@@ -1007,12 +951,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_62
+      name: room-bonfire_62
       rect:
         serializedVersion: 2
         x: 224
@@ -1020,12 +964,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_63
+      name: room-bonfire_63
       rect:
         serializedVersion: 2
         x: 240
@@ -1033,12 +977,12 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_64
+      name: room-bonfire_64
       rect:
         serializedVersion: 2
         x: 0
@@ -1051,7 +995,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_65
+      name: room-bonfire_65
       rect:
         serializedVersion: 2
         x: 16
@@ -1064,7 +1008,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_66
+      name: room-bonfire_66
       rect:
         serializedVersion: 2
         x: 32
@@ -1077,7 +1021,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_67
+      name: room-bonfire_67
       rect:
         serializedVersion: 2
         x: 48
@@ -1090,7 +1034,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_68
+      name: room-bonfire_68
       rect:
         serializedVersion: 2
         x: 0
@@ -1103,7 +1047,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_69
+      name: room-bonfire_69
       rect:
         serializedVersion: 2
         x: 16
@@ -1116,7 +1060,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_70
+      name: room-bonfire_70
       rect:
         serializedVersion: 2
         x: 32
@@ -1129,7 +1073,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: generic_71
+      name: room-bonfire_71
       rect:
         serializedVersion: 2
         x: 48

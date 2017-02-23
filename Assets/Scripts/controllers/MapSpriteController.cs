@@ -33,7 +33,11 @@ public class MapSpriteController : MonoBehaviour {
 		mapTextureGOs = new List<GameObject>();
 
 		createSpritesTextureForType("floorTexture", TileType.floor, TileType.wallBottom, TileType.wallMiddle, TileType.wallTop, "Background", -2);
-		createWallBoxColliders();
+
+		wallBoxCollidersGOs = new List<GameObject>();
+		createVerticalWallBoxColliders();
+		createHorizontalWallBoxColliders();
+
 		updateWallTiles();
 		createSpritesTextureForType("wallBottomTexture", TileType.wallBottom, TileType.wallBottom, TileType.wallBottom, TileType.wallBottom, "Background", -1);
 		createSpritesTextureForType("wallMiddleTexture", TileType.wallMiddle, TileType.wallMiddle, TileType.wallMiddle, TileType.wallMiddle, "Background", 0);
@@ -126,12 +130,12 @@ public class MapSpriteController : MonoBehaviour {
 		}
 
 		string spriteName = "";
-		if (tile.room == null || tile.room.tp.type == RoomType.bonfire || tile.room.tp.type == RoomType.exit) {
-			spriteName = RoomType.generic.ToString()+"_"+tileIndex;
+		if (tile.room == null || tile.room.tp.type == RoomType.exit) {
+			spriteName = "room-"+RoomType.generic.ToString()+"_"+tileIndex;
 		} else {
-			spriteName = tile.room.tp.type.ToString()+"_"+tileIndex;
+			spriteName = "room-"+tile.room.tp.type.ToString()+"_"+tileIndex;
 		}
-		// Temporary, for testing
+
 		if (!floorWallSprites.ContainsKey(spriteName)) {
 			Debug.LogError("No sprite with name: "+spriteName);
 			return null;
@@ -160,9 +164,8 @@ public class MapSpriteController : MonoBehaviour {
 		return sum;
 	}
 
-	void createWallBoxColliders() {
-		wallBoxCollidersGOs = new List<GameObject>();
-
+	void createVerticalWallBoxColliders() {
+		// Vertical BoxColliders
 		for (int x = 0; x < gc.map.width; x++) {
 			Tile currTile;
 			Tile nextTile;
@@ -194,7 +197,10 @@ public class MapSpriteController : MonoBehaviour {
 				}
 			}
 		}
+	}
 
+	void createHorizontalWallBoxColliders() {
+		// Horizontal BoxColliders
 		for (int y = 0; y < gc.map.height; y++) {
 			Tile currTile;
 			Tile nextTile;
@@ -280,17 +286,14 @@ public class MapSpriteController : MonoBehaviour {
 					}
 				}
 				updateTileAreas(tile, tileUp);
-				updateTileAreas(tile, tileUpUp);
 			}
 		}
 	}
 
 	void updateTileAreas(Tile sourceTile, Tile tile) {
 		if (tile != null) {
-			//if (tile.room == null)
-				tile.setRoom(sourceTile.room);
-			//if (tile.corridor == null)
-				tile.setCorridor(sourceTile.corridor);
+			tile.setRoom(sourceTile.room);
+			tile.setCorridor(sourceTile.corridor);
 		}
 	}
 
