@@ -146,6 +146,10 @@ public class PlayerController : MonoBehaviour {
 				} else {
 					isBlocking = false;
 				}
+
+				if (!isBlocking) {
+					doMovement();
+				}
 			}
 		} else {
 			rollTimer += Time.deltaTime;
@@ -153,21 +157,9 @@ public class PlayerController : MonoBehaviour {
 				rollTimer = 0;
 				isRolling = false;
 			}
-		}
-	}
 
-	// Movement is done by physics, FixedUpdate is recommended
-	void FixedUpdate () {
-		if (!isRolling) {
-			if (!meleeAttack.isAttacking && !rangedAttack.isAttacking) {
-				if (!isBlocking) {
-					doMovement();
-				}
-			}
-		} else {
 			rigidbod.velocity = rollDirection.normalized*rollingSpeed;
 		}
-		clampMovement();
 	}
 
 	// Pickups
@@ -292,22 +284,6 @@ public class PlayerController : MonoBehaviour {
 					}
 				}
 			}
-		}
-	}
-
-	void clampMovement() {
-		Vector2 maxXY = playerCamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector2(1, 1));
-		maxXY.x = maxXY.x-GetComponent<SpriteRenderer>().bounds.extents.x;
-		maxXY.y = maxXY.y-GetComponent<SpriteRenderer>().bounds.extents.y*2;
-		Vector2 minXY = playerCamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector2(0, 0));
-		minXY.x = minXY.x+GetComponent<SpriteRenderer>().bounds.extents.x;
-		Vector3 pos = transform.position;
-
-		if ((pos.x >= maxXY.x && rigidbod.velocity.x > 0) || (pos.x <= minXY.x && rigidbod.velocity.x < 0)) {
-			rigidbod.velocity = new Vector2(0, rigidbod.velocity.y);
-		}
-		if ((pos.y >= maxXY.y && rigidbod.velocity.y > 0) || (pos.y <= minXY.y && rigidbod.velocity.y < 0)) {
-			rigidbod.velocity = new Vector2(rigidbod.velocity.x, 0);
 		}
 	}
 

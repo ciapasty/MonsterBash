@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DrawingDepth : MonoBehaviour {
+public class DrawingDepthDynamic : MonoBehaviour {
 
 	private SpriteRenderer render;
 
@@ -10,6 +10,6 @@ public class DrawingDepth : MonoBehaviour {
 	}
 
 	void LateUpdate () {
-		render.sortingOrder = (int)Camera.main.WorldToScreenPoint (render.bounds.min).y * -1;
+		render.sortingOrder = -Mathf.CeilToInt(transform.position.y*16f);
 	}
 }

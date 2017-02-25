@@ -27,7 +27,7 @@ public class ObjectSmashed : MonoBehaviour {
 			GameObject scrap = (GameObject)Instantiate(scrapPrefab, transform.position, Quaternion.Euler(new Vector3(0f,0f,Random.Range(0f, 90f))));
 			SpriteRenderer scrap_sr = scrap.GetComponent<SpriteRenderer>();
 			scrap_sr.sprite = textures[Random.Range(0, textures.Length)];
-			scrap_sr.sortingOrder = Random.Range(1, 4000);
+			scrap_sr.sortingOrder = Random.Range(1, 1000);
 
 			Vector2 velocity = new Vector2(Random.Range(-maxVelocity, maxVelocity), Random.Range(-maxVelocity, maxVelocity));
 			scrap.GetComponent<Rigidbody2D>().velocity = velocity;
