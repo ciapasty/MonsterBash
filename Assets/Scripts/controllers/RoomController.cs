@@ -31,6 +31,9 @@ public class RoomController : MonoBehaviour {
 		if (enemyGoMap.Count > 0) {
 			cameraFollowPlayer.snapToRoom(room, true);
 			lockDoors(true);
+			foreach (var enemy in enemyGoMap.Keys) {
+				enemyGoMap[enemy].GetComponent<EnemyController>().activateEnemy();
+			}
 		}
 	}
 

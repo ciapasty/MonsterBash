@@ -18,6 +18,7 @@ public class EnemyController : MonoBehaviour {
 	private float lastHitTime;
 
 	public int soulsCarried = 10;
+	public bool isActive = false;
 
 	Action<Blueprint> cbOnDeath;
 
@@ -32,31 +33,32 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void Update() {
-		if (attacks.Length > 0) {
-			foreach (var attk in attacks) {
-				if (attk.cooldown <= 0) {
-					if (Vector3.Distance(target.transform.position, transform.position) < attk.range) {
-						if (attk as ProjectileAttack) {
-							Vector3 direction = (target.transform.position-transform.position);
-							(attk as ProjectileAttack).direction = direction/direction.magnitude;
+		if (isActive) {
+			if (attacks.Length > 0) {
+				foreach (var attk in attacks) {
+					if (attk.cooldown <= 0) {
+						if (Vector3.Distance(target.transform.position, transform.position) < attk.range) {
+							if (attk as ProjectileAttack) {
+								Vector3 direction = (target.transform.position-transform.position);
+								(attk as ProjectileAttack).direction = direction/direction.magnitude;
+							}
+							attk.execute();
 						}
-						attk.execute();
 					}
 				}
 			}
-		}
 
-		if (Mathf.Abs(rigidbod.velocity.x) > 0.1f || Mathf.Abs(rigidbod.velocity.y) > 0.1f) {
-			GetComponent<SpriteRenderer>().flipX = !(rigidbod.velocity.x > 0);
-			animator.SetBool("isWalking", true);
-		} else {
-			animator.SetBool("isWalking", false);
+			if (Mathf.Abs(rigidbod.velocity.x) > 0.1f || Mathf.Abs(rigidbod.velocity.y) > 0.1f) {
+				animator.SetBool("isWalking", true);
+			} else {
+				animator.SetBool("isWalking", false);
+			}
 		}
 	}
 
-	public void switchAttackStateTo(bool state) {
-		GetComponent<MoveTowardsTarget>().enabled = state;
-		GetComponent<MoveIdle>().enabled = !state;
+	public void activateEnemy() {
+		GetComponent<MoveTowardsTarget>().enabled = true;
+		isActive = true;
 	}
 
 	// Souls and non-colliding projectiles
@@ -82,11 +84,6 @@ public class EnemyController : MonoBehaviour {
 			rigidbod.AddForce(hitVector*attack.force*100);
 
 			lastHitTime = Time.time;
-
-			if (GetComponent<MoveIdle>().enabled) {
-				GetComponent<MoveIdle>().enabled = false;
-				GetComponent<MoveTowardsTarget>().enabled = true;
-			}
 		}
 	}
 
@@ -104,7 +101,6 @@ public class EnemyController : MonoBehaviour {
 	void onDeath() {
 		animator.SetTrigger("deathTrigger");
 		GetComponent<Collider2D>().enabled = false;
-		GetComponent<MoveIdle>().enabled = false;
 		GetComponent<MoveTowardsTarget>().enabled = false;
 
 		// TODO: Spawn dead body GO with timed death -> prefab

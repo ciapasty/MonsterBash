@@ -2,65 +2,67 @@
 using System.Collections;
 
 public class MoveTowardsTarget : MonoBehaviour {
-	public float speed = 2;
+	public float speed = 2f;
 
-	public float keepMaxDistance = 0f;
-	public float keepMinDistance = 0f;
+	public float minDistance = 0.2f;
+	public float maxDistance = 2.0f;
+	public GameObject target;
 
-	private Rigidbody2D rigidbod;
-	private GameObject target;
+	public float neighboursRadius = 1.0f;
+	public float minEnemyDistance = 0.2f;
 
-	private Vector3 waypoint;
-	private float newWaypointTimer = 0f;
+	Rigidbody2D r;
+	SpriteRenderer sr;
 
-	void Start () {
-		rigidbod = GetComponent<Rigidbody2D>();
+	void Start() {
+		r = GetComponent<Rigidbody2D>();
+		sr = GetComponent<SpriteRenderer>();
 
 		target = GameObject.FindGameObjectWithTag("Player");
-		waypoint = target.transform.position;
+		//waypoint = target.transform.position;
 	}
 
-	void FixedUpdate () {
-		float distance = Vector3.Distance(target.transform.position, transform.position);
-		if (distance > keepMaxDistance ) {
-			waypoint = target.transform.position;
-		} else if ((distance < keepMaxDistance) && (distance > keepMinDistance)) {
-			if (newWaypointTimer <= 0) {
-				waypoint = getWaypointBetweenMinMax();
-				newWaypointTimer = 1f + Random.value;
+	void Update () {
+		Vector2 direction2Target = target.transform.position-transform.position;
+		float distance2Target = Vector3.Distance(target.transform.position, transform.position);
+		Vector2 velocity = Vector2.zero;
+
+		if (distance2Target > maxDistance) {
+			velocity = direction2Target;
+		}
+		if (distance2Target < maxDistance && distance2Target > minDistance+minDistance*0.5f) {
+			Vector2 dir = new Vector2(direction2Target.x*0.3f, direction2Target.y);
+			velocity = dir;
+		}
+		if (distance2Target < minDistance+minDistance*0.5f && distance2Target > minDistance) {
+			// do nothing
+		}
+		if (distance2Target < minDistance) {
+			velocity = -direction2Target;
+		}
+
+		Vector2 v = Vector2.zero;
+		Collider2D[] hitColliders = Physics2D.OverlapCircleAll(GetComponent<Renderer>().bounds.center, neighboursRadius);
+		foreach (var collider in hitColliders) {
+			if (collider.gameObject.tag == "Enemy") {
+				if (collider.gameObject != gameObject) {
+					int count = 0;
+					float d = Vector2.Distance(collider.transform.position, transform.position);
+					if (d > 0f && d < minEnemyDistance) {
+						v = (collider.transform.position-transform.position).normalized/d;
+						count++;
+					}
+					if (count > 0) {
+						v /= count;
+					}
+				}
 			}
-			newWaypointTimer -= Time.deltaTime;
-		} 
-
-		Vector3 direction = (waypoint - transform.position);
-		if (distance < keepMinDistance) {
-			direction = -(target.transform.position - transform.position);
 		}
 
-		GetComponent<Rigidbody2D>().velocity = direction.normalized*speed;
+		r.velocity = (velocity.normalized-v.normalized).normalized*speed;
 
-		clampMovement();
-	}
+		sr.flipX = (direction2Target.x < 0);
 
-	void clampMovement() {
-		Vector2 maxXY = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<Camera>().ViewportToWorldPoint(new Vector2(1, 1));
-		maxXY.x = maxXY.x-GetComponent<SpriteRenderer>().bounds.extents.x;
-		maxXY.y = maxXY.y-GetComponent<SpriteRenderer>().bounds.extents.y*2;
-		Vector2 minXY = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<Camera>().ViewportToWorldPoint(new Vector2(0, 0));
-		minXY.x = minXY.x+GetComponent<SpriteRenderer>().bounds.extents.x;
-		Vector3 pos = transform.position;
-
-		if ((pos.x >= maxXY.x && rigidbod.velocity.x > 0) || (pos.x <= minXY.x && rigidbod.velocity.x < 0)) {
-			rigidbod.velocity = new Vector2(0, rigidbod.velocity.y);
-		}
-		if ((pos.y >= maxXY.y && rigidbod.velocity.y > 0) || (pos.y <= minXY.y && rigidbod.velocity.y < 0)) {
-			rigidbod.velocity = new Vector2(rigidbod.velocity.x, 0);
-		}
-	}
-
-	Vector3 getWaypointBetweenMinMax() {
-		Vector3 wp = new Vector3(transform.position.x+Random.Range(-1f, 1f), transform.position.y+Random.Range(-1f,1f), 0);
-		float distance = Vector3.Distance(wp, target.transform.position);
-		return ((distance < keepMaxDistance) && (distance > keepMinDistance)) ? wp : getWaypointBetweenMinMax();
+		//Debug.Log(r.velocity);
 	}
 }
