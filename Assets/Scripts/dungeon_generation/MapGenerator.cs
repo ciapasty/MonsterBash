@@ -264,7 +264,7 @@ public class MapGenerator : MonoBehaviour {
 		map.setSpawnTileTo(map.getTileAt(bonfireRoom.roomBase.x+bonfireRoom.tp.width/2, bonfireRoom.roomBase.y+bonfireRoom.tp.height/2));
 		map.setExitTileTo(map.getTileAt(exitRoom.roomBase.x+exitRoom.tp.width/2, exitRoom.roomBase.y+exitRoom.tp.height/2));
 
-		//placeObjects();
+		placeObjects();
 		placeEnemies();
 
 		// map is complete, send message to GameController

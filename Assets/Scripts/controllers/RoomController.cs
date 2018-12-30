@@ -24,7 +24,7 @@ public class RoomController : MonoBehaviour {
 	public List<GameObject> garbageGOs;
 
 	void Awake() {
-		cameraFollowPlayer = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CameraFollowPlayer>();
+		cameraFollowPlayer = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollowPlayer>();
 	}
 
 	public void playerEntered() {

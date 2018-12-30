@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Start () {
-		playerCamera = GameObject.FindGameObjectWithTag("PlayerCamera");
+		playerCamera = GameObject.FindGameObjectWithTag("MainCamera");
 		if (playerCamera.GetComponent<CameraFollowPlayer>())
 			playerCamera.GetComponent<CameraFollowPlayer>().player = gameObject;
 		Vector3 cameraPos = gameObject.transform.position;

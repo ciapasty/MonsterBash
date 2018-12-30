@@ -36,7 +36,7 @@ public class GameController : MonoBehaviour {
 	void Awake() {
 		mapGenerator = GetComponentInChildren<MapGenerator>();
 		mapSpriteController = GetComponentInChildren<MapSpriteController>();
-		cameraFollowPlayer = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<CameraFollowPlayer>();
+		cameraFollowPlayer = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollowPlayer>();
 	}
 
 	void Start() {
